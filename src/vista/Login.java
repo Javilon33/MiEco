@@ -17,7 +17,7 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         // Crear el controlador, pasando cada componente necesario
-        ControladorLogin controlador = new ControladorLogin(this, exitTxt, exitBtn, loginBtnTxt, loginBtn, userTxt, passTxt);
+        ControladorLogin controlador = new ControladorLogin(this, exitTxt, exitBtn, loginBtnTxt, loginBtn, registroBtnTxt, registroBtn, usuarioTxt, passTxt);
     }
     
 
@@ -35,7 +35,7 @@ public class Login extends javax.swing.JFrame {
         favicon = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         userLabel = new javax.swing.JLabel();
-        userTxt = new javax.swing.JTextField();
+        usuarioTxt = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         passLabel = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -45,6 +45,8 @@ public class Login extends javax.swing.JFrame {
         exitTxt = new javax.swing.JLabel();
         loginBtn = new javax.swing.JPanel();
         loginBtnTxt = new javax.swing.JLabel();
+        registroBtn = new javax.swing.JPanel();
+        registroBtnTxt = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -71,11 +73,11 @@ public class Login extends javax.swing.JFrame {
         userLabel.setText("USUARIO");
         bg.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 70, -1));
 
-        userTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        userTxt.setForeground(new java.awt.Color(204, 204, 204));
-        userTxt.setText("Ingrese su nombre de usuario");
-        userTxt.setBorder(null);
-        bg.add(userTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 520, 40));
+        usuarioTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        usuarioTxt.setForeground(new java.awt.Color(204, 204, 204));
+        usuarioTxt.setText("Ingrese su nombre de usuario");
+        usuarioTxt.setBorder(null);
+        bg.add(usuarioTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 520, 40));
         bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 540, -1));
 
         passLabel.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
@@ -130,12 +132,13 @@ public class Login extends javax.swing.JFrame {
         bg.add(header, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 40));
 
         loginBtn.setBackground(new java.awt.Color(0, 134, 190));
+        loginBtn.setToolTipText("");
 
         loginBtnTxt.setFont(new java.awt.Font("Roboto Medium", 1, 14)); // NOI18N
         loginBtnTxt.setForeground(new java.awt.Color(255, 255, 255));
         loginBtnTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         loginBtnTxt.setText("ENTRAR");
-        loginBtnTxt.setToolTipText("");
+        loginBtnTxt.setToolTipText("Pulsa para entrar en tu cuenta");
         loginBtnTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         javax.swing.GroupLayout loginBtnLayout = new javax.swing.GroupLayout(loginBtn);
@@ -150,6 +153,28 @@ public class Login extends javax.swing.JFrame {
         );
 
         bg.add(loginBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 420, 120, 40));
+
+        registroBtn.setBackground(new java.awt.Color(0, 134, 190));
+
+        registroBtnTxt.setFont(new java.awt.Font("Roboto Medium", 1, 14)); // NOI18N
+        registroBtnTxt.setForeground(new java.awt.Color(255, 255, 255));
+        registroBtnTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        registroBtnTxt.setText("REGISTRARSE");
+        registroBtnTxt.setToolTipText("Pulsa para crear una nueva cuenta");
+        registroBtnTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        javax.swing.GroupLayout registroBtnLayout = new javax.swing.GroupLayout(registroBtn);
+        registroBtn.setLayout(registroBtnLayout);
+        registroBtnLayout.setHorizontalGroup(
+            registroBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(registroBtnTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+        );
+        registroBtnLayout.setVerticalGroup(
+            registroBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(registroBtnTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+        );
+
+        bg.add(registroBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 420, 120, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -214,8 +239,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel loginBtnTxt;
     private javax.swing.JLabel passLabel;
     private javax.swing.JPasswordField passTxt;
+    private javax.swing.JPanel registroBtn;
+    private javax.swing.JLabel registroBtnTxt;
     private javax.swing.JLabel title;
     private javax.swing.JLabel userLabel;
-    private javax.swing.JTextField userTxt;
+    private javax.swing.JTextField usuarioTxt;
     // End of variables declaration//GEN-END:variables
 }
