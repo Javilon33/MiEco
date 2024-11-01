@@ -11,10 +11,10 @@ import controlador.ControladorLogin;
  *
  * @author PC-Casa
  */
-public class Login extends javax.swing.JFrame {
+public class Registro extends javax.swing.JFrame {
 
    
-    public Login() {
+    public Registro() {
         initComponents();
         // Crear el controlador, pasando cada componente necesario
         ControladorLogin controlador = new ControladorLogin(this, exitTxt, exitBtn, loginBtnTxt, loginBtn, registroBtnTxt, registroBtn, usuarioTxt, passTxt);
@@ -66,19 +66,19 @@ public class Login extends javax.swing.JFrame {
         bg.add(favicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 200, 50));
 
         title.setFont(new java.awt.Font("Roboto Medium", 1, 24)); // NOI18N
-        title.setText("INICIAR SESION");
-        bg.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
+        title.setText("REGISTRO NUEVO USUARIO");
+        bg.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, -1, -1));
 
         userLabel.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         userLabel.setText("USUARIO");
-        bg.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 70, -1));
+        bg.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 70, -1));
 
         usuarioTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         usuarioTxt.setForeground(new java.awt.Color(204, 204, 204));
         usuarioTxt.setText("Ingrese su correo electronico");
         usuarioTxt.setBorder(null);
-        bg.add(usuarioTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 520, 40));
-        bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 540, -1));
+        bg.add(usuarioTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 520, 40));
+        bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 540, -1));
 
         passLabel.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         passLabel.setText("CONTRASEÑA");
@@ -208,20 +208,21 @@ public class Login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new Registro().setVisible(true);
             }
         });
     }
