@@ -1,5 +1,6 @@
 package controlador;
 
+import Utilidades.TextPrompt;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -7,6 +8,10 @@ import javax.swing.*;
 import vista.VistaLogin;
 import vista.VistaRegistro;
 
+/**
+ *
+ * @author Francisco Javier Gómez Gamero
+ */
 public class ControladorLogin {
 
     private final VistaLogin vista;
@@ -15,6 +20,11 @@ public class ControladorLogin {
     public ControladorLogin(VistaLogin vista) {
         this.vista = vista;
         inicializarEventos();
+        
+        //Inicio de los "placeholder" en los campos usando la clase TextPrompt 
+        TextPrompt phEmail = new TextPrompt("Introduzca su email", vista.emailTxt);
+        TextPrompt phPass = new TextPrompt("Contraseña", vista.passTxt);
+        
     }
 
     private void inicializarEventos() {
@@ -92,43 +102,20 @@ public class ControladorLogin {
 
             @Override
             public void mouseClicked(MouseEvent evt) {
+                // Obtener la posición actual de VistaLogin
+                int x = vista.getLocationOnScreen().x;
+                int y = vista.getLocationOnScreen().y;
+
                 // Crear y mostrar la ventana de Registro
                 VistaRegistro vistaRegistro = new VistaRegistro();
                 ControladorRegistro controladorRegistro = new ControladorRegistro(vistaRegistro, vista);
 
+                // Establecer la posición de VistaRegistro en la misma posición que VistaLogin
+                vistaRegistro.setLocation(x, y);
                 vistaRegistro.setVisible(true);
                 vista.setVisible(false); // Opcional: Ocultar la ventana de Login
             }
         });
-
-        // Eventos para limpiar el texto de ayuda en el campo de usuario
-        vista.emailTxt.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                if (vista.emailTxt.getText().equals("Ingrese su correo electrónico")) {
-                    vista.emailTxt.setText("");
-                    vista.emailTxt.setForeground(Color.black);
-                }
-                if (String.valueOf(vista.passTxt.getPassword()).isEmpty()) {
-                    vista.passTxt.setText("********");
-                    vista.passTxt.setForeground(Color.gray);
-                }
-            }
-        });
-
-        // Eventos para limpiar el texto de ayuda en el campo de contraseña
-        vista.passTxt.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                if (String.valueOf(vista.passTxt.getPassword()).equals("********")) {
-                    vista.passTxt.setText("");
-                    vista.passTxt.setForeground(Color.black);
-                }
-                if (vista.emailTxt.getText().isEmpty()) {
-                    vista.emailTxt.setText("Ingrese su correo electrónico");
-                    vista.emailTxt.setForeground(Color.gray);
-                }
-            }
-        });
+        
     }
 }

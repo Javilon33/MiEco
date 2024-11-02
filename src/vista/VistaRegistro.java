@@ -37,8 +37,6 @@ public class VistaRegistro extends javax.swing.JFrame {
         jSeparator2 = new javax.swing.JSeparator();
         passTxt2 = new javax.swing.JPasswordField();
         header = new javax.swing.JPanel();
-        exitBtn = new javax.swing.JPanel();
-        exitTxt = new javax.swing.JLabel();
         guardarBtn = new javax.swing.JPanel();
         guardarBtnTxt = new javax.swing.JLabel();
         cancelarBtn = new javax.swing.JPanel();
@@ -77,8 +75,7 @@ public class VistaRegistro extends javax.swing.JFrame {
         bg.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 70, -1));
 
         emailTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        emailTxt.setForeground(new java.awt.Color(204, 204, 204));
-        emailTxt.setText("Ingrese su correo electronico");
+        emailTxt.setToolTipText("");
         emailTxt.setBorder(null);
         bg.add(emailTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 520, 30));
         bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 540, -1));
@@ -88,48 +85,21 @@ public class VistaRegistro extends javax.swing.JFrame {
         bg.add(passLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, 160, -1));
         bg.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 390, 540, -1));
 
-        passTxt2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        passTxt2.setForeground(new java.awt.Color(204, 204, 204));
-        passTxt2.setText("********");
+        passTxt2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         passTxt2.setBorder(null);
         bg.add(passTxt2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, 240, 30));
 
         header.setBackground(new java.awt.Color(255, 255, 255));
 
-        exitBtn.setBackground(new java.awt.Color(255, 255, 255));
-
-        exitTxt.setBackground(new java.awt.Color(255, 255, 255));
-        exitTxt.setFont(new java.awt.Font("Roboto Light", 0, 24)); // NOI18N
-        exitTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        exitTxt.setText("X");
-        exitTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-        javax.swing.GroupLayout exitBtnLayout = new javax.swing.GroupLayout(exitBtn);
-        exitBtn.setLayout(exitBtnLayout);
-        exitBtnLayout.setHorizontalGroup(
-            exitBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, exitBtnLayout.createSequentialGroup()
-                .addComponent(exitTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        exitBtnLayout.setVerticalGroup(
-            exitBtnLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(exitTxt, javax.swing.GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
-        );
-
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerLayout.createSequentialGroup()
-                .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 901, Short.MAX_VALUE))
+            .addGap(0, 950, Short.MAX_VALUE)
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGap(0, 40, Short.MAX_VALUE)
         );
 
         bg.add(header, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 950, 40));
@@ -183,29 +153,22 @@ public class VistaRegistro extends javax.swing.JFrame {
         passLabel1.setText("CONTRASEÑA");
         bg.add(passLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 340, 100, -1));
 
-        passTxt1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        passTxt1.setForeground(new java.awt.Color(204, 204, 204));
-        passTxt1.setText("********");
+        passTxt1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         passTxt1.setBorder(null);
         bg.add(passTxt1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 360, 240, 30));
 
         apellidosTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        apellidosTxt.setForeground(new java.awt.Color(204, 204, 204));
-        apellidosTxt.setText("Apellidos");
         apellidosTxt.setBorder(null);
         bg.add(apellidosTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, 320, 30));
         bg.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 540, -1));
 
         nombreTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        nombreTxt.setForeground(new java.awt.Color(204, 204, 204));
-        nombreTxt.setText("Nombre");
         nombreTxt.setBorder(null);
         bg.add(nombreTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 210, 30));
         bg.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, 540, -1));
 
         fechaTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        fechaTxt.setForeground(new java.awt.Color(204, 204, 204));
-        fechaTxt.setText("Fecha de nacimiento");
+        fechaTxt.setToolTipText("");
         fechaTxt.setBorder(null);
         bg.add(fechaTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 160, 30));
 
@@ -273,8 +236,6 @@ public class VistaRegistro extends javax.swing.JFrame {
     public javax.swing.JLabel cancelarBtnTxt;
     private javax.swing.JLabel citybg;
     public javax.swing.JTextField emailTxt;
-    public javax.swing.JPanel exitBtn;
-    public javax.swing.JLabel exitTxt;
     private javax.swing.JLabel favicon;
     public javax.swing.JTextField fechaTxt;
     public javax.swing.JPanel guardarBtn;

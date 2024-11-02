@@ -12,8 +12,7 @@ public class VistaLogin extends javax.swing.JFrame {
 
    
     public VistaLogin() {
-        initComponents();
-        
+        initComponents(); 
     }
     
 
@@ -70,20 +69,16 @@ public class VistaLogin extends javax.swing.JFrame {
         bg.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 70, -1));
 
         emailTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        emailTxt.setForeground(new java.awt.Color(204, 204, 204));
-        emailTxt.setText("Ingrese su correo electrónico");
         emailTxt.setBorder(null);
         bg.add(emailTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 520, 40));
         bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 540, -1));
 
         passLabel.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         passLabel.setText("CONTRASEÑA");
-        bg.add(passLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, -1, -1));
+        bg.add(passLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 110, -1));
         bg.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 540, -1));
 
-        passTxt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        passTxt.setForeground(new java.awt.Color(204, 204, 204));
-        passTxt.setText("********");
+        passTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         passTxt.setBorder(null);
         bg.add(passTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 342, 540, 30));
 
