@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package vista;
 
 import controlador.ControladorLogin;
@@ -9,15 +6,14 @@ import controlador.ControladorLogin;
 
 /**
  *
- * @author PC-Casa
+ * @author Francisco Javier Gómez Gamero
  */
-public class Registro extends javax.swing.JFrame {
+public class VistaLogin extends javax.swing.JFrame {
 
    
-    public Registro() {
+    public VistaLogin() {
         initComponents();
-        // Crear el controlador, pasando cada componente necesario
-        ControladorLogin controlador = new ControladorLogin(this, exitTxt, exitBtn, loginBtnTxt, loginBtn, registroBtnTxt, registroBtn, usuarioTxt, passTxt);
+        
     }
     
 
@@ -35,7 +31,7 @@ public class Registro extends javax.swing.JFrame {
         favicon = new javax.swing.JLabel();
         title = new javax.swing.JLabel();
         userLabel = new javax.swing.JLabel();
-        usuarioTxt = new javax.swing.JTextField();
+        emailTxt = new javax.swing.JTextField();
         jSeparator1 = new javax.swing.JSeparator();
         passLabel = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
@@ -66,19 +62,19 @@ public class Registro extends javax.swing.JFrame {
         bg.add(favicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 200, 50));
 
         title.setFont(new java.awt.Font("Roboto Medium", 1, 24)); // NOI18N
-        title.setText("REGISTRO NUEVO USUARIO");
-        bg.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, -1, -1));
+        title.setText("INICIAR SESION");
+        bg.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 160, -1, -1));
 
         userLabel.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         userLabel.setText("USUARIO");
-        bg.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 180, 70, -1));
+        bg.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 70, -1));
 
-        usuarioTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        usuarioTxt.setForeground(new java.awt.Color(204, 204, 204));
-        usuarioTxt.setText("Ingrese su correo electronico");
-        usuarioTxt.setBorder(null);
-        bg.add(usuarioTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 200, 520, 40));
-        bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 540, -1));
+        emailTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        emailTxt.setForeground(new java.awt.Color(204, 204, 204));
+        emailTxt.setText("Ingrese su correo electrónico");
+        emailTxt.setBorder(null);
+        bg.add(emailTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 520, 40));
+        bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 540, -1));
 
         passLabel.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         passLabel.setText("CONTRASEÑA");
@@ -208,21 +204,27 @@ public class Registro extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VistaLogin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Registro().setVisible(true);
+                new VistaLogin().setVisible(true);
             }
         });
     }
@@ -230,20 +232,20 @@ public class Registro extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
     private javax.swing.JLabel citybg;
-    private javax.swing.JPanel exitBtn;
-    private javax.swing.JLabel exitTxt;
+    public javax.swing.JTextField emailTxt;
+    public javax.swing.JPanel exitBtn;
+    public javax.swing.JLabel exitTxt;
     private javax.swing.JLabel favicon;
     public javax.swing.JPanel header;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JPanel loginBtn;
-    private javax.swing.JLabel loginBtnTxt;
+    public javax.swing.JPanel loginBtn;
+    public javax.swing.JLabel loginBtnTxt;
     private javax.swing.JLabel passLabel;
-    private javax.swing.JPasswordField passTxt;
-    private javax.swing.JPanel registroBtn;
-    private javax.swing.JLabel registroBtnTxt;
+    public javax.swing.JPasswordField passTxt;
+    public javax.swing.JPanel registroBtn;
+    public javax.swing.JLabel registroBtnTxt;
     private javax.swing.JLabel title;
     private javax.swing.JLabel userLabel;
-    private javax.swing.JTextField usuarioTxt;
     // End of variables declaration//GEN-END:variables
 }

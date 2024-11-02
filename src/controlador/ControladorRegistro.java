@@ -7,13 +7,16 @@ import javax.swing.*;
 import vista.VistaLogin;
 import vista.VistaRegistro;
 
-public class ControladorLogin {
+public class ControladorRegistro {
 
-    private final VistaLogin vista;
+    private final VistaRegistro vista;
+    private final VistaLogin vistaLogin;
     private int xMouse, yMouse;
 
-    public ControladorLogin(VistaLogin vista) {
+    // Constructor que recibe los componentes necesarios de la vista
+    public ControladorRegistro(VistaRegistro vista, VistaLogin vistaLogin) {
         this.vista = vista;
+        this.vistaLogin = vistaLogin; // Guardamos la referencia de VistaLogin
         inicializarEventos();
     }
 
@@ -36,7 +39,7 @@ public class ControladorLogin {
             }
         });
 
-        // Evento del botón de salida
+        // Evento del botón CERRAR
         vista.exitTxt.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent evt) {
@@ -54,50 +57,58 @@ public class ControladorLogin {
             public void mouseClicked(MouseEvent evt) {
                 int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro que quieres salir?", "Confirmación", JOptionPane.YES_NO_OPTION);
                 if (opcion == JOptionPane.YES_OPTION) {
-                    System.exit(0);
+                    
+                    // Oculta la ventana de Registro
+                    vista.setVisible(false);
+                    
+                    // Muestra la ventana de Login
+                    vistaLogin.setVisible(true);
                 }
             }
         });
 
-        // Evento del botón ENTRAR
-        vista.loginBtnTxt.addMouseListener(new MouseAdapter() {
+        // Evento del botón GUARDAR
+        vista.guardarBtnTxt.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent evt) {
-                vista.loginBtn.setBackground(new Color(0, 156, 223));
+                vista.guardarBtnTxt.setBackground(new Color(0, 156, 223));
             }
 
             @Override
             public void mouseExited(MouseEvent evt) {
-                vista.loginBtn.setBackground(new Color(0, 134, 190));
+                vista.guardarBtnTxt.setBackground(new Color(0, 134, 190));
             }
 
             @Override
             public void mouseClicked(MouseEvent evt) {
-                JOptionPane.showMessageDialog(vista, "Intento de login con los datos:\nUsuario: " + vista.emailTxt.getText()
-                        + "\nContraseña: " + String.valueOf(vista.passTxt.getPassword()), "LOGIN", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(vista, "Intento de guardar con los datos:\nEmail: " + vista.emailTxt.getText()
+                        + "\nNombre: " + String.valueOf(vista.nombreTxt.getText()) + "\nApellidos: " + String.valueOf(vista.apellidosTxt.getText())
+                        + "\nFecha: " + String.valueOf(vista.fechaTxt.getText()) + "\nContraseña: " + String.valueOf(vista.passTxt1.getPassword()), "GUARDAR", JOptionPane.INFORMATION_MESSAGE);
             }
         });
 
-        // Evento del botón REGISTRARSE
-        vista.registroBtnTxt.addMouseListener(new MouseAdapter() {
+        // Evento del botón CANCELAR
+        vista.cancelarBtnTxt.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent evt) {
-                vista.registroBtn.setBackground(new Color(0, 156, 223));
+                vista.cancelarBtn.setBackground(new Color(0, 156, 223));
             }
 
             @Override
             public void mouseExited(MouseEvent evt) {
-                vista.registroBtn.setBackground(new Color(0, 134, 190));
+                vista.cancelarBtn.setBackground(new Color(0, 134, 190));
             }
 
             @Override
             public void mouseClicked(MouseEvent evt) {
-                // Crear y mostrar la ventana de Registro
-                VistaRegistro vistaRegistro = new VistaRegistro();
-                ControladorRegistro controladorRegistro = new ControladorRegistro(vistaRegistro, vista);
-
-                vistaRegistro.setVisible(true);
-                vista.setVisible(false); // Opcional: Ocultar la ventana de Login
+                int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro que quieres cancelar? los datos no serán guardados", "Confirmación", JOptionPane.YES_NO_OPTION);
+                if (opcion == JOptionPane.YES_OPTION) {
+                    // Oculta la ventana de Registro
+                    vista.setVisible(false);
+                    
+                    // Muestra la ventana de Login
+                    vistaLogin.setVisible(true);
+                }
             }
         });
 
@@ -109,20 +120,20 @@ public class ControladorLogin {
                     vista.emailTxt.setText("");
                     vista.emailTxt.setForeground(Color.black);
                 }
-                if (String.valueOf(vista.passTxt.getPassword()).isEmpty()) {
-                    vista.passTxt.setText("********");
-                    vista.passTxt.setForeground(Color.gray);
+                if (String.valueOf(vista.passTxt1.getPassword()).isEmpty()) {
+                    vista.passTxt1.setText("********");
+                    vista.passTxt1.setForeground(Color.gray);
                 }
             }
         });
 
         // Eventos para limpiar el texto de ayuda en el campo de contraseña
-        vista.passTxt.addMouseListener(new MouseAdapter() {
+        vista.passTxt1.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                if (String.valueOf(vista.passTxt.getPassword()).equals("********")) {
-                    vista.passTxt.setText("");
-                    vista.passTxt.setForeground(Color.black);
+                if (String.valueOf(vista.passTxt1.getPassword()).equals("********")) {
+                    vista.passTxt1.setText("");
+                    vista.passTxt1.setForeground(Color.black);
                 }
                 if (vista.emailTxt.getText().isEmpty()) {
                     vista.emailTxt.setText("Ingrese su correo electrónico");
