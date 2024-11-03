@@ -23,7 +23,7 @@ public class ControladorRegistro {
         this.vista = vista;
         this.vistaLogin = vistaLogin; // Guardamos la referencia de VistaLogin
         inicializarEventos();
-        
+
         //Inicio de los "placeholder" en los campos usando la clase TextPrompt 
         TextPrompt phEmail = new TextPrompt("Introduzca su email", vista.emailTxt);
         TextPrompt phNombre = new TextPrompt("Nombre", vista.nombreTxt);
@@ -31,7 +31,7 @@ public class ControladorRegistro {
         TextPrompt phFecha = new TextPrompt("Fecha de nacimiento", vista.fechaTxt);
         TextPrompt phPass1 = new TextPrompt("Contraseña", vista.passTxt1);
         TextPrompt phPass2 = new TextPrompt("Repita contraseña", vista.passTxt2);
-        
+
     }
 
     private void inicializarEventos() {
@@ -67,9 +67,21 @@ public class ControladorRegistro {
 
             @Override
             public void mouseClicked(MouseEvent evt) {
-                JOptionPane.showMessageDialog(vista, "Intento de guardar con los datos:\nEmail: " + vista.emailTxt.getText()
-                        + "\nNombre: " + String.valueOf(vista.nombreTxt.getText()) + "\nApellidos: " + String.valueOf(vista.apellidosTxt.getText())
-                        + "\nFecha: " + String.valueOf(vista.fechaTxt.getText()) + "\nContraseña: " + String.valueOf(vista.passTxt1.getPassword()), "GUARDAR", JOptionPane.INFORMATION_MESSAGE);
+                
+                // Obtiene el texto de ambas contraseñas
+                String password1 = String.valueOf(vista.passTxt1.getPassword());
+                String password2 = String.valueOf(vista.passTxt2.getPassword());
+
+                if (password1.equals(password2)) {
+                    JOptionPane.showMessageDialog(vista, "Intento de guardar con los datos:\nEmail: " + vista.emailTxt.getText()
+                            + "\nNombre: " + vista.nombreTxt.getText()
+                            + "\nApellidos: " + vista.apellidosTxt.getText()
+                            + "\nFecha: " + vista.fechaTxt.getText()
+                            + "\nContraseña: " + password1, "GUARDAR", JOptionPane.INFORMATION_MESSAGE);
+
+                } else {
+                    JOptionPane.showMessageDialog(vista, "Las contraseñas introducidas no coinciden", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
 
@@ -103,6 +115,5 @@ public class ControladorRegistro {
             }
         });
 
-        
     }
 }
