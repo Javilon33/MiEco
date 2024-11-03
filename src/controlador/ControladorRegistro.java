@@ -1,5 +1,6 @@
 package controlador;
 
+import Utilidades.Seguridad;
 import Utilidades.TextPrompt;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
@@ -8,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.regex.Pattern;
 import javax.swing.*;
+import modelo.ConsultaRegistro;
 import vista.VistaLogin;
 import vista.VistaRegistro;
 
@@ -19,6 +21,7 @@ public class ControladorRegistro {
 
     private final VistaRegistro vista;
     private final VistaLogin vistaLogin;
+    private final ConsultaRegistro consultaRegistro = new ConsultaRegistro(); // Instancia de ConsultaRegistro
     private int xMouse, yMouse;
 
     // Constructor que recibe los componentes necesarios de la vista
@@ -93,22 +96,36 @@ public class ControladorRegistro {
                 } //Comprueba la fecha           
                 else if (vista.fechaNac.getDatoFecha() == null) {
                     JOptionPane.showMessageDialog(vista, "Selecciona una FECHA de nacimiento válida", "Error", JOptionPane.ERROR_MESSAGE);
-                } 
-                    /*//FORMATO A LA FECHA    
-                    String formatoFecha = "dd/MM/yyyy";
-                    Date fecha = vista.fechaNac.getDatoFecha();
-                    SimpleDateFormat formato = new SimpleDateFormat(formatoFecha);
-                    fechaFormateada = formato.format(fecha);*/ 
-                else if(vista.passTxt1.getPassword().length==0){
+                } else if (vista.passTxt1.getPassword().length == 0) {
                     JOptionPane.showMessageDialog(vista, "El campo CONTRASEÑA no puede estar vacío ", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-                else if (password1.equals(password2)) {
-                    JOptionPane.showMessageDialog(vista, "Intento de guardar con los datos:\nEmail: " + vista.emailTxt.getText()
-                            + "\nNombre: " + vista.nombreTxt.getText()
-                            + "\nApellidos: " + vista.apellidosTxt.getText()
-                            + "\nTeléfono: " + vista.telefonoTxt.getText()
-                            + "\nFecha Nacimiento: " + fechaFormateada
-                            + "\nContraseña: " + password1, "GUARDAR", JOptionPane.INFORMATION_MESSAGE);
+                } else if (password1.equals(password2)) {
+                    //FORMATO A LA FECHA    
+                    String formatoFecha = "yyyy/MM/dd";
+                    Date fechaDate = vista.fechaNac.getDatoFecha();
+                    SimpleDateFormat formato = new SimpleDateFormat(formatoFecha);
+                    fechaFormateada = formato.format(fechaDate);
+                    
+                    //Encriptación de la contraseña
+                    String passwordOriginal = String.valueOf(vista.passTxt1.getPassword());
+                    String passwordEncriptada = Seguridad.encriptarSHA256(passwordOriginal);
+                    
+                    // Obtiene los datos del formulario                    
+                    //String email = vista.emailTxt.getText();
+                    String nombre = vista.nombreTxt.getText();
+                    String apellidos = vista.apellidosTxt.getText();
+                    String telefono = vista.telefonoTxt.getText();
+                    String fecha = fechaFormateada;
+                    String password = passwordEncriptada;
+
+                    // Intenta registrar el usuario
+                    if (consultaRegistro.registrarUsuario(email, nombre, apellidos, telefono, fecha, password)) {
+                        JOptionPane.showMessageDialog(vista, "Usuario registrado correctamente", "Registro", JOptionPane.INFORMATION_MESSAGE);
+                        // Cerrar o limpiar la vista si es necesario
+                        cerrarRegistro();
+                        
+                    } else {
+                        JOptionPane.showMessageDialog(vista, "Error al registrar usuario. Verifique los datos", "Registro", JOptionPane.ERROR_MESSAGE);
+                    }
 
                 } else {
                     JOptionPane.showMessageDialog(vista, "Las CONTRASEÑAS introducidas no coinciden", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -132,7 +149,16 @@ public class ControladorRegistro {
             public void mouseClicked(MouseEvent evt) {
                 int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro que quieres cancelar? los datos no serán guardados", "Confirmación", JOptionPane.YES_NO_OPTION);
                 if (opcion == JOptionPane.YES_OPTION) {
-                    // Obtener la posición actual de VistaRegistro
+                    cerrarRegistro();
+                }
+            }
+        });
+
+    }
+    
+    //Método para cerrar la ventana
+    private void cerrarRegistro(){
+        // Obtener la posición actual de VistaRegistro
                     int x = vista.getLocationOnScreen().x;
                     int y = vista.getLocationOnScreen().y;
 
@@ -142,9 +168,6 @@ public class ControladorRegistro {
                     // Establecer la posición de VistaLogin en la misma posición que VistaRegistro
                     vistaLogin.setLocation(x, y);
                     vistaLogin.setVisible(true);
-                }
-            }
-        });
-
     }
+    
 }

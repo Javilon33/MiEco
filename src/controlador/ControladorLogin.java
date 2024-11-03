@@ -1,13 +1,13 @@
 package controlador;
 
+import Utilidades.Seguridad;
 import Utilidades.TextPrompt;
 import java.awt.Color;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.regex.Pattern;
 import javax.swing.*;
+import modelo.ConsultaLogin;
 import vista.VistaLogin;
 import vista.VistaRegistro;
 
@@ -17,7 +17,8 @@ import vista.VistaRegistro;
  */
 public class ControladorLogin {
 
-    private final VistaLogin vista;
+    private final VistaLogin vista; //Instancia de la vistaLogin
+    private final ConsultaLogin consultaLogin = new ConsultaLogin(); //Instancia de ConsultaLogin
     private int xMouse, yMouse;
 
     public ControladorLogin(VistaLogin vista) {
@@ -72,8 +73,6 @@ public class ControladorLogin {
             }
         });
 
-        
-
         // Evento del botón ENTRAR
         vista.loginBtnTxt.addMouseListener(new MouseAdapter() {
             @Override
@@ -96,16 +95,27 @@ public class ControladorLogin {
 
                 if (!pattern.matcher(email).matches()) {
                     JOptionPane.showMessageDialog(vista, "Formato de email incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
-                    
+
                 } else if (vista.passTxt.getPassword().length == 0) {
                     //Comprueba que el campo passTxt no esté vacío
                     JOptionPane.showMessageDialog(vista, "Tiene que introducir una contraseña", "Error", JOptionPane.ERROR_MESSAGE);
-                }else{
-                    JOptionPane.showMessageDialog(vista, "Intento de login con los datos:\nUsuario: " + vista.emailTxt.getText()
-                        + "\nContraseña: " + String.valueOf(vista.passTxt.getPassword()), "LOGIN", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    // Obtiene la contraseña del usuario y la encripta para compararla con la BD
+                    String passwordIngresada = String.valueOf(vista.passTxt.getPassword());
+                    String passwordEncriptadaIngresada = Seguridad.encriptarSHA256(passwordIngresada);
+                    
+                    
+
+                    // Verifica las credenciales mediante ConsultaLogin
+                    if (consultaLogin.validarUsuario(email, passwordEncriptadaIngresada)) {
+                        JOptionPane.showMessageDialog(vista, "Login correcto. Bienvenido " + email, "LOGIN", JOptionPane.INFORMATION_MESSAGE);
+                        // Aquí puedes abrir la siguiente pantalla o realizar la acción correspondiente
+                    } else {
+                        JOptionPane.showMessageDialog(vista, "Email o contraseña incorrecta.", "LOGIN", JOptionPane.ERROR_MESSAGE);
+                    }
+
                 }
 
-                
             }
         });
 
