@@ -4,6 +4,9 @@ import Utilidades.TextPrompt;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.regex.Pattern;
 import javax.swing.*;
 import vista.VistaLogin;
 import vista.VistaRegistro;
@@ -28,7 +31,7 @@ public class ControladorRegistro {
         TextPrompt phEmail = new TextPrompt("Introduzca su email", vista.emailTxt);
         TextPrompt phNombre = new TextPrompt("Nombre", vista.nombreTxt);
         TextPrompt phApellidos = new TextPrompt("Apellidos", vista.apellidosTxt);
-        TextPrompt phFecha = new TextPrompt("Fecha de nacimiento", vista.fechaTxt);
+        TextPrompt phTelefono = new TextPrompt("Nº de teléfono", vista.telefonoTxt);
         TextPrompt phPass1 = new TextPrompt("Contraseña", vista.passTxt1);
         TextPrompt phPass2 = new TextPrompt("Repita contraseña", vista.passTxt2);
 
@@ -67,20 +70,48 @@ public class ControladorRegistro {
 
             @Override
             public void mouseClicked(MouseEvent evt) {
-                
-                // Obtiene el texto de ambas contraseñas
+
+                String fechaFormateada = "";
                 String password1 = String.valueOf(vista.passTxt1.getPassword());
                 String password2 = String.valueOf(vista.passTxt2.getPassword());
 
-                if (password1.equals(password2)) {
+                //Comprobamos todos los datos del registro
+                //Comprueba que el campo emailTxt tenga el formato correcto
+                String email = vista.emailTxt.getText();
+                String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+                Pattern pattern = Pattern.compile(emailRegex);
+
+                if (!pattern.matcher(email).matches()) {
+                    JOptionPane.showMessageDialog(vista, "Formato de email incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+                } //Comprueba que el resto de campos no estén vacíos    
+                else if (vista.nombreTxt.getText().isBlank()) {
+                    JOptionPane.showMessageDialog(vista, "El campo NOMBRE no puede estar vacío ", "Error", JOptionPane.ERROR_MESSAGE);
+                } else if (vista.apellidosTxt.getText().isBlank()) {
+                    JOptionPane.showMessageDialog(vista, "El campo APELLIDOS no puede estar vacío ", "Error", JOptionPane.ERROR_MESSAGE);
+                } else if (vista.telefonoTxt.getText().isBlank()) {
+                    JOptionPane.showMessageDialog(vista, "El campo TELEFONO no puede estar vacío ", "Error", JOptionPane.ERROR_MESSAGE);
+                } //Comprueba la fecha           
+                else if (vista.fechaNac.getDatoFecha() == null) {
+                    JOptionPane.showMessageDialog(vista, "Selecciona una FECHA de nacimiento válida", "Error", JOptionPane.ERROR_MESSAGE);
+                } 
+                    /*//FORMATO A LA FECHA    
+                    String formatoFecha = "dd/MM/yyyy";
+                    Date fecha = vista.fechaNac.getDatoFecha();
+                    SimpleDateFormat formato = new SimpleDateFormat(formatoFecha);
+                    fechaFormateada = formato.format(fecha);*/ 
+                else if(vista.passTxt1.getPassword().length==0){
+                    JOptionPane.showMessageDialog(vista, "El campo CONTRASEÑA no puede estar vacío ", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else if (password1.equals(password2)) {
                     JOptionPane.showMessageDialog(vista, "Intento de guardar con los datos:\nEmail: " + vista.emailTxt.getText()
                             + "\nNombre: " + vista.nombreTxt.getText()
                             + "\nApellidos: " + vista.apellidosTxt.getText()
-                            + "\nFecha: " + vista.fechaTxt.getText()
+                            + "\nTeléfono: " + vista.telefonoTxt.getText()
+                            + "\nFecha Nacimiento: " + fechaFormateada
                             + "\nContraseña: " + password1, "GUARDAR", JOptionPane.INFORMATION_MESSAGE);
 
                 } else {
-                    JOptionPane.showMessageDialog(vista, "Las contraseñas introducidas no coinciden", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(vista, "Las CONTRASEÑAS introducidas no coinciden", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });

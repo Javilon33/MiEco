@@ -2,8 +2,11 @@ package controlador;
 
 import Utilidades.TextPrompt;
 import java.awt.Color;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.regex.Pattern;
 import javax.swing.*;
 import vista.VistaLogin;
 import vista.VistaRegistro;
@@ -20,11 +23,11 @@ public class ControladorLogin {
     public ControladorLogin(VistaLogin vista) {
         this.vista = vista;
         inicializarEventos();
-        
+
         //Inicio de los "placeholder" en los campos usando la clase TextPrompt 
         TextPrompt phEmail = new TextPrompt("Introduzca su email", vista.emailTxt);
         TextPrompt phPass = new TextPrompt("Contraseña", vista.passTxt);
-        
+
     }
 
     private void inicializarEventos() {
@@ -69,6 +72,8 @@ public class ControladorLogin {
             }
         });
 
+        
+
         // Evento del botón ENTRAR
         vista.loginBtnTxt.addMouseListener(new MouseAdapter() {
             @Override
@@ -83,8 +88,24 @@ public class ControladorLogin {
 
             @Override
             public void mouseClicked(MouseEvent evt) {
-                JOptionPane.showMessageDialog(vista, "Intento de login con los datos:\nUsuario: " + vista.emailTxt.getText()
+
+                //Comprueba que el campo emailTxt tenga el formato correcto
+                String email = vista.emailTxt.getText();
+                String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+                Pattern pattern = Pattern.compile(emailRegex);
+
+                if (!pattern.matcher(email).matches()) {
+                    JOptionPane.showMessageDialog(vista, "Formato de email incorrecto", "Error", JOptionPane.ERROR_MESSAGE);
+                    
+                } else if (vista.passTxt.getPassword().length == 0) {
+                    //Comprueba que el campo passTxt no esté vacío
+                    JOptionPane.showMessageDialog(vista, "Tiene que introducir una contraseña", "Error", JOptionPane.ERROR_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(vista, "Intento de login con los datos:\nUsuario: " + vista.emailTxt.getText()
                         + "\nContraseña: " + String.valueOf(vista.passTxt.getPassword()), "LOGIN", JOptionPane.INFORMATION_MESSAGE);
+                }
+
+                
             }
         });
 
@@ -116,6 +137,6 @@ public class ControladorLogin {
                 vista.setVisible(false); // Opcional: Ocultar la ventana de Login
             }
         });
-        
+
     }
 }

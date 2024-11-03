@@ -69,6 +69,7 @@ public class VistaLogin extends javax.swing.JFrame {
         bg.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 70, -1));
 
         emailTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        emailTxt.setToolTipText("Introduce un email registrado");
         emailTxt.setBorder(null);
         bg.add(emailTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 520, 40));
         bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 540, -1));
@@ -79,6 +80,7 @@ public class VistaLogin extends javax.swing.JFrame {
         bg.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 380, 540, -1));
 
         passTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        passTxt.setToolTipText("Introduce la contraseña");
         passTxt.setBorder(null);
         bg.add(passTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 342, 540, 30));
 
