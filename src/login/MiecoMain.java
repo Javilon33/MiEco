@@ -3,6 +3,7 @@ package login;
 
 import controlador.ControladorLogin;
 import vista.VistaLogin;
+import vista.VistaPrincipal;
 import vista.VistaRegistro;
 
 /**

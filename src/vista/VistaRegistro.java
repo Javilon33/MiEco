@@ -63,23 +63,23 @@ public class VistaRegistro extends javax.swing.JFrame {
         bg.add(citybg, new org.netbeans.lib.awtextra.AbsoluteConstraints(661, 0, 290, -1));
 
         favicon.setFont(new java.awt.Font("Roboto Black", 1, 36)); // NOI18N
-        favicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/favicon.png"))); // NOI18N
+        favicon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icono2.png"))); // NOI18N
         favicon.setText("MiEco");
-        bg.add(favicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 200, 50));
+        bg.add(favicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 240, 60));
 
         title.setFont(new java.awt.Font("Roboto Medium", 1, 24)); // NOI18N
         title.setText("REGISTRO NUEVO USUARIO");
-        bg.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, -1, -1));
+        bg.add(title, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 130, -1, -1));
 
         userLabel.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         userLabel.setText("USUARIO");
-        bg.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 170, 70, -1));
+        bg.add(userLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 70, -1));
 
         emailTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         emailTxt.setToolTipText("Introduce un email válido");
         emailTxt.setBorder(null);
-        bg.add(emailTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 190, 520, 30));
-        bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 220, 540, -1));
+        bg.add(emailTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 210, 520, 30));
+        bg.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 240, 540, -1));
 
         passLabel2.setFont(new java.awt.Font("Roboto Light", 1, 14)); // NOI18N
         passLabel2.setText("REPITA CONTRASEÑA");
@@ -92,6 +92,7 @@ public class VistaRegistro extends javax.swing.JFrame {
         bg.add(passTxt2, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, 240, 30));
 
         header.setBackground(new java.awt.Color(255, 255, 255));
+        header.setCursor(new java.awt.Cursor(java.awt.Cursor.MOVE_CURSOR));
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
@@ -114,7 +115,7 @@ public class VistaRegistro extends javax.swing.JFrame {
         guardarBtnTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         guardarBtnTxt.setText("GUARDAR");
         guardarBtnTxt.setToolTipText("Pulsa para crear el usuario");
-        guardarBtnTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        guardarBtnTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout guardarBtnLayout = new javax.swing.GroupLayout(guardarBtn);
         guardarBtn.setLayout(guardarBtnLayout);
@@ -136,7 +137,7 @@ public class VistaRegistro extends javax.swing.JFrame {
         cancelarBtnTxt.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         cancelarBtnTxt.setText("CANCELAR");
         cancelarBtnTxt.setToolTipText("Pulsa para salir sin guardar");
-        cancelarBtnTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        cancelarBtnTxt.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout cancelarBtnLayout = new javax.swing.GroupLayout(cancelarBtn);
         cancelarBtn.setLayout(cancelarBtnLayout);
@@ -163,19 +164,19 @@ public class VistaRegistro extends javax.swing.JFrame {
         apellidosTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         apellidosTxt.setToolTipText("Introduce tus apellidos");
         apellidosTxt.setBorder(null);
-        bg.add(apellidosTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 230, 320, 30));
-        bg.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 300, 540, -1));
+        bg.add(apellidosTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 250, 320, 30));
+        bg.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 320, 540, -1));
 
         nombreTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         nombreTxt.setToolTipText("Introduce tu nombre");
         nombreTxt.setBorder(null);
-        bg.add(nombreTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 230, 210, 30));
-        bg.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 260, 540, -1));
+        bg.add(nombreTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, 210, 30));
+        bg.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 280, 540, -1));
 
         telefonoTxt.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         telefonoTxt.setToolTipText("Introduce tu nº de teléfono");
         telefonoTxt.setBorder(null);
-        bg.add(telefonoTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 270, 160, 30));
+        bg.add(telefonoTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 160, 30));
 
         fechaNac.setToolTipText("Introduce tu fecha de nacimiento");
         fechaNac.setColorBackground(new java.awt.Color(206, 206, 206));
@@ -186,7 +187,7 @@ public class VistaRegistro extends javax.swing.JFrame {
         fechaNac.setFormatoFecha("dd/MM/yyyy");
         fechaNac.setFuente(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         fechaNac.setPlaceholder("Fecha de Nacimiento");
-        bg.add(fechaNac, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 270, -1, 30));
+        bg.add(fechaNac, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 290, -1, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

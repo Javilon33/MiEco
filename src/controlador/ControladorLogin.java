@@ -33,7 +33,7 @@ public class ControladorLogin {
 
     private void inicializarEventos() {
         // Eventos para mover la ventana
-        vista.addMouseListener(new MouseAdapter() {
+        vista.header.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
                 xMouse = evt.getX();
@@ -41,7 +41,7 @@ public class ControladorLogin {
             }
         });
 
-        vista.addMouseMotionListener(new MouseAdapter() {
+        vista.header.addMouseMotionListener(new MouseAdapter() {
             @Override
             public void mouseDragged(MouseEvent evt) {
                 int x = evt.getXOnScreen();
