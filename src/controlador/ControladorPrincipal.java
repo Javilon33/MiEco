@@ -82,7 +82,14 @@ public class ControladorPrincipal {
                 resetColor(vista.btnInformes);
             }
         });
-        
+        //Evento para el JLabel dentro del btnPrincipal y que funcione el click
+        vista.etiPtincipal.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                vista.btnPrincipal.dispatchEvent(evt);  // Redirige el evento al JPanel
+            }
+        });
+
         // Evento del botón CUENTAS
         vista.btnCuentas.addMouseListener(new MouseAdapter() {
             @Override
@@ -95,7 +102,14 @@ public class ControladorPrincipal {
                 resetColor(vista.btnInformes);
             }
         });
-        
+        //Evento para el JLabel dentro del btnCuentas y que funcione el click
+        vista.etiCuentas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                vista.btnCuentas.dispatchEvent(evt);  // Redirige el evento al JPanel
+            }
+        });
+
         // Evento del botón DEPOSITOS
         vista.btnDepositos.addMouseListener(new MouseAdapter() {
             @Override
@@ -108,7 +122,14 @@ public class ControladorPrincipal {
                 resetColor(vista.btnInformes);
             }
         });
-        
+        //Evento para el JLabel dentro del btnDepositos y que funcione el click
+        vista.etiDepositos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                vista.btnDepositos.dispatchEvent(evt);  // Redirige el evento al JPanel
+            }
+        });
+
         // Evento del botón FONDOS
         vista.btnFondos.addMouseListener(new MouseAdapter() {
             @Override
@@ -121,7 +142,14 @@ public class ControladorPrincipal {
                 resetColor(vista.btnInformes);
             }
         });
-        
+        //Evento para el JLabel dentro del btnFondos y que funcione el click
+        vista.etiFondos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                vista.btnFondos.dispatchEvent(evt);  // Redirige el evento al JPanel
+            }
+        });
+
         // Evento del botón BOLSA
         vista.btnBolsa.addMouseListener(new MouseAdapter() {
             @Override
@@ -134,7 +162,14 @@ public class ControladorPrincipal {
                 resetColor(vista.btnInformes);
             }
         });
-        
+        //Evento para el JLabel dentro del btnBolsa y que funcione el click
+        vista.etiBolsa.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                vista.btnBolsa.dispatchEvent(evt);  // Redirige el evento al JPanel
+            }
+        });        
+
         // Evento del botón INFORMES
         vista.btnInformes.addMouseListener(new MouseAdapter() {
             @Override
@@ -147,6 +182,13 @@ public class ControladorPrincipal {
                 setColor(vista.btnInformes);
             }
         });
+        //Evento para el JLabel dentro del btnInformes y que funcione el click
+        vista.etiInformes.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                vista.btnInformes.dispatchEvent(evt);  // Redirige el evento al JPanel
+            }
+        });  
     }
 
     void setColor(JPanel panel) {

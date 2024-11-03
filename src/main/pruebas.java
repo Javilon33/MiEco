@@ -1,5 +1,5 @@
 
-package login;
+package main;
 
 import controlador.ControladorPruebas;
 import vista.VistaPruebas;

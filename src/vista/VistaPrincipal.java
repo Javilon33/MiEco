@@ -31,26 +31,26 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         bg = new javax.swing.JPanel();
         menu = new javax.swing.JPanel();
-        favicon = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
+        favicon = new javax.swing.JLabel();
         btnPrincipal = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
+        etiPtincipal = new javax.swing.JLabel();
         btnCuentas = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        etiCuentas = new javax.swing.JLabel();
         btnDepositos = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        etiDepositos = new javax.swing.JLabel();
         btnFondos = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
+        etiFondos = new javax.swing.JLabel();
         btnBolsa = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        etiBolsa = new javax.swing.JLabel();
         btnInformes = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        etiInformes = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
         exitBtn = new javax.swing.JPanel();
         exitTxt = new javax.swing.JLabel();
@@ -66,16 +66,16 @@ public class VistaPrincipal extends javax.swing.JFrame {
         menu.setBackground(new java.awt.Color(0, 134, 190));
         menu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
+        jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
+        menu.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 103, 152, 10));
+
         favicon.setBackground(new java.awt.Color(255, 255, 255));
         favicon.setFont(new java.awt.Font("Roboto Black", 1, 36)); // NOI18N
         favicon.setForeground(new java.awt.Color(255, 255, 255));
         favicon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         favicon.setText("MiEco");
         menu.add(favicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 230, 60));
-
-        jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
-        jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
-        menu.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 103, 152, 10));
 
         btnPrincipal.setBackground(new java.awt.Color(21, 101, 192));
         btnPrincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -84,12 +84,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home-outline.png"))); // NOI18N
         btnPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel4.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Principal");
-        jLabel4.setToolTipText("");
-        jLabel4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnPrincipal.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
+        etiPtincipal.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        etiPtincipal.setForeground(new java.awt.Color(255, 255, 255));
+        etiPtincipal.setText("Principal");
+        etiPtincipal.setToolTipText("");
+        etiPtincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPrincipal.add(etiPtincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
 
         menu.add(btnPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 230, 50));
 
@@ -100,11 +100,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cartera.png"))); // NOI18N
         btnCuentas.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel6.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Cuentas");
-        jLabel6.setToolTipText("");
-        btnCuentas.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 14, -1, -1));
+        etiCuentas.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        etiCuentas.setForeground(new java.awt.Color(255, 255, 255));
+        etiCuentas.setText("Cuentas");
+        etiCuentas.setToolTipText("");
+        btnCuentas.add(etiCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 14, -1, -1));
 
         menu.add(btnCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 220, 230, 50));
 
@@ -115,11 +115,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/depositos.png"))); // NOI18N
         btnDepositos.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel8.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Depósitos");
-        jLabel8.setToolTipText("");
-        btnDepositos.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
+        etiDepositos.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        etiDepositos.setForeground(new java.awt.Color(255, 255, 255));
+        etiDepositos.setText("Depósitos");
+        etiDepositos.setToolTipText("");
+        btnDepositos.add(etiDepositos, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
 
         menu.add(btnDepositos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 270, 230, 50));
 
@@ -130,11 +130,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo.png"))); // NOI18N
         btnFondos.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel10.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Fondos Inversión");
-        jLabel10.setToolTipText("");
-        btnFondos.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
+        etiFondos.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        etiFondos.setForeground(new java.awt.Color(255, 255, 255));
+        etiFondos.setText("Fondos Inversión");
+        etiFondos.setToolTipText("");
+        btnFondos.add(etiFondos, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
 
         menu.add(btnFondos, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 230, 50));
 
@@ -145,11 +145,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bolsa.png"))); // NOI18N
         btnBolsa.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        jLabel2.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Acciones Bolsa");
-        jLabel2.setToolTipText("");
-        btnBolsa.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
+        etiBolsa.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        etiBolsa.setForeground(new java.awt.Color(255, 255, 255));
+        etiBolsa.setText("Acciones Bolsa");
+        etiBolsa.setToolTipText("");
+        btnBolsa.add(etiBolsa, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
 
         menu.add(btnBolsa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 230, 50));
 
@@ -160,11 +160,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Infor.png"))); // NOI18N
         btnInformes.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 50));
 
-        jLabel12.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Informes");
-        jLabel12.setToolTipText("");
-        btnInformes.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
+        etiInformes.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        etiInformes.setForeground(new java.awt.Color(255, 255, 255));
+        etiInformes.setText("Informes");
+        etiInformes.setToolTipText("");
+        btnInformes.add(etiInformes, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
 
         menu.add(btnInformes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 230, 50));
 
@@ -267,21 +267,21 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public javax.swing.JPanel btnFondos;
     public javax.swing.JPanel btnInformes;
     public javax.swing.JPanel btnPrincipal;
+    public javax.swing.JLabel etiBolsa;
+    public javax.swing.JLabel etiCuentas;
+    public javax.swing.JLabel etiDepositos;
+    public javax.swing.JLabel etiFondos;
+    public javax.swing.JLabel etiInformes;
+    public javax.swing.JLabel etiPtincipal;
     public javax.swing.JPanel exitBtn;
     public javax.swing.JLabel exitTxt;
     private javax.swing.JLabel favicon;
     public javax.swing.JPanel header;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel menu;

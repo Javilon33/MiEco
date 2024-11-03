@@ -1,5 +1,5 @@
 
-package login;
+package main;
 
 import controlador.ControladorLogin;
 import vista.VistaLogin;
