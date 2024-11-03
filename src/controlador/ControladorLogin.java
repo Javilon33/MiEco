@@ -144,9 +144,17 @@ public class ControladorLogin {
                 // Establecer la posición de VistaRegistro en la misma posición que VistaLogin
                 vistaRegistro.setLocation(x, y);
                 vistaRegistro.setVisible(true);
-                vista.setVisible(false); // Opcional: Ocultar la ventana de Login
+                vista.setVisible(false); //Oculta la ventana de Login
+                limpiar(); //Limpia los campos
             }
         });
 
+    }
+    
+    //Método para limpiar los campos
+    private void limpiar(){
+        vista.emailTxt.setText("");
+        vista.passTxt.setText("");
+        
     }
 }

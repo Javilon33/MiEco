@@ -10,6 +10,8 @@ import java.security.NoSuchAlgorithmException;
  */
 public class Seguridad {
 
+    //Clase para encriptar las contraseñas
+    
     public static String encriptarSHA256(String password) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
