@@ -10,6 +10,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import modelo.Usuario;
 import vista.PanelAdmin;
 import vista.PanelBolsa;
 import vista.PanelCuentas;
@@ -27,11 +28,14 @@ public class ControladorPrincipal {
 
     private final VistaPrincipal vista; //Instancia de la vistaLogin
     //private final ConsultaPrincipal consultaPrincipal = new ConsultaPrincipal(); //Instancia de ConsultaPrincipal
+    private final Usuario usuario;  // Almacena el usuario logueado
     private int xMouse, yMouse;
 
-    public ControladorPrincipal(VistaPrincipal vista) {
+    public ControladorPrincipal(VistaPrincipal vista, Usuario usuario) {
         this.vista = vista;
+        this.usuario = usuario;
         inicializarEventos();
+        cargarDatosUsuario();
 
         //Establece el Panel principal al inicio de la aplicación
         PanelPrincipal p1 = new PanelPrincipal();
@@ -41,6 +45,11 @@ public class ControladorPrincipal {
         vista.panelContenedor.add(p1, BorderLayout.CENTER);
         vista.panelContenedor.revalidate();
         vista.panelContenedor.repaint();
+        
+        //Establece en oculto el botón Admin si no es Administrador
+        if(usuario.getAdmin()==0){
+        vista.btnAdmin.setVisible(false);
+        }
 
     }
 
@@ -298,11 +307,18 @@ public class ControladorPrincipal {
         });
     }
 
+    //Pone de un azul más intenso el botón seleccionado
     void setColor(JPanel panel) {
         panel.setBackground(new Color(21, 101, 192));
     }
-
+    //Devuelve los botones a su color original
     void resetColor(JPanel panel) {
         panel.setBackground(new Color(18, 90, 173));
+    }
+    
+    //Método para cargar los datos del usuario logueado
+    private void cargarDatosUsuario() {
+        vista.etiEmail.setText(usuario.getEmail());  //Muestra el email en la vista Principal
+        vista.etiNombre.setText(usuario.getNombre() + " " + usuario.getApellidos());
     }
 }

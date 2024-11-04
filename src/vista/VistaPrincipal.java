@@ -17,7 +17,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
      */
     public VistaPrincipal() {
         initComponents();
-        ControladorPrincipal cp = new ControladorPrincipal(this);
+        //ControladorPrincipal cp = new ControladorPrincipal(this);
     }
 
     /**
@@ -59,6 +59,11 @@ public class VistaPrincipal extends javax.swing.JFrame {
         exitBtn = new javax.swing.JPanel();
         exitTxt = new javax.swing.JLabel();
         panelContenedor = new javax.swing.JPanel();
+        BarraSuperior = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        etiNombre = new javax.swing.JLabel();
+        etiEmail = new javax.swing.JLabel();
+        iconoUsuario = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -251,7 +256,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         );
         headerLayout.setVerticalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
+            .addGroup(headerLayout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -272,6 +277,33 @@ public class VistaPrincipal extends javax.swing.JFrame {
         );
 
         bg.add(panelContenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 970, 600));
+
+        BarraSuperior.setBackground(new java.awt.Color(255, 255, 255));
+        BarraSuperior.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(0, 134, 190));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiNombre.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        etiNombre.setForeground(new java.awt.Color(255, 255, 255));
+        etiNombre.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        etiNombre.setText("Nombre");
+        etiNombre.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(62, 10, 260, -1));
+
+        etiEmail.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        etiEmail.setForeground(new java.awt.Color(255, 255, 255));
+        etiEmail.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        etiEmail.setText("email");
+        etiEmail.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel1.add(etiEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, 260, -1));
+
+        iconoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png"))); // NOI18N
+        jPanel1.add(iconoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 40, 40));
+
+        BarraSuperior.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, 340, 60));
+
+        bg.add(BarraSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 970, 60));
 
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 700));
 
@@ -315,6 +347,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel BarraSuperior;
     private javax.swing.JPanel bg;
     public javax.swing.JPanel btnAdmin;
     public javax.swing.JPanel btnBolsa;
@@ -327,13 +360,16 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public javax.swing.JLabel etiBolsa;
     public javax.swing.JLabel etiCuentas;
     public javax.swing.JLabel etiDepositos;
+    public javax.swing.JLabel etiEmail;
     public javax.swing.JLabel etiFondos;
     public javax.swing.JLabel etiInformes;
+    public javax.swing.JLabel etiNombre;
     public javax.swing.JLabel etiPtincipal;
     public javax.swing.JPanel exitBtn;
     public javax.swing.JLabel exitTxt;
     private javax.swing.JLabel favicon;
     public javax.swing.JPanel header;
+    private javax.swing.JLabel iconoUsuario;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
@@ -341,6 +377,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel menu;

@@ -8,7 +8,9 @@ import java.awt.event.MouseEvent;
 import java.util.regex.Pattern;
 import javax.swing.*;
 import modelo.ConsultaLogin;
+import modelo.Usuario;
 import vista.VistaLogin;
+import vista.VistaPrincipal;
 import vista.VistaRegistro;
 
 /**
@@ -103,13 +105,18 @@ public class ControladorLogin {
                     // Obtiene la contraseña del usuario y la encripta para compararla con la BD
                     String passwordIngresada = String.valueOf(vista.passTxt.getPassword());
                     String passwordEncriptadaIngresada = Seguridad.encriptarSHA256(passwordIngresada);
-                    
-                    
 
                     // Verifica las credenciales mediante ConsultaLogin
                     if (consultaLogin.validarUsuario(email, passwordEncriptadaIngresada)) {
                         JOptionPane.showMessageDialog(vista, "Login correcto. Bienvenido " + email, "LOGIN", JOptionPane.INFORMATION_MESSAGE);
-                        // Aquí puedes abrir la siguiente pantalla o realizar la acción correspondiente
+                        // Obtener el usuario logueado desde la base de datos
+                        Usuario usuarioLogueado = consultaLogin.obtenerUsuario(email, passwordEncriptadaIngresada);
+                        //Una vez logueado crea y muestra la ventana PRINCIPAL
+                        VistaPrincipal vistaPrincipal = new VistaPrincipal();
+                        ControladorPrincipal controladorPrincipal = new ControladorPrincipal(vistaPrincipal, usuarioLogueado);
+                        vistaPrincipal.setVisible(true);
+                        vista.dispose(); //Cierra la ventana de Login
+
                     } else {
                         JOptionPane.showMessageDialog(vista, "Email o contraseña incorrecta.", "LOGIN", JOptionPane.ERROR_MESSAGE);
                     }
@@ -150,11 +157,11 @@ public class ControladorLogin {
         });
 
     }
-    
+
     //Método para limpiar los campos
-    private void limpiar(){
+    private void limpiar() {
         vista.emailTxt.setText("");
         vista.passTxt.setText("");
-        
+
     }
 }
