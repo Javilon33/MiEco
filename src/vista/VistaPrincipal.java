@@ -51,14 +51,20 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnInformes = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         etiInformes = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        btnAdmin = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        etiAdmin = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
         exitBtn = new javax.swing.JPanel();
         exitTxt = new javax.swing.JLabel();
+        panelContenedor = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
         setUndecorated(true);
         setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         bg.setBackground(new java.awt.Color(255, 255, 255));
         bg.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -68,7 +74,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
-        menu.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 103, 152, 10));
+        menu.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 580, 152, 10));
 
         favicon.setBackground(new java.awt.Color(255, 255, 255));
         favicon.setFont(new java.awt.Font("Roboto Black", 1, 36)); // NOI18N
@@ -97,7 +103,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnCuentas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnCuentas.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/cartera.png"))); // NOI18N
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Cuentas1.png"))); // NOI18N
         btnCuentas.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         etiCuentas.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
@@ -112,7 +118,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnDepositos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnDepositos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/depositos.png"))); // NOI18N
+        jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Depos.png"))); // NOI18N
         btnDepositos.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         etiDepositos.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
@@ -127,7 +133,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnFondos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnFondos.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fondo.png"))); // NOI18N
+        jLabel9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/fond.png"))); // NOI18N
         btnFondos.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
         etiFondos.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
@@ -142,8 +148,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnBolsa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnBolsa.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bolsa.png"))); // NOI18N
-        btnBolsa.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/bols.png"))); // NOI18N
+        btnBolsa.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 8, -1, -1));
 
         etiBolsa.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         etiBolsa.setForeground(new java.awt.Color(255, 255, 255));
@@ -157,8 +163,8 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnInformes.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnInformes.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Infor.png"))); // NOI18N
-        btnInformes.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 50));
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/infor_1.png"))); // NOI18N
+        btnInformes.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, 30));
 
         etiInformes.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         etiInformes.setForeground(new java.awt.Color(255, 255, 255));
@@ -167,6 +173,49 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnInformes.add(etiInformes, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
 
         menu.add(btnInformes, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 420, 230, 50));
+
+        jSeparator2.setBackground(new java.awt.Color(255, 255, 255));
+        jSeparator2.setForeground(new java.awt.Color(255, 255, 255));
+        menu.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 103, 152, 10));
+
+        btnAdmin.setBackground(new java.awt.Color(18, 90, 173));
+        btnAdmin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/admin.png"))); // NOI18N
+
+        etiAdmin.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        etiAdmin.setForeground(new java.awt.Color(255, 255, 255));
+        etiAdmin.setText("Administrar");
+        etiAdmin.setToolTipText("");
+
+        javax.swing.GroupLayout btnAdminLayout = new javax.swing.GroupLayout(btnAdmin);
+        btnAdmin.setLayout(btnAdminLayout);
+        btnAdminLayout.setHorizontalGroup(
+            btnAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnAdminLayout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addComponent(jLabel2)
+                .addContainerGap(187, Short.MAX_VALUE))
+            .addGroup(btnAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(btnAdminLayout.createSequentialGroup()
+                    .addGap(0, 64, Short.MAX_VALUE)
+                    .addComponent(etiAdmin)
+                    .addGap(0, 64, Short.MAX_VALUE)))
+        );
+        btnAdminLayout.setVerticalGroup(
+            btnAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(btnAdminLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(btnAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(btnAdminLayout.createSequentialGroup()
+                    .addGap(0, 13, Short.MAX_VALUE)
+                    .addComponent(etiAdmin)
+                    .addGap(0, 13, Short.MAX_VALUE)))
+        );
+
+        menu.add(btnAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 230, 50));
 
         bg.add(menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 700));
 
@@ -209,16 +258,22 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         bg.add(header, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 40));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        panelContenedor.setBackground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout panelContenedorLayout = new javax.swing.GroupLayout(panelContenedor);
+        panelContenedor.setLayout(panelContenedorLayout);
+        panelContenedorLayout.setHorizontalGroup(
+            panelContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 970, Short.MAX_VALUE)
         );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        panelContenedorLayout.setVerticalGroup(
+            panelContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
         );
+
+        bg.add(panelContenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 100, 970, 600));
+
+        getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 700));
 
         pack();
         setLocationRelativeTo(null);
@@ -261,12 +316,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bg;
+    public javax.swing.JPanel btnAdmin;
     public javax.swing.JPanel btnBolsa;
     public javax.swing.JPanel btnCuentas;
     public javax.swing.JPanel btnDepositos;
     public javax.swing.JPanel btnFondos;
     public javax.swing.JPanel btnInformes;
     public javax.swing.JPanel btnPrincipal;
+    public javax.swing.JLabel etiAdmin;
     public javax.swing.JLabel etiBolsa;
     public javax.swing.JLabel etiCuentas;
     public javax.swing.JLabel etiDepositos;
@@ -279,11 +336,14 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public javax.swing.JPanel header;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPanel menu;
+    public javax.swing.JPanel panelContenedor;
     // End of variables declaration//GEN-END:variables
 }

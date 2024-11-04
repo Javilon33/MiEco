@@ -179,7 +179,7 @@ public class VistaRegistro extends javax.swing.JFrame {
         bg.add(telefonoTxt, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 290, 160, 30));
 
         fechaNac.setToolTipText("Introduce tu fecha de nacimiento");
-        fechaNac.setColorBackground(new java.awt.Color(206, 206, 206));
+        fechaNac.setColorBackground(new java.awt.Color(242, 242, 242));
         fechaNac.setColorButtonHover(new java.awt.Color(0, 134, 190));
         fechaNac.setColorDiaActual(new java.awt.Color(0, 134, 190));
         fechaNac.setColorForeground(new java.awt.Color(0, 0, 0));

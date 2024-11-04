@@ -4,11 +4,19 @@
  */
 package controlador;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import vista.PanelAdmin;
+import vista.PanelBolsa;
+import vista.PanelCuentas;
+import vista.PanelDepositos;
+import vista.PanelFondos;
+import vista.PanelInformes;
+import vista.PanelPrincipal;
 import vista.VistaPrincipal;
 
 /**
@@ -24,6 +32,15 @@ public class ControladorPrincipal {
     public ControladorPrincipal(VistaPrincipal vista) {
         this.vista = vista;
         inicializarEventos();
+
+        //Establece el Panel principal al inicio de la aplicación
+        PanelPrincipal p1 = new PanelPrincipal();
+        p1.setSize(970, 600);
+        p1.setLocation(0, 0);
+        vista.panelContenedor.removeAll();
+        vista.panelContenedor.add(p1, BorderLayout.CENTER);
+        vista.panelContenedor.revalidate();
+        vista.panelContenedor.repaint();
 
     }
 
@@ -80,6 +97,16 @@ public class ControladorPrincipal {
                 resetColor(vista.btnFondos);
                 resetColor(vista.btnBolsa);
                 resetColor(vista.btnInformes);
+                resetColor(vista.btnAdmin);
+
+                //Establece el Panel principal al pulsar PRINCIPAL
+                PanelPrincipal p1 = new PanelPrincipal();
+                p1.setSize(970, 600);
+                p1.setLocation(0, 0);
+                vista.panelContenedor.removeAll();
+                vista.panelContenedor.add(p1, BorderLayout.CENTER);
+                vista.panelContenedor.revalidate();
+                vista.panelContenedor.repaint();
             }
         });
         //Evento para el JLabel dentro del btnPrincipal y que funcione el click
@@ -100,6 +127,16 @@ public class ControladorPrincipal {
                 resetColor(vista.btnFondos);
                 resetColor(vista.btnBolsa);
                 resetColor(vista.btnInformes);
+                resetColor(vista.btnAdmin);
+                
+                //Establece el Panel Cuentas al pulsar CUENTAS
+                PanelCuentas p2 = new PanelCuentas();
+                p2.setSize(970, 600);
+                p2.setLocation(0, 0);
+                vista.panelContenedor.removeAll();
+                vista.panelContenedor.add(p2, BorderLayout.CENTER);
+                vista.panelContenedor.revalidate();
+                vista.panelContenedor.repaint();
             }
         });
         //Evento para el JLabel dentro del btnCuentas y que funcione el click
@@ -120,6 +157,16 @@ public class ControladorPrincipal {
                 resetColor(vista.btnFondos);
                 resetColor(vista.btnBolsa);
                 resetColor(vista.btnInformes);
+                resetColor(vista.btnAdmin);
+                
+                //Establece el Panel Depósitos al pulsar DEPOSITOS
+                PanelDepositos p3 = new PanelDepositos();
+                p3.setSize(970, 600);
+                p3.setLocation(0, 0);
+                vista.panelContenedor.removeAll();
+                vista.panelContenedor.add(p3, BorderLayout.CENTER);
+                vista.panelContenedor.revalidate();
+                vista.panelContenedor.repaint();
             }
         });
         //Evento para el JLabel dentro del btnDepositos y que funcione el click
@@ -140,6 +187,16 @@ public class ControladorPrincipal {
                 setColor(vista.btnFondos);
                 resetColor(vista.btnBolsa);
                 resetColor(vista.btnInformes);
+                resetColor(vista.btnAdmin);
+                
+                //Establece el Panel Fondos al pulsar FONDOS
+                PanelFondos p4 = new PanelFondos();
+                p4.setSize(970, 600);
+                p4.setLocation(0, 0);
+                vista.panelContenedor.removeAll();
+                vista.panelContenedor.add(p4, BorderLayout.CENTER);
+                vista.panelContenedor.revalidate();
+                vista.panelContenedor.repaint();
             }
         });
         //Evento para el JLabel dentro del btnFondos y que funcione el click
@@ -160,6 +217,16 @@ public class ControladorPrincipal {
                 resetColor(vista.btnFondos);
                 setColor(vista.btnBolsa);
                 resetColor(vista.btnInformes);
+                resetColor(vista.btnAdmin);
+                
+                //Establece el Panel Bolsa al pulsar BOLSA
+                PanelBolsa p5 = new PanelBolsa();
+                p5.setSize(970, 600);
+                p5.setLocation(0, 0);
+                vista.panelContenedor.removeAll();
+                vista.panelContenedor.add(p5, BorderLayout.CENTER);
+                vista.panelContenedor.revalidate();
+                vista.panelContenedor.repaint();
             }
         });
         //Evento para el JLabel dentro del btnBolsa y que funcione el click
@@ -168,7 +235,7 @@ public class ControladorPrincipal {
             public void mousePressed(MouseEvent evt) {
                 vista.btnBolsa.dispatchEvent(evt);  // Redirige el evento al JPanel
             }
-        });        
+        });
 
         // Evento del botón INFORMES
         vista.btnInformes.addMouseListener(new MouseAdapter() {
@@ -180,6 +247,16 @@ public class ControladorPrincipal {
                 resetColor(vista.btnFondos);
                 resetColor(vista.btnBolsa);
                 setColor(vista.btnInformes);
+                resetColor(vista.btnAdmin);
+                
+                //Establece el Panel Informes al pulsar INFORMES
+                PanelInformes p6 = new PanelInformes();
+                p6.setSize(970, 600);
+                p6.setLocation(0, 0);
+                vista.panelContenedor.removeAll();
+                vista.panelContenedor.add(p6, BorderLayout.CENTER);
+                vista.panelContenedor.revalidate();
+                vista.panelContenedor.repaint();
             }
         });
         //Evento para el JLabel dentro del btnInformes y que funcione el click
@@ -188,7 +265,37 @@ public class ControladorPrincipal {
             public void mousePressed(MouseEvent evt) {
                 vista.btnInformes.dispatchEvent(evt);  // Redirige el evento al JPanel
             }
-        });  
+        });
+
+        // Evento del botón ADMINISTRAR
+        vista.btnAdmin.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                resetColor(vista.btnPrincipal);
+                resetColor(vista.btnCuentas);
+                resetColor(vista.btnDepositos);
+                resetColor(vista.btnFondos);
+                resetColor(vista.btnBolsa);
+                resetColor(vista.btnInformes);
+                setColor(vista.btnAdmin);
+                
+                //Establece el Panel Admin al pulsar ADMINISTRAR
+                PanelAdmin p7 = new PanelAdmin();
+                p7.setSize(970, 600);
+                p7.setLocation(0, 0);
+                vista.panelContenedor.removeAll();
+                vista.panelContenedor.add(p7, BorderLayout.CENTER);
+                vista.panelContenedor.revalidate();
+                vista.panelContenedor.repaint();
+            }
+        });
+        //Evento para el JLabel dentro del btnAdmin y que funcione el click
+        vista.etiAdmin.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                vista.btnAdmin.dispatchEvent(evt);  // Redirige el evento al JPanel
+            }
+        });
     }
 
     void setColor(JPanel panel) {
