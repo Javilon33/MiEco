@@ -124,7 +124,7 @@ public class ControladorRegistro {
                         cerrarRegistro();
                         
                     } else {
-                        JOptionPane.showMessageDialog(vista, "Error al registrar usuario. Verifique los datos", "Registro", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(vista, "Error al registrar usuario. El email \"" + email + "\" ya está registrado", "Registro", JOptionPane.ERROR_MESSAGE);
                     }
 
                 } else {
