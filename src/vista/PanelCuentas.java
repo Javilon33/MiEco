@@ -27,8 +27,14 @@ public class PanelCuentas extends javax.swing.JPanel {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         etiNombre = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        etiSaldoTotal = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tablaCuentas = new javax.swing.JTable();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(970, 600));
@@ -38,13 +44,50 @@ public class PanelCuentas extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
-        jLabel1.setText("PANEL CUENTAS");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 230, 464, 110));
-
-        etiNombre.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        etiNombre.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         etiNombre.setText("Hola");
-        jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 92, 220, 40));
+        jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 220, 40));
+
+        jLabel2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel2.setText("¡Así están tus cuentas!");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 220, 10));
+
+        jLabel1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel1.setText("Este es el saldo de todas las cuentas:");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+
+        etiSaldoTotal.setFont(new java.awt.Font("Roboto Medium", 1, 24)); // NOI18N
+        etiSaldoTotal.setText("saldo");
+        etiSaldoTotal.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jPanel2.add(etiSaldoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 140, 50));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 240, 130));
+
+        tablaCuentas.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        tablaCuentas.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Banco", "Alias", "IBAN", "Saldo"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane2.setViewportView(tablaCuentas);
+
+        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 580, -1));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 600));
     }// </editor-fold>//GEN-END:initComponents
@@ -52,7 +95,13 @@ public class PanelCuentas extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JLabel etiNombre;
+    public javax.swing.JLabel etiSaldoTotal;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JSeparator jSeparator1;
+    public javax.swing.JTable tablaCuentas;
     // End of variables declaration//GEN-END:variables
 }

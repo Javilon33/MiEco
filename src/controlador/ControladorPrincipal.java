@@ -78,6 +78,7 @@ public class ControladorPrincipal {
             }
         });
 
+        //BOTON PRINCIPAL
         // Evento para mostrar el panel principal al hacer clic en el botón PRINCIPAL
         vista.btnPrincipal.addMouseListener(new MouseAdapter() {
             @Override
@@ -86,7 +87,16 @@ public class ControladorPrincipal {
                 mostrarPanel(panelPrincipal);
             }
         });
+        //Evento para el texto JLabel y que funcione el click
+        vista.etiPrincipal.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnPrincipal);
+                mostrarPanel(panelPrincipal);
+            }
+        });
 
+        //BOTON CUENTAS
         // Evento para mostrar el panel de cuentas al hacer clic en el botón CUENTAS
         vista.btnCuentas.addMouseListener(new MouseAdapter() {
             @Override
@@ -95,7 +105,16 @@ public class ControladorPrincipal {
                 mostrarPanel(vistaCuentas);
             }
         });
-        
+        //Evento para el texto JLabel y que funcione el click
+        vista.etiCuentas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnCuentas);
+                mostrarPanel(vistaCuentas);
+            }
+        });
+
+        //BOTON DEPOSITOS
         // Evento para mostrar el panel de cuentas al hacer clic en el botón DEPOSITOS
         vista.btnDepositos.addMouseListener(new MouseAdapter() {
             @Override
@@ -104,10 +123,87 @@ public class ControladorPrincipal {
                 mostrarPanel(panelDepositos);
             }
         });
+        //Evento para el texto JLabel y que funcione el click
+        vista.etiDepositos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnDepositos);
+                mostrarPanel(panelDepositos);
+            }
+        });
 
-        // Otros eventos para los botones de DEPOSITOS, FONDOS, BOLSA, INFORMES, ADMIN, etc.
-        // Repitiendo la misma lógica de setColor/resetColor y mostrar el panel adecuado
-        // Aquí seguirías con los otros botones, siguiendo el mismo patrón.
+        //BOTON FONDOS
+        // Evento para mostrar el panel de cuentas al hacer clic en el botón FONDOS
+        vista.btnFondos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnFondos);
+                mostrarPanel(panelFondos);
+            }
+        });
+        //Evento para el texto JLabel y que funcione el click
+        vista.etiFondos.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnFondos);
+                mostrarPanel(panelFondos);
+            }
+        });
+        
+        //BOTON BOLSA
+        // Evento para mostrar el panel de cuentas al hacer clic en el botón BOLSA
+        vista.btnBolsa.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnBolsa);
+                mostrarPanel(panelBolsa);
+            }
+        });
+        //Evento para el texto JLabel y que funcione el click
+        vista.etiBolsa.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnBolsa);
+                mostrarPanel(panelBolsa);
+            }
+        });
+
+        //BOTON INFORMES
+        // Evento para mostrar el panel de cuentas al hacer clic en el botón INFORMES
+        vista.btnInformes.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnInformes);
+                mostrarPanel(panelInformes);
+            }
+        });
+        //Evento para el texto JLabel y que funcione el click
+        vista.etiInformes.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnInformes);
+                mostrarPanel(panelInformes);
+            }
+        });
+
+        //BOTON ADMIN
+        // Evento para mostrar el panel de cuentas al hacer clic en el botón ADMIN
+        vista.btnAdmin.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnAdmin);
+                mostrarPanel(panelAdmin);
+            }
+        });
+        //Evento para el texto JLabel y que funcione el click
+        vista.etiAdmin.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                cambiarColorBotones(vista.btnAdmin);
+                mostrarPanel(panelAdmin);
+            }
+        });
+
     }
 
     private void cargarDatosUsuario() {
@@ -124,7 +220,7 @@ public class ControladorPrincipal {
         // Panel de cuentas y su controlador
         vistaCuentas = new PanelCuentas();
         ConsultaCuentas consultaCuentas = new ConsultaCuentas();
-        controladorCuentas = new ControladorCuentas(vistaCuentas,consultaCuentas);
+        controladorCuentas = new ControladorCuentas(vistaCuentas, consultaCuentas, usuario);
 
         // Otros paneles
         panelDepositos = new PanelDepositos();
@@ -162,4 +258,3 @@ public class ControladorPrincipal {
         panel.setBackground(new Color(18, 90, 173));
     }
 }
-

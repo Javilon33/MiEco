@@ -35,7 +35,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         favicon = new javax.swing.JLabel();
         btnPrincipal = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        etiPtincipal = new javax.swing.JLabel();
+        etiPrincipal = new javax.swing.JLabel();
         btnCuentas = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         etiCuentas = new javax.swing.JLabel();
@@ -95,12 +95,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/home-outline.png"))); // NOI18N
         btnPrincipal.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
 
-        etiPtincipal.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
-        etiPtincipal.setForeground(new java.awt.Color(255, 255, 255));
-        etiPtincipal.setText("Principal");
-        etiPtincipal.setToolTipText("");
-        etiPtincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnPrincipal.add(etiPtincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
+        etiPrincipal.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        etiPrincipal.setForeground(new java.awt.Color(255, 255, 255));
+        etiPrincipal.setText("Principal");
+        etiPrincipal.setToolTipText("");
+        etiPrincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPrincipal.add(etiPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 12, -1, -1));
 
         menu.add(btnPrincipal, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 170, 230, 50));
 
@@ -185,40 +185,16 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         btnAdmin.setBackground(new java.awt.Color(18, 90, 173));
         btnAdmin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAdmin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/admin.png"))); // NOI18N
+        btnAdmin.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 6, -1, 38));
 
         etiAdmin.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         etiAdmin.setForeground(new java.awt.Color(255, 255, 255));
         etiAdmin.setText("Administrar");
         etiAdmin.setToolTipText("");
-
-        javax.swing.GroupLayout btnAdminLayout = new javax.swing.GroupLayout(btnAdmin);
-        btnAdmin.setLayout(btnAdminLayout);
-        btnAdminLayout.setHorizontalGroup(
-            btnAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnAdminLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addContainerGap(187, Short.MAX_VALUE))
-            .addGroup(btnAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(btnAdminLayout.createSequentialGroup()
-                    .addGap(0, 64, Short.MAX_VALUE)
-                    .addComponent(etiAdmin)
-                    .addGap(0, 64, Short.MAX_VALUE)))
-        );
-        btnAdminLayout.setVerticalGroup(
-            btnAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(btnAdminLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 38, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(btnAdminLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(btnAdminLayout.createSequentialGroup()
-                    .addGap(0, 13, Short.MAX_VALUE)
-                    .addComponent(etiAdmin)
-                    .addGap(0, 13, Short.MAX_VALUE)))
-        );
+        btnAdmin.add(etiAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 14, -1, -1));
 
         menu.add(btnAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 230, 50));
 
@@ -364,7 +340,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public javax.swing.JLabel etiFondos;
     public javax.swing.JLabel etiInformes;
     public javax.swing.JLabel etiNombre;
-    public javax.swing.JLabel etiPtincipal;
+    public javax.swing.JLabel etiPrincipal;
     public javax.swing.JPanel exitBtn;
     public javax.swing.JLabel exitTxt;
     private javax.swing.JLabel favicon;
