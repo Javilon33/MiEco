@@ -2,6 +2,7 @@
 package main;
 
 import controlador.ControladorLogin;
+import vista.PanelCuentas;
 import vista.VistaLogin;
 import vista.VistaPrincipal;
 import vista.VistaRegistro;
