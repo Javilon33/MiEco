@@ -89,7 +89,15 @@ public class ControladorLogin {
 
             @Override
             public void mouseClicked(MouseEvent evt) {
-
+                
+                //Para poder entrar del tiron (BORRAR DESPUES)
+                Usuario usuarioLogueado = consultaLogin.obtenerUsuario("admin@mieco.com", "8D969EEF6ECAD3C29A3A629280E686CF0C3F5D5A86AFF3CA12020C923ADC6C92");
+                        //Una vez logueado crea y muestra la ventana PRINCIPAL
+                        VistaPrincipal vistaPrincipal = new VistaPrincipal();
+                        ControladorPrincipal controladorPrincipal = new ControladorPrincipal(vistaPrincipal, usuarioLogueado);
+                        vistaPrincipal.setVisible(true);
+                        vista.dispose(); //Cierra la ventana de Login
+                /*        
                 //Comprueba que el campo emailTxt tenga el formato correcto
                 String email = vista.emailTxt.getText();
                 String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
@@ -122,7 +130,7 @@ public class ControladorLogin {
                     }
 
                 }
-
+                */
             }
         });
 

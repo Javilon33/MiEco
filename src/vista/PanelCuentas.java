@@ -4,6 +4,9 @@
  */
 package vista;
 
+import java.awt.Color;
+import java.awt.Font;
+
 /**
  *
  * @author PC-Casa
@@ -15,6 +18,13 @@ public class PanelCuentas extends javax.swing.JPanel {
      */
     public PanelCuentas() {
         initComponents();
+        
+        //Modificaciones al JTable para mostrar las cuentas
+        tablaCuentas.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 14));
+        tablaCuentas.getTableHeader().setOpaque(false);
+        tablaCuentas.getTableHeader().setBackground(new Color(0,134,190));
+        tablaCuentas.getTableHeader().setForeground(new Color(255,255,255));
+        tablaCuentas.setRowHeight(25);
     }
 
     /**
@@ -29,12 +39,20 @@ public class PanelCuentas extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         etiNombre = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jPanel2 = new javax.swing.JPanel();
+        panelSaldo = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         etiSaldoTotal = new javax.swing.JLabel();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        panelCuentas = new javax.swing.JScrollPane();
         tablaCuentas = new javax.swing.JTable();
+        jLabel3 = new javax.swing.JLabel();
+        panelMenu = new javax.swing.JPanel();
+        btnAdd = new javax.swing.JPanel();
+        etiAdd = new javax.swing.JLabel();
+        btnModificar = new javax.swing.JPanel();
+        etiModificar = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JPanel();
+        etiElminar = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(970, 600));
@@ -46,27 +64,27 @@ public class PanelCuentas extends javax.swing.JPanel {
 
         etiNombre.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         etiNombre.setText("Hola");
-        jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 40, 220, 40));
+        jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 510, 40));
 
         jLabel2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
-        jLabel2.setText("¡Así están tus cuentas!");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, -1, -1));
+        jLabel2.setText("Todas tus cuentas:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, -1, -1));
 
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-        jPanel2.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 220, 10));
+        panelSaldo.setBackground(new java.awt.Color(255, 255, 255));
+        panelSaldo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelSaldo.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        panelSaldo.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 43, 220, 10));
 
         jLabel1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel1.setText("Este es el saldo de todas las cuentas:");
-        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
+        panelSaldo.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, -1));
 
         etiSaldoTotal.setFont(new java.awt.Font("Roboto Medium", 1, 24)); // NOI18N
         etiSaldoTotal.setText("saldo");
         etiSaldoTotal.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
-        jPanel2.add(etiSaldoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 140, 50));
+        panelSaldo.add(etiSaldoTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, 140, 50));
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 160, 240, 130));
+        jPanel1.add(panelSaldo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 120, 240, 130));
 
         tablaCuentas.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         tablaCuentas.setModel(new javax.swing.table.DefaultTableModel(
@@ -74,34 +92,97 @@ public class PanelCuentas extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Banco", "Alias", "IBAN", "Saldo"
+                "ID Cuenta", "Banco", "Alias", "IBAN", "Saldo", "Movimientos"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(tablaCuentas);
+        tablaCuentas.setFocusable(false);
+        tablaCuentas.setGridColor(new java.awt.Color(255, 255, 255));
+        tablaCuentas.setRowHeight(25);
+        tablaCuentas.setRowMargin(1);
+        tablaCuentas.setSelectionBackground(new java.awt.Color(0, 134, 190));
+        tablaCuentas.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tablaCuentas.setShowGrid(false);
+        tablaCuentas.setShowHorizontalLines(true);
+        tablaCuentas.getTableHeader().setReorderingAllowed(false);
+        panelCuentas.setViewportView(tablaCuentas);
 
-        jPanel1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 160, 580, -1));
+        jPanel1.add(panelCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 630, 290));
+
+        jLabel3.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel3.setText("¡Así está tu saldo!");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 80, -1, -1));
+
+        panelMenu.setBackground(new java.awt.Color(255, 255, 255));
+        panelMenu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnAdd.setBackground(new java.awt.Color(190, 56, 0));
+        btnAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAdd.setLayout(new java.awt.GridBagLayout());
+
+        etiAdd.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        etiAdd.setForeground(new java.awt.Color(255, 255, 255));
+        etiAdd.setText("AÑADIR");
+        etiAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdd.add(etiAdd, new java.awt.GridBagConstraints());
+
+        panelMenu.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 20));
+
+        btnModificar.setBackground(new java.awt.Color(190, 56, 0));
+        btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnModificar.setLayout(new java.awt.GridBagLayout());
+
+        etiModificar.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        etiModificar.setForeground(new java.awt.Color(255, 255, 255));
+        etiModificar.setText("MODIFICAR");
+        etiModificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnModificar.add(etiModificar, new java.awt.GridBagConstraints());
+
+        panelMenu.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 110, 20));
+
+        btnEliminar.setBackground(new java.awt.Color(190, 56, 0));
+        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminar.setLayout(new java.awt.GridBagLayout());
+
+        etiElminar.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        etiElminar.setForeground(new java.awt.Color(255, 255, 255));
+        etiElminar.setText("ELIMINAR");
+        etiElminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEliminar.add(etiElminar, new java.awt.GridBagConstraints());
+
+        panelMenu.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 110, 20));
+
+        jPanel1.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 370, 40));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 600));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JPanel btnAdd;
+    public javax.swing.JPanel btnEliminar;
+    public javax.swing.JPanel btnModificar;
+    public javax.swing.JLabel etiAdd;
+    public javax.swing.JLabel etiElminar;
+    private javax.swing.JLabel etiModificar;
     public javax.swing.JLabel etiNombre;
     public javax.swing.JLabel etiSaldoTotal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JScrollPane panelCuentas;
+    public javax.swing.JPanel panelMenu;
+    private javax.swing.JPanel panelSaldo;
     public javax.swing.JTable tablaCuentas;
     // End of variables declaration//GEN-END:variables
 }

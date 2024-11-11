@@ -70,6 +70,16 @@ public class ControladorPrincipal {
         // Configura el evento del botón de salida
         vista.exitTxt.addMouseListener(new MouseAdapter() {
             @Override
+            public void mouseEntered(MouseEvent evt) {
+                vista.exitBtn.setBackground(Color.red);
+                vista.exitTxt.setForeground(Color.white);
+            }
+            @Override
+            public void mouseExited(MouseEvent evt) {
+                vista.exitBtn.setBackground(Color.white);
+                vista.exitTxt.setForeground(Color.black);
+            }
+            @Override
             public void mouseClicked(MouseEvent evt) {
                 int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro que quieres salir?", "Confirmación", JOptionPane.YES_NO_OPTION);
                 if (opcion == JOptionPane.YES_OPTION) {
@@ -77,6 +87,8 @@ public class ControladorPrincipal {
                 }
             }
         });
+        
+        
 
         //BOTON PRINCIPAL
         // Evento para mostrar el panel principal al hacer clic en el botón PRINCIPAL

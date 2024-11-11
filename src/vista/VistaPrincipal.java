@@ -32,7 +32,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
         bg = new javax.swing.JPanel();
         menu = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
-        favicon = new javax.swing.JLabel();
         btnPrincipal = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         etiPrincipal = new javax.swing.JLabel();
@@ -55,6 +54,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnAdmin = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         etiAdmin = new javax.swing.JLabel();
+        favicon1 = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
         exitBtn = new javax.swing.JPanel();
         exitTxt = new javax.swing.JLabel();
@@ -80,13 +80,6 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
         menu.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 580, 152, 10));
-
-        favicon.setBackground(new java.awt.Color(255, 255, 255));
-        favicon.setFont(new java.awt.Font("Roboto Black", 1, 36)); // NOI18N
-        favicon.setForeground(new java.awt.Color(255, 255, 255));
-        favicon.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        favicon.setText("MiEco");
-        menu.add(favicon, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 50, 230, 60));
 
         btnPrincipal.setBackground(new java.awt.Color(21, 101, 192));
         btnPrincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -181,7 +174,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         jSeparator2.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator2.setForeground(new java.awt.Color(255, 255, 255));
-        menu.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 103, 152, 10));
+        menu.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 152, 10));
 
         btnAdmin.setBackground(new java.awt.Color(18, 90, 173));
         btnAdmin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -197,6 +190,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         btnAdmin.add(etiAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(66, 14, -1, -1));
 
         menu.add(btnAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 230, 50));
+
+        favicon1.setFont(new java.awt.Font("Roboto Black", 1, 36)); // NOI18N
+        favicon1.setForeground(new java.awt.Color(255, 255, 255));
+        favicon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icono3.png"))); // NOI18N
+        favicon1.setText("MiEco");
+        menu.add(favicon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 205, 60));
 
         bg.add(menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 700));
 
@@ -227,7 +226,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         headerLayout.setHorizontalGroup(
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
-                .addGap(0, 1162, Short.MAX_VALUE)
+                .addContainerGap(1162, Short.MAX_VALUE)
                 .addComponent(exitBtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         headerLayout.setVerticalGroup(
@@ -277,7 +276,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         iconoUsuario.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/usuario.png"))); // NOI18N
         jPanel1.add(iconoUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 40, 40));
 
-        BarraSuperior.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(610, 0, 340, 60));
+        BarraSuperior.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 340, 60));
 
         bg.add(BarraSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 970, 60));
 
@@ -343,7 +342,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public javax.swing.JLabel etiPrincipal;
     public javax.swing.JPanel exitBtn;
     public javax.swing.JLabel exitTxt;
-    private javax.swing.JLabel favicon;
+    private javax.swing.JLabel favicon1;
     public javax.swing.JPanel header;
     private javax.swing.JLabel iconoUsuario;
     private javax.swing.JLabel jLabel1;
