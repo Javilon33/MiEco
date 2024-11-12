@@ -172,7 +172,7 @@ public class PanelCuentas extends javax.swing.JPanel {
     public javax.swing.JPanel btnModificar;
     public javax.swing.JLabel etiAdd;
     public javax.swing.JLabel etiElminar;
-    private javax.swing.JLabel etiModificar;
+    public javax.swing.JLabel etiModificar;
     public javax.swing.JLabel etiNombre;
     public javax.swing.JLabel etiSaldoTotal;
     private javax.swing.JLabel jLabel1;

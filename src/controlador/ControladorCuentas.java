@@ -70,6 +70,20 @@ public class ControladorCuentas {
                 eliminarCuentaSeleccionada();
             }
         });
+
+        // Evento para el botón y etiqueta de "Modificar cuenta"
+        vista.btnModificar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                mostrarPanelModificarCuenta(); // Llama a modificar cuenta
+            }
+        });
+        vista.etiModificar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                mostrarPanelModificarCuenta();
+            }
+        });
     }
 
     // Cargar y mostrar las cuentas del usuario en la tabla
@@ -197,6 +211,84 @@ public class ControladorCuentas {
                 vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al eliminar la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    // Muestra un panel emergente para modificar la cuenta seleccionada
+    public void mostrarPanelModificarCuenta() {
+        int filaSeleccionada = vista.tablaCuentas.getSelectedRow();
+
+        // Verifica que haya una cuenta seleccionada
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(vista, "Por favor, selecciona una cuenta para modificar.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int idCuenta = (int) vista.tablaCuentas.getValueAt(filaSeleccionada, 0);
+
+        // Obtén los datos de la cuenta a modificar
+        Cuenta cuenta = consultaCuentas.obtenerCuentaPorId(idCuenta);
+        if (cuenta == null) {
+            JOptionPane.showMessageDialog(vista, "Error al obtener los datos de la cuenta seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // Campos de entrada con los datos actuales de la cuenta
+        JTextField campoAlias = new JTextField(cuenta.getAlias(), 15);
+        JTextField campoIban = new JTextField(cuenta.getIban(), 15);
+        JTextField campoSaldo = new JTextField(String.valueOf(cuenta.getSaldo()), 10);
+
+        // ComboBox para seleccionar el banco actual
+        Map<Integer, String> listaBancos = consultaCuentas.obtenerListaBancos();
+        JComboBox<String> comboBancos = new JComboBox<>(listaBancos.values().toArray(new String[0]));
+
+        // Selecciona el banco actual en el ComboBox
+        for (Map.Entry<Integer, String> entry : listaBancos.entrySet()) {
+            if (entry.getKey() == cuenta.getIdBanco()) {
+                comboBancos.setSelectedItem(entry.getValue());
+                break;
+            }
+        }
+        // Añade los campos al panel
+        JPanel panel = new JPanel();
+        panel.add(new JLabel("Alias:"));
+        panel.add(campoAlias);
+        panel.add(new JLabel("IBAN:"));
+        panel.add(campoIban);
+        panel.add(new JLabel("Banco:"));
+        panel.add(comboBancos);
+        panel.add(new JLabel("Saldo actual:"));
+        panel.add(campoSaldo);
+
+        // Abre un cuadro de diálogo para modificar la cuenta
+        int resultado = JOptionPane.showConfirmDialog(null, panel, "Modificar cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (resultado == JOptionPane.OK_OPTION) {
+            try {
+                // Recoge los datos modificados
+                String alias = campoAlias.getText();
+                String iban = campoIban.getText();
+                int idBanco = listaBancos.entrySet()
+                        .stream()
+                        .filter(entry -> entry.getValue().equals(comboBancos.getSelectedItem().toString()))
+                        .map(Map.Entry::getKey)
+                        .findFirst()
+                        .orElse(-1);
+                double saldoActual = Double.parseDouble(campoSaldo.getText());
+
+                // Llama al modelo para modificar la cuenta
+                boolean cuentaModificada = consultaCuentas.modificarCuenta(idCuenta, idBanco, alias, iban, saldoActual);
+
+                if (cuentaModificada) {
+                    JOptionPane.showMessageDialog(vista, "Cuenta modificada correctamente.");
+                    cargarCuentas(); // Refresca la tabla con los cambios
+                    vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
+                } else {
+                    JOptionPane.showMessageDialog(vista, "Error al modificar la cuenta. Inténtalo de nuevo.");
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(vista, "Error en los datos. Verifica los campos de banco y saldo.");
             }
         }
     }
