@@ -24,10 +24,10 @@ public class IconRendererEditor extends AbstractCellEditor implements TableCellR
     public IconRendererEditor(JTable table, ControladorCuentas controlador) {
         // Crea el JLabel con el icono deseado
         labelIcon = new JLabel(new ImageIcon(getClass().getResource("/img/detalles.png")));
-        labelIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        labelIcon.setHorizontalAlignment(SwingConstants.CENTER); 
 
         // Agrega un listener para detectar clics en el icono
-        labelIcon.addMouseListener(new MouseAdapter() {
+        labelIcon.addMouseListener(new MouseAdapter() {            
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Llama al método para mostrar el panel de movimientos de la cuenta

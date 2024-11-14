@@ -72,4 +72,9 @@ public class Cuenta {
     public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
+    
+    // Método para actualizar el saldo
+    public void actualizarSaldo(double nuevoSaldo) {
+        this.saldo = nuevoSaldo;
+    }
 }

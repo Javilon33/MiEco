@@ -82,9 +82,5 @@ public class Movimiento {
         this.saldoResultante = saldoResultante;
     }
 
-    // Método para calcular el saldo resultante
-    // Esto podría ser útil si deseas calcularlo en el modelo
-    public void calcularSaldoResultante(double saldoAnterior) {
-        this.saldoResultante = saldoAnterior + this.importe;
-    }
+    
 }

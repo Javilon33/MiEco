@@ -2,6 +2,7 @@ package controlador;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JComboBox;
@@ -12,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.ConsultaCuentas;
+import modelo.ConsultaMovimientos;
 import modelo.Cuenta;
 import modelo.Usuario;
 import vista.PanelCuentas;
@@ -27,12 +29,14 @@ public class ControladorCuentas {
     private final PanelCuentas vista; // La vista donde se muestran las cuentas
     private final ConsultaCuentas consultaCuentas; // El modelo para obtener los datos de las cuentas
     private final Usuario usuario; // Usuario actual para obtener sus datos
+    private final ConsultaMovimientos consultaMovimientos;
 
     // Constructor para inicializar la vista, el modelo y el usuario
-    public ControladorCuentas(PanelCuentas vista, ConsultaCuentas consultaCuentas, Usuario usuario) {
+    public ControladorCuentas(PanelCuentas vista, ConsultaCuentas consultaCuentas, Usuario usuario, ConsultaMovimientos consultaMovimientos) {
         this.vista = vista;
         this.consultaCuentas = consultaCuentas;
         this.usuario = usuario;
+        this.consultaMovimientos = consultaMovimientos;
         inicializarEventos(); // Inicializar eventos de la interfaz
         cargarCuentas(); // Cargar las cuentas en la tabla al inicio
     }
@@ -111,19 +115,27 @@ public class ControladorCuentas {
         vista.tablaCuentas.getColumnModel().getColumn(5).setCellRenderer(new IconRendererEditor(vista.tablaCuentas, this));
         vista.tablaCuentas.getColumnModel().getColumn(5).setCellEditor(new IconRendererEditor(vista.tablaCuentas, this));
 
-        // Añade el listener para detectar el clic en la columna de detalles
-        vista.tablaCuentas.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int fila = vista.tablaCuentas.rowAtPoint(e.getPoint());
-                int columna = vista.tablaCuentas.columnAtPoint(e.getPoint());
+        // Elimina cualquier MouseListener previo en la columna de detalles
+        for (MouseListener listener : vista.tablaCuentas.getMouseListeners()) {
+            vista.tablaCuentas.removeMouseListener(listener);
+        }
 
-                // Verifica si el clic fue en la columna de detalles
-                if (columna == 5) {
-                    mostrarPanelMovimientos(fila);
-                }
+        // Añade el listener solo para la columna de detalles
+    vista.tablaCuentas.addMouseListener(new MouseAdapter() {
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            int fila = vista.tablaCuentas.rowAtPoint(e.getPoint());
+            int columna = vista.tablaCuentas.columnAtPoint(e.getPoint());
+
+            // Actúa solo si el clic fue en la columna de detalles (columna 5)
+            if (columna == 5) {
+                mostrarPanelMovimientos(fila);
+            } else {
+                // Permite la selección de filas si el clic no es en la columna de detalles
+                vista.tablaCuentas.setRowSelectionInterval(fila, fila);
             }
-        });
+        }
+    });
     }
 
     // Muestra un panel emergente para añadir una cuenta nueva
@@ -233,11 +245,12 @@ public class ControladorCuentas {
             JOptionPane.showMessageDialog(vista, "Error al obtener los datos de la cuenta seleccionada.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         // Campos de entrada con los datos actuales de la cuenta
         JTextField campoAlias = new JTextField(cuenta.getAlias(), 15);
         JTextField campoIban = new JTextField(cuenta.getIban(), 15);
         JTextField campoSaldo = new JTextField(String.valueOf(cuenta.getSaldo()), 10);
+        campoSaldo.setEditable(false); // Hacer que el saldo no sea editable
 
         // ComboBox para seleccionar el banco actual
         Map<Integer, String> listaBancos = consultaCuentas.obtenerListaBancos();
@@ -298,7 +311,7 @@ public class ControladorCuentas {
 
         // Crea el panel de movimientos y el controlador para manejarlo
         PanelMovimientosCuenta panelMovimientos = new PanelMovimientosCuenta(idCuenta);
-        new ControladorMovimientosCuenta(panelMovimientos, consultaCuentas, idCuenta);
+        new ControladorMovimientosCuenta(panelMovimientos, consultaCuentas, idCuenta, consultaMovimientos);
 
         JDialog dialogoMovimientos = new JDialog();
         dialogoMovimientos.setTitle("Movimientos de la Cuenta");
@@ -308,4 +321,5 @@ public class ControladorCuentas {
         dialogoMovimientos.setLocationRelativeTo(vista);
         dialogoMovimientos.setVisible(true);
     }
+
 }

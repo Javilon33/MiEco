@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package vista;
 
 import java.awt.Color;
@@ -9,7 +6,7 @@ import java.awt.Font;
 
 /**
  *
- * @author PC-Casa
+ * @author Francisco Javier Gómez Gamero
  */
 public class PanelCuentas extends javax.swing.JPanel {
 
@@ -103,12 +100,13 @@ public class PanelCuentas extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tablaCuentas.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tablaCuentas.setFocusable(false);
         tablaCuentas.setGridColor(new java.awt.Color(255, 255, 255));
         tablaCuentas.setRowHeight(25);
         tablaCuentas.setRowMargin(1);
-        tablaCuentas.setSelectionBackground(new java.awt.Color(0, 134, 190));
-        tablaCuentas.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tablaCuentas.setSelectionBackground(new java.awt.Color(255, 248, 236));
+        tablaCuentas.setSelectionForeground(new java.awt.Color(51, 51, 51));
         tablaCuentas.setShowGrid(false);
         tablaCuentas.setShowHorizontalLines(true);
         tablaCuentas.getTableHeader().setReorderingAllowed(false);

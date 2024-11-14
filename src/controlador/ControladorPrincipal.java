@@ -7,6 +7,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import modelo.ConsultaCuentas;
+import modelo.ConsultaMovimientos;
 import modelo.Usuario;
 import vista.PanelAdmin;
 import vista.PanelBolsa;
@@ -232,7 +233,8 @@ public class ControladorPrincipal {
         // Panel de cuentas y su controlador
         vistaCuentas = new PanelCuentas();
         ConsultaCuentas consultaCuentas = new ConsultaCuentas();
-        controladorCuentas = new ControladorCuentas(vistaCuentas, consultaCuentas, usuario);
+        ConsultaMovimientos consultamMovimiento = new ConsultaMovimientos();
+        controladorCuentas = new ControladorCuentas(vistaCuentas, consultaCuentas, usuario, consultamMovimiento);
 
         // Otros paneles
         panelDepositos = new PanelDepositos();

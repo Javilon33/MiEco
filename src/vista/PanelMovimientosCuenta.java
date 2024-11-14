@@ -4,6 +4,7 @@
  */
 package vista;
 
+import controlador.ControladorEditarMovimientos;
 import java.awt.Color;
 import java.awt.Font;
 
@@ -13,12 +14,13 @@ import java.awt.Font;
  */
 public class PanelMovimientosCuenta extends javax.swing.JPanel {
     private int idCuenta;
+    private ControladorEditarMovimientos control;
     
     /**
      * Creates new form PanelMovimientosCuenta
      */
     public PanelMovimientosCuenta(int idCuenta) {
-        this.idCuenta = idCuenta;
+        this.idCuenta = idCuenta;        
         initComponents();
         
         //Modificaciones al JTable para mostrar las cuentas
@@ -50,7 +52,7 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
         etiElminar = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        etiBanco = new javax.swing.JLabel();
         etiNombreCuenta = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -73,12 +75,13 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tablaMovimientos.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         tablaMovimientos.setFocusable(false);
         tablaMovimientos.setGridColor(new java.awt.Color(255, 255, 255));
         tablaMovimientos.setRowHeight(25);
         tablaMovimientos.setRowMargin(1);
-        tablaMovimientos.setSelectionBackground(new java.awt.Color(0, 134, 190));
-        tablaMovimientos.setSelectionForeground(new java.awt.Color(255, 255, 255));
+        tablaMovimientos.setSelectionBackground(new java.awt.Color(255, 248, 236));
+        tablaMovimientos.setSelectionForeground(new java.awt.Color(51, 51, 51));
         tablaMovimientos.setShowGrid(false);
         tablaMovimientos.setShowHorizontalLines(true);
         tablaMovimientos.getTableHeader().setReorderingAllowed(false);
@@ -134,9 +137,9 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("MOVIMIENTOS");
 
-        jLabel1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("CUENTA :");
+        etiBanco.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        etiBanco.setForeground(new java.awt.Color(255, 255, 255));
+        etiBanco.setText("Nombre Banco");
 
         etiNombreCuenta.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         etiNombreCuenta.setForeground(new java.awt.Color(255, 255, 255));
@@ -150,7 +153,7 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
+                    .addComponent(etiBanco)
                     .addComponent(etiNombreCuenta))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
@@ -160,7 +163,7 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
+                .addComponent(etiBanco)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(etiNombreCuenta)
                 .addContainerGap(15, Short.MAX_VALUE))
@@ -172,7 +175,7 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,10 +189,10 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
     public javax.swing.JPanel btnEliminar;
     public javax.swing.JPanel btnModificar;
     public javax.swing.JLabel etiAdd;
+    public javax.swing.JLabel etiBanco;
     public javax.swing.JLabel etiElminar;
-    private javax.swing.JLabel etiModificar;
+    public javax.swing.JLabel etiModificar;
     public javax.swing.JLabel etiNombreCuenta;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

@@ -119,45 +119,7 @@ public class ConsultaCuentas {
                 System.err.println("Error al cerrar la conexión: " + e.getMessage());
             }
         }
-
         return saldoTotal;
-    }
-
-    // Método para obtener los movimientos de una cuenta específica
-    public List<Movimiento> obtenerMovimientos(int idCuenta) {
-        List<Movimiento> movimientos = new ArrayList<>();
-        Conexion conexion = new Conexion();
-        Connection conn = conexion.getConexion();
-
-        String sql = "SELECT tipo, id_categoria, id_subcategoria, notas, importe, fecha FROM MOVIMIENTOS WHERE id_cuenta = ? ORDER BY fecha DESC";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idCuenta);
-            ResultSet rs = stmt.executeQuery();
-
-            while (rs.next()) {
-                String tipo = rs.getString("tipo");
-                int idCategoria = rs.getInt("id_categoria");
-                Integer idSubcategoria = (rs.getObject("id_subcategoria") != null) ? rs.getInt("id_subcategoria") : null;
-                String notas = rs.getString("notas");
-                double importe = rs.getDouble("importe");
-                String fecha = rs.getString("fecha");
-
-                movimientos.add(new Movimiento(tipo, idCategoria, idSubcategoria, notas, importe, fecha));
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al obtener movimientos: " + e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
-            }
-        }
-
-        return movimientos;
     }
 
     // Método para AÑADIR CUENTA
@@ -165,7 +127,7 @@ public class ConsultaCuentas {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "INSERT INTO CUENTAS (id_usuario, id_banco, alias, iban, saldo) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO CUENTAS (id_usuario, id_banco, alias, iban, saldo_inicial, saldo) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, usuarioId);
@@ -173,6 +135,7 @@ public class ConsultaCuentas {
             stmt.setString(3, alias);
             stmt.setString(4, iban);
             stmt.setDouble(5, saldo);
+            stmt.setDouble(6, saldo);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -328,4 +291,186 @@ public class ConsultaCuentas {
 
         return nombreBanco;
     }
+
+    // Método para actualizar el saldo de la cuenta
+    public boolean actualizarSaldoCuenta(int idCuenta, double nuevoSaldo) {
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        String sql = "UPDATE CUENTAS SET saldo = ? WHERE id_cuenta = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDouble(1, nuevoSaldo);
+            stmt.setInt(2, idCuenta);
+            int filasAfectadas = stmt.executeUpdate();
+            return filasAfectadas > 0; // Retorna true si se actualizó correctamente
+        } catch (SQLException e) {
+            System.err.println("Error al actualizar el saldo de la cuenta: " + e.getMessage());
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+    }
+
+    public double obtenerSaldoInicial(int idCuenta) {
+        double saldoInicial = 0.0;
+        String sql = "SELECT saldo_inicial FROM CUENTAS WHERE id_cuenta = ?";
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idCuenta);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    saldoInicial = rs.getDouble("saldo_inicial");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Maneja la excepción según tu necesidad, quizás lanzándola o registrándola en un log
+        }
+
+        return saldoInicial;
+    }
+
+    //----------------------------------------------------
+    //-------------Metodos para los MOVIMIENTOS------------
+    //----------------------------------------------------
+    
+
+    public String obtenerNombreCategoria(int idCategoria) {
+        // Lógica para obtener el nombre de la categoría a partir del id
+        String nombreCategoria = "";
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+        String query = "SELECT nombre FROM CATEGORIAS WHERE id_categoria = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idCategoria);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    nombreCategoria = rs.getString("nombre");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nombreCategoria;
+    }
+
+    public String obtenerNombreSubcategoria(int idSubcategoria) {
+        // Lógica para obtener el nombre de la subcategoría a partir del id
+        String nombreSubcategoria = "";
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+        String query = "SELECT nombre FROM SUBCATEGORIAS WHERE id_subcategoria = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idSubcategoria);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    nombreSubcategoria = rs.getString("nombre");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return nombreSubcategoria;
+    }
+
+    public Map<Integer, String> obtenerListaCategorias(String tipoMovimiento) {
+        Map<Integer, String> listaCategorias = new HashMap<>();
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        String query = "SELECT id_categoria, nombre FROM CATEGORIAS WHERE tipo = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setString(1, tipoMovimiento);  // "Ingreso" o "Pago"
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    listaCategorias.put(rs.getInt("id_categoria"), rs.getString("nombre"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return listaCategorias;
+    }
+
+    // Método en ConsultaCuentas para obtener la lista de subcategorías
+    public Map<Integer, String> obtenerListaSubcategorias(int idCategoria) {
+        Map<Integer, String> listaSubcategorias = new HashMap<>();
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+        String query = "SELECT id_subcategoria, nombre FROM SUBCATEGORIAS WHERE id_categoria = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idCategoria);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int idSubcategoria = rs.getInt("id_subcategoria");
+                    String nombreSubcategoria = rs.getString("nombre");
+                    listaSubcategorias.put(idSubcategoria, nombreSubcategoria);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return listaSubcategorias;
+    }
+
+    // Método en ConsultaCuentas para obtener el id de una subcategoría dado el id de la categoría y el nombre de la subcategoría
+    public int obtenerIdSubcategoria(int idCategoria, String nombreSubcategoria) {
+        int idSubcategoria = -1;  // Devuelve -1 si no se encuentra la subcategoría
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+        String query = "SELECT id_subcategoria FROM SUBCATEGORIAS WHERE id_categoria = ? AND nombre = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, idCategoria);
+            stmt.setString(2, nombreSubcategoria);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    idSubcategoria = rs.getInt("id_subcategoria");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return idSubcategoria;
+    }    
+
 }
