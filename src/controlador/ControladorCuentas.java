@@ -4,8 +4,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
-import java.util.Map;
-import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -102,7 +100,7 @@ public class ControladorCuentas {
         for (Cuenta cuenta : cuentas) {
             Object[] fila = {
                 cuenta.getIdCuenta(),
-                cuenta.getNombreBanco(),
+                cuenta.getBanco(),
                 cuenta.getAlias(),
                 cuenta.getIban(),
                 cuenta.getSaldo(),
@@ -141,13 +139,11 @@ public class ControladorCuentas {
     // Muestra un panel emergente para añadir una cuenta nueva
     public void mostrarPanelAñadirCuenta() {
         // Campos de entrada para el alias, IBAN, banco y saldo
-        JTextField campoAlias = new JTextField(15);
+        JTextField campoAlias = new JTextField(15);        
         JTextField campoIban = new JTextField(15);
+        JTextField campoBanco = new JTextField(15);
         JTextField campoSaldo = new JTextField(10);
-
-        // ComboBox para seleccionar el banco de una lista
-        Map<Integer, String> listaBancos = consultaCuentas.obtenerListaBancos();
-        JComboBox<String> comboBancos = new JComboBox<>(listaBancos.values().toArray(new String[0]));
+        
 
         // Añade los campos al panel
         JPanel panel = new JPanel();
@@ -156,7 +152,7 @@ public class ControladorCuentas {
         panel.add(new JLabel("IBAN:"));
         panel.add(campoIban);
         panel.add(new JLabel("Banco:"));
-        panel.add(comboBancos);
+        panel.add(campoBanco);
         panel.add(new JLabel("Saldo inicial:"));
         panel.add(campoSaldo);
 
@@ -168,16 +164,11 @@ public class ControladorCuentas {
                 // Recoge y valida los datos introducidos
                 String alias = campoAlias.getText();
                 String iban = campoIban.getText();
-                int idBanco = listaBancos.entrySet()
-                        .stream()
-                        .filter(entry -> entry.getValue().equals(comboBancos.getSelectedItem().toString()))
-                        .map(Map.Entry::getKey)
-                        .findFirst()
-                        .orElse(-1);
+                String banco = campoBanco.getText();
                 double saldoInicial = Double.parseDouble(campoSaldo.getText());
 
                 // Llama al modelo para añadir la cuenta
-                boolean cuentaAñadida = consultaCuentas.añadirCuenta(usuario.getCodigo(), idBanco, alias, iban, saldoInicial);
+                boolean cuentaAñadida = consultaCuentas.añadirCuenta(usuario.getCodigo(), banco, alias, iban, saldoInicial);
 
                 // Actualiza la etiqueta de saldo total
                 vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
@@ -249,20 +240,11 @@ public class ControladorCuentas {
         // Campos de entrada con los datos actuales de la cuenta
         JTextField campoAlias = new JTextField(cuenta.getAlias(), 15);
         JTextField campoIban = new JTextField(cuenta.getIban(), 15);
+        JTextField campoBanco = new JTextField(cuenta.getBanco(), 15);
         JTextField campoSaldo = new JTextField(String.valueOf(cuenta.getSaldo()), 10);
         campoSaldo.setEditable(false); // Hacer que el saldo no sea editable
-
-        // ComboBox para seleccionar el banco actual
-        Map<Integer, String> listaBancos = consultaCuentas.obtenerListaBancos();
-        JComboBox<String> comboBancos = new JComboBox<>(listaBancos.values().toArray(new String[0]));
-
-        // Selecciona el banco actual en el ComboBox
-        for (Map.Entry<Integer, String> entry : listaBancos.entrySet()) {
-            if (entry.getKey() == cuenta.getIdBanco()) {
-                comboBancos.setSelectedItem(entry.getValue());
-                break;
-            }
-        }
+        
+        
         // Añade los campos al panel
         JPanel panel = new JPanel();
         panel.add(new JLabel("Alias:"));
@@ -270,7 +252,7 @@ public class ControladorCuentas {
         panel.add(new JLabel("IBAN:"));
         panel.add(campoIban);
         panel.add(new JLabel("Banco:"));
-        panel.add(comboBancos);
+        panel.add(campoBanco);
         panel.add(new JLabel("Saldo actual:"));
         panel.add(campoSaldo);
 
@@ -282,16 +264,11 @@ public class ControladorCuentas {
                 // Recoge los datos modificados
                 String alias = campoAlias.getText();
                 String iban = campoIban.getText();
-                int idBanco = listaBancos.entrySet()
-                        .stream()
-                        .filter(entry -> entry.getValue().equals(comboBancos.getSelectedItem().toString()))
-                        .map(Map.Entry::getKey)
-                        .findFirst()
-                        .orElse(-1);
+                String banco = campoBanco.getText();
                 double saldoActual = Double.parseDouble(campoSaldo.getText());
 
                 // Llama al modelo para modificar la cuenta
-                boolean cuentaModificada = consultaCuentas.modificarCuenta(idCuenta, idBanco, alias, iban, saldoActual);
+                boolean cuentaModificada = consultaCuentas.modificarCuenta(idCuenta, banco, alias, iban, saldoActual);
 
                 if (cuentaModificada) {
                     JOptionPane.showMessageDialog(vista, "Cuenta modificada correctamente.");

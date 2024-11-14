@@ -21,9 +21,8 @@ public class ConsultaCuentas {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "SELECT CUENTAS.id_cuenta, CUENTAS.id_banco, BANCOS.nombre_banco, CUENTAS.alias, CUENTAS.iban, CUENTAS.saldo "
+        String sql = "SELECT CUENTAS.id_cuenta,  CUENTAS.alias, CUENTAS.banco, CUENTAS.iban, CUENTAS.saldo "
                 + "FROM CUENTAS "
-                + "JOIN BANCOS ON CUENTAS.id_banco = BANCOS.id_banco "
                 + "WHERE CUENTAS.id_usuario = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -31,14 +30,13 @@ public class ConsultaCuentas {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int idCuenta = rs.getInt("id_cuenta");
-                int idBanco = rs.getInt("id_banco");
-                String nombreBanco = rs.getString("nombre_banco");  // Obtener nombre del banco
+                int idCuenta = rs.getInt("id_cuenta"); 
                 String alias = rs.getString("alias");
+                String banco = rs.getString("banco");                 
                 String iban = rs.getString("iban");
                 double saldo = rs.getDouble("saldo");
 
-                cuentas.add(new Cuenta(idCuenta, idBanco, nombreBanco, alias, iban, saldo));
+                cuentas.add(new Cuenta(idCuenta, alias, banco, iban, saldo));
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener cuentas: " + e.getMessage());
@@ -60,24 +58,22 @@ public class ConsultaCuentas {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "SELECT CUENTAS.id_cuenta, CUENTAS.id_banco, BANCOS.nombre_banco, CUENTAS.alias, CUENTAS.iban, CUENTAS.saldo "
+        String sql = "SELECT CUENTAS.id_cuenta, CUENTAS.banco, CUENTAS.alias, CUENTAS.iban, CUENTAS.saldo "
                 + "FROM CUENTAS "
-                + "JOIN BANCOS ON CUENTAS.id_banco = BANCOS.id_banco "
                 + "WHERE CUENTAS.id_cuenta = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idCuenta);  // Asigna el ID de la cuenta al parámetro de la consulta
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {
-                int idBanco = rs.getInt("id_banco");
-                String nombreBanco = rs.getString("nombre_banco");
+            if (rs.next()) {                
+                String nombreBanco = rs.getString("banco");
                 String alias = rs.getString("alias");
                 String iban = rs.getString("iban");
                 double saldo = rs.getDouble("saldo");
 
                 // Crea una instancia de Cuenta con los datos obtenidos
-                cuenta = new Cuenta(idCuenta, idBanco, nombreBanco, alias, iban, saldo);
+                cuenta = new Cuenta(idCuenta, nombreBanco, alias, iban, saldo);
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener la cuenta: " + e.getMessage());
@@ -123,19 +119,18 @@ public class ConsultaCuentas {
     }
 
     // Método para AÑADIR CUENTA
-    public boolean añadirCuenta(int usuarioId, int idBanco, String alias, String iban, double saldo) {
+    public boolean añadirCuenta(int usuarioId, String alias,String banco, String iban, double saldo) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "INSERT INTO CUENTAS (id_usuario, id_banco, alias, iban, saldo_inicial, saldo) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO CUENTAS (id_usuario, alias, banco, iban, saldo) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, usuarioId);
-            stmt.setInt(2, idBanco);
-            stmt.setString(3, alias);
+            stmt.setString(2, alias);
+            stmt.setString(3, banco);
             stmt.setString(4, iban);
             stmt.setDouble(5, saldo);
-            stmt.setDouble(6, saldo);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -153,14 +148,14 @@ public class ConsultaCuentas {
     }
 
     // Método para MODFICAR CUENTA
-    public boolean modificarCuenta(int cuentaId, int idBanco, String alias, String iban, double saldo) {
+    public boolean modificarCuenta(int cuentaId, String banco, String alias, String iban, double saldo) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "UPDATE CUENTAS SET id_banco = ?, alias = ?, iban = ?, saldo = ? WHERE id_cuenta = ?";
+        String sql = "UPDATE CUENTAS SET banco = ?, alias = ?, iban = ?, saldo = ? WHERE id_cuenta = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idBanco);
+            stmt.setString(1, banco);
             stmt.setString(2, alias);
             stmt.setString(3, iban);
             stmt.setDouble(4, saldo);
@@ -205,93 +200,8 @@ public class ConsultaCuentas {
             }
         }
     }
-
-    // Método para obtener una lista de bancos con sus IDs
-    public Map<Integer, String> obtenerListaBancos() {
-        Map<Integer, String> bancos = new HashMap<>();
-        Conexion conexion = new Conexion();
-        Connection conn = conexion.getConexion();
-
-        String sql = "SELECT id_banco, nombre_banco FROM BANCOS";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql); ResultSet rs = stmt.executeQuery()) {
-
-            while (rs.next()) {
-                int idBanco = rs.getInt("id_banco");
-                String nombreBanco = rs.getString("nombre_banco");
-                bancos.put(idBanco, nombreBanco);
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al obtener lista de bancos: " + e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
-            }
-        }
-
-        return bancos;
-    }
-
-    // Método para obtener el nombre de una cuenta específica
-    public String obtenerNombreCuenta(int idCuenta) {
-        String nombreCuenta = "";
-        Conexion conexion = new Conexion();
-        Connection conn = conexion.getConexion();
-
-        String sql = "SELECT alias FROM CUENTAS WHERE id_cuenta = ?";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idCuenta);
-            ResultSet rs = stmt.executeQuery();
-
-            if (rs.next()) {
-                nombreCuenta = rs.getString("alias");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al obtener el nombre de la cuenta: " + e.getMessage());
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
-            }
-        }
-
-        return nombreCuenta;
-    }
-
-    // Método para obtener el nombre del banco a partir del idCuenta
-    public String obtenerNombreBanco(int idCuenta) {
-        String nombreBanco = "";
-        Conexion conexion = new Conexion();
-        Connection conn = conexion.getConexion();
-
-        String sql = "SELECT b.nombre_banco "
-                + "FROM CUENTAS c "
-                + "JOIN BANCOS b ON c.id_banco = b.id_banco "
-                + "WHERE c.id_cuenta = ?";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idCuenta);
-            try (ResultSet resultSet = stmt.executeQuery()) {
-                if (resultSet.next()) {
-                    nombreBanco = resultSet.getString("nombre_banco");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            System.out.println("Error al obtener el nombre del banco: " + e.getMessage());
-        }
-
-        return nombreBanco;
-    }
-
+    
+    
     // Método para actualizar el saldo de la cuenta
     public boolean actualizarSaldoCuenta(int idCuenta, double nuevoSaldo) {
         Conexion conexion = new Conexion();

@@ -7,74 +7,57 @@ package modelo;
  */
 public class Cuenta {
     private int idCuenta;
-    private int idBanco;
-    private String nombreBanco;  // Nuevo atributo para el nombre del banco
     private String alias;
+    private String banco;     
     private String iban;
     private double saldo;
 
-    // Constructor
-    public Cuenta(int idCuenta, int idBanco, String nombreBanco, String alias, String iban, double saldo) {
+    public Cuenta(int idCuenta, String alias, String banco, String iban, double saldo) {
         this.idCuenta = idCuenta;
-        this.idBanco = idBanco;
-        this.nombreBanco = nombreBanco;
         this.alias = alias;
+        this.banco = banco;
         this.iban = iban;
         this.saldo = saldo;
     }
 
-    // Getters
-    public int getIdCuenta() { 
-        return idCuenta; 
+    public int getIdCuenta() {
+        return idCuenta;
     }
 
-    public int getIdBanco() { 
-        return idBanco; 
-    }
-
-    public String getNombreBanco() { 
-        return nombreBanco; 
-    }  
-
-    public String getAlias() { 
-        return alias; 
-    }
-
-    public String getIban() { 
-        return iban; 
-    }
-
-    public double getSaldo() { 
-        return saldo; 
-    }
-
-    // Setter si necesitas establecer valores después de la creación
     public void setIdCuenta(int idCuenta) {
         this.idCuenta = idCuenta;
     }
 
-    public void setIdBanco(int idBanco) {
-        this.idBanco = idBanco;
-    }
-
-    public void setNombreBanco(String nombreBanco) {
-        this.nombreBanco = nombreBanco;
+    public String getAlias() {
+        return alias;
     }
 
     public void setAlias(String alias) {
         this.alias = alias;
     }
 
+    public String getBanco() {
+        return banco;
+    }
+
+    public void setBanco(String banco) {
+        this.banco = banco;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
     public void setIban(String iban) {
         this.iban = iban;
+    }
+
+    public double getSaldo() {
+        return saldo;
     }
 
     public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
-    
-    // Método para actualizar el saldo
-    public void actualizarSaldo(double nuevoSaldo) {
-        this.saldo = nuevoSaldo;
-    }
+
 }

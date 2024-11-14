@@ -30,9 +30,9 @@ public class ControladorMovimientosCuenta {
     // Método para inicializar la vista con el nombre de la cuenta
     private void inicializarEventos() {
         // Obtener el nombre de la cuenta
-        String nombreCuenta = consultaCuentas.obtenerNombreCuenta(idCuenta);
+        String nombreCuenta = consultaCuentas.obtenerCuentaPorId(idCuenta).getAlias();
         //Obtener el nombre del banco
-        String banco = consultaCuentas.obtenerNombreBanco(idCuenta);
+        String banco = consultaCuentas.obtenerCuentaPorId(idCuenta).getBanco();
         // Establecer el texto del título con el nombre del banco y la cuenta
         vista.etiBanco.setText(banco);
         vista.etiNombreCuenta.setText(nombreCuenta);
