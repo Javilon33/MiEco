@@ -4,17 +4,16 @@
  */
 package vista.Paneles;
 
-import controlador.ControladorEditarMovimientos;
+
 import java.awt.Color;
 import java.awt.Font;
 
 /**
  *
- * @author PC-Casa
+ * @author Francisco Javier Gomez Gamero
  */
 public class PanelMovimientosCuenta extends javax.swing.JPanel {
     private int idCuenta;
-    private ControladorEditarMovimientos control;
     
     /**
      * Creates new form PanelMovimientosCuenta

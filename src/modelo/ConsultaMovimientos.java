@@ -68,7 +68,7 @@ public class ConsultaMovimientos {
             stmt.setInt(3, tipo);
             stmt.setInt(4, idCategoria);
             // Cambiado: usa setNull para el caso en que idGasto sea null
-            if (idGasto == null || idGasto == -1) {
+            if (idGasto == null || idGasto == -1 || idGasto==0) {
                 stmt.setNull(5, java.sql.Types.INTEGER);  // Establece null para id_tipo_gasto
             } else {
                 stmt.setInt(5, idGasto);  // Si idGasto tiene valor, se pasa como entero
@@ -196,6 +196,34 @@ public class ConsultaMovimientos {
 
         return nombreGasto;
     }
+    public Map<Integer, String> listaTipo() {
+        Map<Integer, String> listaTipo = new HashMap<>();
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        String query = "SELECT id_tipo_movimiento, descripcion FROM TIPOS_MOVIMIENTO";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            //stmt.setString(1, null);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    listaTipo.put(rs.getInt("id_tipo_movimiento"), rs.getString("descripcion"));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return listaTipo;
+    }
 
     public Map<Integer, String> listaSubtipos(int idTipoMovimiento) {
         Map<Integer, String> listaSubtipos = new HashMap<>();
@@ -227,8 +255,8 @@ public class ConsultaMovimientos {
         return listaSubtipos;
     }
 
-    public Map<String, String> listaGastos() {
-        Map<String, String> listaGastos = new HashMap<>();
+    public Map<Integer, String> listaGastos() {
+        Map<Integer, String> listaGastos = new HashMap<>();
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
@@ -238,7 +266,7 @@ public class ConsultaMovimientos {
             //stmt.setString(1, null);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    listaGastos.put(rs.getString("id_tipo_gasto"), rs.getString("descripcion"));
+                    listaGastos.put(rs.getInt("id_tipo_gasto"), rs.getString("descripcion"));
                 }
             }
         } catch (SQLException e) {
