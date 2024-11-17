@@ -118,18 +118,17 @@ public class ConsultaCuentas {
     }
 
     // Método para AÑADIR CUENTA
-    public boolean addCuenta(int usuarioId, String alias,String banco, String iban, double saldo) {
+    public boolean addCuenta(int usuarioId, String alias,String banco, String iban) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "INSERT INTO CUENTAS (id_usuario, alias, banco, iban, saldo) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO CUENTAS (id_usuario, alias, banco, iban) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, usuarioId);
             stmt.setString(2, alias);
             stmt.setString(3, banco);
             stmt.setString(4, iban);
-            stmt.setDouble(5, saldo);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {

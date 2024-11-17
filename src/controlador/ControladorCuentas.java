@@ -142,7 +142,6 @@ public class ControladorCuentas {
         JTextField campoAlias = new JTextField(15);        
         JTextField campoIban = new JTextField(15);
         JTextField campoBanco = new JTextField(15);
-        JTextField campoSaldo = new JTextField(10);
         
 
         // Añade los campos al panel
@@ -153,8 +152,6 @@ public class ControladorCuentas {
         panel.add(campoIban);
         panel.add(new JLabel("Banco:"));
         panel.add(campoBanco);
-        panel.add(new JLabel("Saldo inicial:"));
-        panel.add(campoSaldo);
 
         // Abre un diálogo para añadir la cuenta
         int resultado = JOptionPane.showConfirmDialog(null, panel, "Añadir nueva cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
@@ -165,10 +162,9 @@ public class ControladorCuentas {
                 String alias = campoAlias.getText();
                 String iban = campoIban.getText();
                 String banco = campoBanco.getText();
-                double saldoInicial = Double.parseDouble(campoSaldo.getText());
 
                 // Llama al modelo para añadir la cuenta
-                boolean cuentaInsertada = consultaCuentas.addCuenta(usuario.getCodigo(), banco, alias, iban, saldoInicial);
+                boolean cuentaInsertada = consultaCuentas.addCuenta(usuario.getCodigo(), banco, alias, iban);
 
                 // Actualiza la etiqueta de saldo total
                 vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");

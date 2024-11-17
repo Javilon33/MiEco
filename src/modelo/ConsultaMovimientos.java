@@ -68,7 +68,7 @@ public class ConsultaMovimientos {
             stmt.setInt(3, tipo);
             stmt.setInt(4, idCategoria);
             // Cambiado: usa setNull para el caso en que idGasto sea null
-            if (idGasto == null || idGasto == -1 || idGasto==0) {
+            if (idGasto == null || idGasto == -1 || idGasto == 0) {
                 stmt.setNull(5, java.sql.Types.INTEGER);  // Establece null para id_tipo_gasto
             } else {
                 stmt.setInt(5, idGasto);  // Si idGasto tiene valor, se pasa como entero
@@ -80,6 +80,44 @@ public class ConsultaMovimientos {
             return true;
         } catch (SQLException e) {
             System.err.println("Error al añadir el movimiento: " + e.getMessage());
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+    }
+
+    //Método para MODIFICAR MOVIMIENTO
+    public boolean modificarMovimiento(int idMovimiento, String fecha, int tipo, int idCategoria, Integer idGasto, String notas, double importe) {
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        String sql = "UPDATE MOVIMIENTOS SET fecha = ?, id_tipo_movimiento = ?, id_subtipo_movimiento = ?, id_tipo_gasto = ?, notas = ?, importe = ? "
+                + "WHERE id_movimiento = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, fecha);
+            stmt.setInt(2, tipo);
+            stmt.setInt(3, idCategoria);
+            // Cambiado: usa setNull para el caso en que idGasto sea null
+            if (idGasto == null || idGasto == -1 || idGasto == 0) {
+                stmt.setNull(4, java.sql.Types.INTEGER); // Establece null para id_tipo_gasto
+            } else {
+                stmt.setInt(4, idGasto); // Si idGasto tiene valor, se pasa como entero
+            }
+            stmt.setString(5, notas);
+            stmt.setDouble(6, importe);
+            stmt.setInt(7, idMovimiento);
+
+            int filasAfectadas = stmt.executeUpdate();
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al modificar el movimiento: " + e.getMessage());
             return false;
         } finally {
             try {
@@ -196,6 +234,7 @@ public class ConsultaMovimientos {
 
         return nombreGasto;
     }
+
     public Map<Integer, String> listaTipo() {
         Map<Integer, String> listaTipo = new HashMap<>();
         Conexion conexion = new Conexion();
@@ -282,6 +321,48 @@ public class ConsultaMovimientos {
         }
 
         return listaGastos;
+    }
+
+    public Movimiento obtenerMovimientoPorId(int idMovimiento) {
+        Movimiento movimiento = null;
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        String sql = "SELECT MOVIMIENTOS.id_cuenta, MOVIMIENTOS.fecha, MOVIMIENTOS.id_tipo_movimiento, "
+                + "MOVIMIENTOS.id_subtipo_movimiento, MOVIMIENTOS.id_tipo_gasto, MOVIMIENTOS.notas, "
+                + "MOVIMIENTOS.importe "
+                + "FROM MOVIMIENTOS "
+                + "WHERE MOVIMIENTOS.id_movimiento = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idMovimiento);  // Asigna el ID del movimiento al parámetro de la consulta
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                int idCuenta = rs.getInt("id_cuenta");
+                Date fecha = rs.getDate("fecha");
+                int idTipoMovimiento = rs.getInt("id_tipo_movimiento");
+                int idSubtipoMovimiento = rs.getInt("id_subtipo_movimiento");
+                Integer idTipoGasto = rs.getObject("id_tipo_gasto") != null ? rs.getInt("id_tipo_gasto") : null;
+                String notas = rs.getString("notas");
+                double importe = rs.getDouble("importe");
+
+                // Crea una instancia de Movimiento con los datos obtenidos
+                movimiento = new Movimiento(idMovimiento, idCuenta, fecha, idTipoMovimiento,
+                        idSubtipoMovimiento, idTipoGasto, notas, importe);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener el movimiento: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+        return movimiento; // Devuelve el movimiento obtenido o null si no existe
     }
 
 }

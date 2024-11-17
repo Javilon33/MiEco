@@ -82,13 +82,13 @@ public class ControladorMovimientosCuenta {
         vista.btnModificar.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                //mostrarPanelModificarMovimiento(); // Llama a modificar movimiento
+                mostrarPanelModificarMovimiento(); // Llama a modificar movimiento
             }
         });
         vista.etiModificar.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                //mostrarPanelModificarMovimiento();
+                mostrarPanelModificarMovimiento();
             }
         });
     }
@@ -98,8 +98,8 @@ public class ControladorMovimientosCuenta {
         // Obtener los movimientos de la cuenta desde el controlador
         List<Movimiento> movimientos = consultaMovimientos.obtenerMovimientos(idCuenta);
 
-        // Obtener el saldo inicial de la cuenta
-        double saldoActual = consultaCuentas.obtenerSaldoInicial(idCuenta);
+        // Obtener el saldo de la cuenta
+        double saldo=0;
 
         // Obtener el modelo de la tabla y limpiar cualquier dato existente
         DefaultTableModel modelo = (DefaultTableModel) vista.tablaMovimientos.getModel();
@@ -108,18 +108,13 @@ public class ControladorMovimientosCuenta {
         // Añadir los movimientos a la tabla
         for (Movimiento movimiento : movimientos) {
             // Ajustar el saldo actual basado en el tipo de movimiento
-            saldoActual += movimiento.getImporte();
+            saldo += movimiento.getImporte();
 
             // Obtener los nombres de Tipo Movimiento, subtipo y gasto
             String nombreTipo = consultaMovimientos.obtenerNombreTipoMovimiento(movimiento.getId_movimiento());
             String nombreSubtipo = consultaMovimientos.obtenerNombreSubtipoMovimiento(movimiento.getId_movimiento());
             String nombreGasto = movimiento.getTipoGasto() != null ? consultaMovimientos.obtenerNombreGasto(movimiento.getId_movimiento()) : ""; // Dejar vacío si no hay tipo Gasto
 
-            /*// Verificar si el movimiento es un pago, y si es así, convertir el importe a negativo
-            double importe = movimiento.getImporte();
-            if (movimiento.getTipo() == 2) {
-                importe = -importe; // Invertir el signo del importe para los pagos
-            }*/
             // Crear un array con los datos del movimiento para cada fila de la tabla
             Object[] fila = {
                 movimiento.getId_movimiento(), // Incluir el id_movimiento (oculto)
@@ -129,7 +124,7 @@ public class ControladorMovimientosCuenta {
                 nombreGasto,
                 movimiento.getNotas(),
                 movimiento.getImporte(),
-                saldoActual
+                saldo
             };
             // Añadir la fila al modelo de la tabla
             modelo.addRow(fila);
@@ -141,11 +136,12 @@ public class ControladorMovimientosCuenta {
         vista.tablaMovimientos.getColumnModel().getColumn(0).setPreferredWidth(0);
 
         // Actualizar el saldo en la base de datos
-        if (!consultaCuentas.actualizarSaldoCuenta(idCuenta, saldoActual)) {
+        if (!consultaCuentas.actualizarSaldoCuenta(idCuenta, saldo)) {
             System.err.println("Error al actualizar el saldo de la cuenta.");
         }
     }
 
+    //Método para AÑADIR MOVIMIENTOS
     public void mostrarPanelAddMovimiento() {
         // Campos de entrada para los datos
         RSDateChooser campoFecha = new RSDateChooser();
@@ -273,7 +269,162 @@ public class ControladorMovimientosCuenta {
         }
     }
 
-    
+    //Método para MODIFICAR MOVIMIENTOS
+    public void mostrarPanelModificarMovimiento() {
+        // Obtiene el movimiento seleccionado
+        int filaSeleccionada = vista.tablaMovimientos.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            JOptionPane.showMessageDialog(vista, "Por favor, selecciona un movimiento para modificar.");
+            return;
+        }
+
+        // Recupera los datos del movimiento seleccionado
+        int idMovimiento = (int) vista.tablaMovimientos.getValueAt(filaSeleccionada, 0);
+        Movimiento movimiento = consultaMovimientos.obtenerMovimientoPorId(idMovimiento);
+
+        if (movimiento == null) {
+            JOptionPane.showMessageDialog(vista, "No se pudo recuperar la información del movimiento.");
+            return;
+        }
+
+        // Componentes del formulario
+        RSDateChooser campoFecha = new RSDateChooser();
+        campoFecha.setDatoFecha(movimiento.getFecha());
+
+        JComboBox<ComboBoxItem> cbTipo = new JComboBox<>();
+        JComboBox<ComboBoxItem> cbCategoria = new JComboBox<>();
+        JComboBox<ComboBoxItem> cbGasto = new JComboBox<>();
+        JTextField campoNotas = new JTextField(movimiento.getNotas(), 20);
+        JTextField campoImporte = new JTextField(String.valueOf(Math.abs(movimiento.getImporte())), 10); //He tenido que usar Math para que el importe siempre lo traiga en positivo
+
+        // Cargar tipos
+        Map<Integer, String> listaTipo = consultaMovimientos.listaTipo();
+        DefaultComboBoxModel<ComboBoxItem> modeloTipo = new DefaultComboBoxModel<>(
+                listaTipo.entrySet().stream()
+                        .map(entry -> new ComboBoxItem(entry.getKey(), entry.getValue()))
+                        .toArray(ComboBoxItem[]::new)
+        );
+        cbTipo.setModel(modeloTipo);
+
+        // Seleccionar el tipo del movimiento si existe
+        ComboBoxItem tipoItem = new ComboBoxItem(movimiento.getTipo(), listaTipo.get(movimiento.getTipo()));
+        if (modeloTipo.getIndexOf(tipoItem) != -1) {
+            cbTipo.setSelectedItem(tipoItem);
+        }
+
+        // Cargar categorías iniciales
+        Map<Integer, String> listaCategoria = consultaMovimientos.listaSubtipos(movimiento.getTipo());
+        DefaultComboBoxModel<ComboBoxItem> modeloCategoria = new DefaultComboBoxModel<>(
+                listaCategoria.entrySet().stream()
+                        .map(entry -> new ComboBoxItem(entry.getKey(), entry.getValue()))
+                        .toArray(ComboBoxItem[]::new)
+        );
+        cbCategoria.setModel(modeloCategoria);
+
+        // Seleccionar la categoría del movimiento si existe
+        ComboBoxItem categoriaItem = new ComboBoxItem(movimiento.getSubtipo(), listaCategoria.get(movimiento.getSubtipo()));
+        if (modeloCategoria.getIndexOf(categoriaItem) != -1) {
+            cbCategoria.setSelectedItem(categoriaItem);
+        }
+
+        // Cargar gastos si es necesario
+        if (movimiento.getSubtipo() == 9) {
+            Map<Integer, String> listaGasto = consultaMovimientos.listaGastos();
+            DefaultComboBoxModel<ComboBoxItem> modeloGasto = new DefaultComboBoxModel<>(
+                    listaGasto.entrySet().stream()
+                            .map(entry -> new ComboBoxItem(entry.getKey(), entry.getValue()))
+                            .toArray(ComboBoxItem[]::new)
+            );
+            cbGasto.setModel(modeloGasto);
+
+            // Seleccionar el gasto si existe
+            ComboBoxItem gastoItem = new ComboBoxItem(movimiento.getTipoGasto(), listaGasto.get(movimiento.getTipoGasto()));
+            if (modeloGasto.getIndexOf(gastoItem) != -1) {
+                cbGasto.setSelectedItem(gastoItem);
+            }
+        }
+
+        // Listener para actualizar categorías al cambiar tipo
+        cbTipo.addActionListener(e -> {
+            ComboBoxItem tipoSeleccionado = (ComboBoxItem) cbTipo.getSelectedItem();
+            if (tipoSeleccionado != null) {
+                Map<Integer, String> nuevasCategorias = consultaMovimientos.listaSubtipos(tipoSeleccionado.getId());
+                cbCategoria.setModel(new DefaultComboBoxModel<>(nuevasCategorias.entrySet().stream()
+                        .map(entry -> new ComboBoxItem(entry.getKey(), entry.getValue()))
+                        .toArray(ComboBoxItem[]::new)));
+            }
+        });
+
+        // Listener para actualizar gastos al cambiar categoría
+        cbCategoria.addActionListener(e -> {
+            ComboBoxItem categoriaSeleccionada = (ComboBoxItem) cbCategoria.getSelectedItem();
+            if (categoriaSeleccionada != null && categoriaSeleccionada.getId() == 9) {
+                Map<Integer, String> listaGasto = consultaMovimientos.listaGastos();
+                cbGasto.setModel(new DefaultComboBoxModel<>(listaGasto.entrySet().stream()
+                        .map(entry -> new ComboBoxItem(entry.getKey(), entry.getValue()))
+                        .toArray(ComboBoxItem[]::new)));
+            } else {
+                cbGasto.setModel(new DefaultComboBoxModel<>(new ComboBoxItem[0]));
+            }
+        });
+
+        // Panel de entrada
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(new JLabel("Fecha:"));
+        panel.add(campoFecha);
+        panel.add(new JLabel("Tipo:"));
+        panel.add(cbTipo);
+        panel.add(new JLabel("Categoría:"));
+        panel.add(cbCategoria);
+        panel.add(new JLabel("Tipo de Gasto:"));
+        panel.add(cbGasto);
+        panel.add(new JLabel("Notas:"));
+        panel.add(campoNotas);
+        panel.add(new JLabel("Importe:"));
+        panel.add(campoImporte);
+
+        // Mostrar diálogo
+        int resultado = JOptionPane.showConfirmDialog(null, panel, "Modificar Movimiento", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+
+        if (resultado == JOptionPane.OK_OPTION) {
+            try {
+                // Validar y obtener datos
+                String formatoFecha = "yyyy/MM/dd";
+                SimpleDateFormat formato = new SimpleDateFormat(formatoFecha);
+                String fecha = formato.format(campoFecha.getDatoFecha());
+
+                ComboBoxItem tipoSeleccionado = (ComboBoxItem) cbTipo.getSelectedItem();
+                ComboBoxItem categoriaSeleccionada = (ComboBoxItem) cbCategoria.getSelectedItem();
+                ComboBoxItem gastoSeleccionado = (ComboBoxItem) cbGasto.getSelectedItem();
+
+                int tipo = tipoSeleccionado != null ? tipoSeleccionado.getId() : 0;
+                int categoria = categoriaSeleccionada != null ? categoriaSeleccionada.getId() : 0;
+                int gasto = gastoSeleccionado != null ? gastoSeleccionado.getId() : 0;
+                String notas = campoNotas.getText();
+
+                //Convierte el importe en negativo si es un pago (tipo 2)
+                double importe = Double.parseDouble(campoImporte.getText());
+                if (tipo == 2) {
+                    importe = -importe;
+                }
+
+                // Actualizar el movimiento
+                boolean actualizado = consultaMovimientos.modificarMovimiento(idMovimiento, fecha, tipo, categoria, gasto, notas, importe);
+
+                if (actualizado) {
+                    JOptionPane.showMessageDialog(vista, "Movimiento modificado correctamente.");
+                    cargarMovimientos(); // Refresca la tabla
+                    controladorCuentas.cargarCuentas(); // Refresca cuentas
+                } else {
+                    JOptionPane.showMessageDialog(vista, "Error al modificar el movimiento.");
+                }
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(vista, "Error en los datos. Verifica los campos.");
+            }
+        }
+    }
+
     // ELIMINAR MOVIMIENTO seleccionado en la tabla
     public void eliminarMovimientoSeleccionado() {
         int filaSeleccionada = vista.tablaMovimientos.getSelectedRow(); // Obtiene la fila seleccionada
