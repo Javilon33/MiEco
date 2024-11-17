@@ -99,7 +99,7 @@ public class ControladorMovimientosCuenta {
         List<Movimiento> movimientos = consultaMovimientos.obtenerMovimientos(idCuenta);
 
         // Obtener el saldo de la cuenta
-        double saldo=0;
+        double saldo=0;//
 
         // Obtener el modelo de la tabla y limpiar cualquier dato existente
         DefaultTableModel modelo = (DefaultTableModel) vista.tablaMovimientos.getModel();
