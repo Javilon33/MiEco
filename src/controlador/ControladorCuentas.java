@@ -99,10 +99,10 @@ public class ControladorCuentas {
         // Rellena la tabla con los datos de las cuentas
         for (Cuenta cuenta : cuentas) {
             Object[] fila = {
-                cuenta.getIdCuenta(),
-                cuenta.getBanco(),
+                cuenta.getIdCuenta(),                
                 cuenta.getAlias(),
                 cuenta.getIban(),
+                cuenta.getBanco(),
                 cuenta.getSaldo(),
                 "Detalles" // Esto se verá como el botón de detalles
             };
@@ -164,7 +164,7 @@ public class ControladorCuentas {
                 String banco = campoBanco.getText();
 
                 // Llama al modelo para añadir la cuenta
-                boolean cuentaInsertada = consultaCuentas.addCuenta(usuario.getCodigo(), banco, alias, iban);
+                boolean cuentaInsertada = consultaCuentas.addCuenta(usuario.getCodigo(), alias, iban, banco);
 
                 // Actualiza la etiqueta de saldo total
                 vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
@@ -244,9 +244,9 @@ public class ControladorCuentas {
         // Añade los campos al panel
         JPanel panel = new JPanel();
         panel.add(new JLabel("Alias:"));
-        panel.add(campoAlias);
+        panel.add(campoAlias);        
         panel.add(new JLabel("IBAN:"));
-        panel.add(campoIban);
+        panel.add(campoIban); 
         panel.add(new JLabel("Banco:"));
         panel.add(campoBanco);
         panel.add(new JLabel("Saldo actual:"));
@@ -258,13 +258,13 @@ public class ControladorCuentas {
         if (resultado == JOptionPane.OK_OPTION) {
             try {
                 // Recoge los datos modificados
-                String alias = campoAlias.getText();
-                String iban = campoIban.getText();
+                String alias = campoAlias.getText();                
+                String iban = campoIban.getText();  
                 String banco = campoBanco.getText();
                 double saldoActual = Double.parseDouble(campoSaldo.getText());
 
                 // Llama al modelo para modificar la cuenta
-                boolean cuentaModificada = consultaCuentas.modificarCuenta(idCuenta, banco, alias, iban, saldoActual);
+                boolean cuentaModificada = consultaCuentas.modificarCuenta(idCuenta, alias, iban, banco, saldoActual);
 
                 if (cuentaModificada) {
                     JOptionPane.showMessageDialog(vista, "Cuenta modificada correctamente.");

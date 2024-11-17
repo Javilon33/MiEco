@@ -397,6 +397,11 @@ public class ControladorMovimientosCuenta {
                 ComboBoxItem tipoSeleccionado = (ComboBoxItem) cbTipo.getSelectedItem();
                 ComboBoxItem categoriaSeleccionada = (ComboBoxItem) cbCategoria.getSelectedItem();
                 ComboBoxItem gastoSeleccionado = (ComboBoxItem) cbGasto.getSelectedItem();
+                
+                if(categoriaSeleccionada.getId() == 9 && gastoSeleccionado == null){
+                    JOptionPane.showMessageDialog(vista, "No Has seleccionado el tipo de gasto");
+                    return;
+                }
 
                 int tipo = tipoSeleccionado != null ? tipoSeleccionado.getId() : 0;
                 int categoria = categoriaSeleccionada != null ? categoriaSeleccionada.getId() : 0;

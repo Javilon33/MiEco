@@ -20,7 +20,7 @@ public class ConsultaCuentas {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "SELECT CUENTAS.id_cuenta,  CUENTAS.alias, CUENTAS.banco, CUENTAS.iban, CUENTAS.saldo "
+        String sql = "SELECT CUENTAS.id_cuenta,  CUENTAS.alias, CUENTAS.iban, CUENTAS.banco, CUENTAS.saldo "
                 + "FROM CUENTAS "
                 + "WHERE CUENTAS.id_usuario = ?";
 
@@ -30,12 +30,12 @@ public class ConsultaCuentas {
 
             while (rs.next()) {
                 int idCuenta = rs.getInt("id_cuenta"); 
-                String alias = rs.getString("alias");
-                String banco = rs.getString("banco");                 
+                String alias = rs.getString("alias");                                
                 String iban = rs.getString("iban");
+                String banco = rs.getString("banco"); 
                 double saldo = rs.getDouble("saldo");
 
-                cuentas.add(new Cuenta(idCuenta, alias, banco, iban, saldo));
+                cuentas.add(new Cuenta(idCuenta, alias, iban, banco, saldo));
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener cuentas: " + e.getMessage());
@@ -57,7 +57,7 @@ public class ConsultaCuentas {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "SELECT CUENTAS.id_cuenta, CUENTAS.banco, CUENTAS.alias, CUENTAS.iban, CUENTAS.saldo "
+        String sql = "SELECT CUENTAS.id_cuenta, CUENTAS.alias, CUENTAS.iban, CUENTAS.banco, CUENTAS.saldo "
                 + "FROM CUENTAS "
                 + "WHERE CUENTAS.id_cuenta = ?";
 
@@ -65,14 +65,14 @@ public class ConsultaCuentas {
             stmt.setInt(1, idCuenta);  // Asigna el ID de la cuenta al parámetro de la consulta
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {                
-                String nombreBanco = rs.getString("banco");
+            if (rs.next()) {                                
                 String alias = rs.getString("alias");
                 String iban = rs.getString("iban");
+                String nombreBanco = rs.getString("banco");
                 double saldo = rs.getDouble("saldo");
 
                 // Crea una instancia de Cuenta con los datos obtenidos
-                cuenta = new Cuenta(idCuenta, nombreBanco, alias, iban, saldo);
+                cuenta = new Cuenta(idCuenta, alias, iban, nombreBanco, saldo);
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener la cuenta: " + e.getMessage());
@@ -118,17 +118,17 @@ public class ConsultaCuentas {
     }
 
     // Método para AÑADIR CUENTA
-    public boolean addCuenta(int usuarioId, String alias,String banco, String iban) {
+    public boolean addCuenta(int usuarioId, String alias,String iban, String banco) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "INSERT INTO CUENTAS (id_usuario, alias, banco, iban) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO CUENTAS (id_usuario, alias, iban, banco) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, usuarioId);
             stmt.setString(2, alias);
-            stmt.setString(3, banco);
-            stmt.setString(4, iban);
+            stmt.setString(3, iban);            
+            stmt.setString(4, banco);
             stmt.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -146,16 +146,16 @@ public class ConsultaCuentas {
     }
 
     // Método para MODFICAR CUENTA
-    public boolean modificarCuenta(int cuentaId, String banco, String alias, String iban, double saldo) {
+    public boolean modificarCuenta(int cuentaId, String alias, String iban, String banco,  double saldo) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "UPDATE CUENTAS SET banco = ?, alias = ?, iban = ?, saldo = ? WHERE id_cuenta = ?";
+        String sql = "UPDATE CUENTAS SET  alias = ?, iban = ?, banco = ?, saldo = ? WHERE id_cuenta = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, banco);
-            stmt.setString(2, alias);
-            stmt.setString(3, iban);
+            stmt.setString(1, alias);
+            stmt.setString(2, iban);            
+            stmt.setString(3, banco);
             stmt.setDouble(4, saldo);
             stmt.setInt(5, cuentaId);
             stmt.executeUpdate();

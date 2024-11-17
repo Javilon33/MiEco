@@ -89,7 +89,7 @@ public class PanelCuentas extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Banco", "Alias", "IBAN", "Saldo", "Movimientos"
+                "ID", "Alias", "IBAN", "Banco", "Saldo", "Movimientos"
             }
         ) {
             boolean[] canEdit = new boolean [] {

@@ -7,16 +7,16 @@ package modelo.entidades;
  */
 public class Cuenta {
     private int idCuenta;
-    private String alias;
-    private String banco;     
+    private String alias;    
     private String iban;
+    private String banco;     
     private double saldo;
 
-    public Cuenta(int idCuenta, String alias, String banco, String iban, double saldo) {
+    public Cuenta(int idCuenta, String alias, String iban, String banco,double saldo) {
         this.idCuenta = idCuenta;
-        this.alias = alias;
-        this.banco = banco;
+        this.alias = alias;        
         this.iban = iban;
+        this.banco = banco;
         this.saldo = saldo;
     }
 
