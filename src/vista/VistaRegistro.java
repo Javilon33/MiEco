@@ -187,7 +187,7 @@ public class VistaRegistro extends javax.swing.JFrame {
         fechaNac.setFormatoFecha("dd/MM/yyyy");
         fechaNac.setFuente(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         fechaNac.setPlaceholder("Fecha de Nacimiento");
-        bg.add(fechaNac, new org.netbeans.lib.awtextra.AbsoluteConstraints(340, 290, -1, 30));
+        bg.add(fechaNac, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 290, 170, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

@@ -8,7 +8,7 @@ import java.awt.event.MouseEvent;
 import java.util.regex.Pattern;
 import javax.swing.*;
 import modelo.ConsultaLogin;
-import modelo.Usuario;
+import modelo.entidades.Usuario;
 import vista.VistaLogin;
 import vista.VistaPrincipal;
 import vista.VistaRegistro;

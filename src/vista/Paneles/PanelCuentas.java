@@ -1,5 +1,5 @@
 
-package vista;
+package vista.Paneles;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -89,7 +89,7 @@ public class PanelCuentas extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID Cuenta", "Banco", "Alias", "IBAN", "Saldo", "Movimientos"
+                "ID", "Banco", "Alias", "IBAN", "Saldo", "Movimientos"
             }
         ) {
             boolean[] canEdit = new boolean [] {

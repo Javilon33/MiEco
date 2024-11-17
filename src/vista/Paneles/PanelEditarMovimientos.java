@@ -1,5 +1,5 @@
 
-package vista;
+package vista.Paneles;
 
 /**
  *
@@ -31,7 +31,7 @@ public class PanelEditarMovimientos extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        cbSubcategoria = new javax.swing.JComboBox<>();
+        cbGasto = new javax.swing.JComboBox<>();
         jLabel5 = new javax.swing.JLabel();
         campoNotas = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -45,7 +45,7 @@ public class PanelEditarMovimientos extends javax.swing.JPanel {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         fecha.setToolTipText("Fecha del movimiento");
-        fecha.setColorBackground(new java.awt.Color(242, 242, 242));
+        fecha.setColorBackground(new java.awt.Color(99, 208, 254));
         fecha.setColorButtonHover(new java.awt.Color(0, 134, 190));
         fecha.setColorDiaActual(new java.awt.Color(0, 134, 190));
         fecha.setColorForeground(new java.awt.Color(0, 0, 0));
@@ -53,7 +53,7 @@ public class PanelEditarMovimientos extends javax.swing.JPanel {
         fecha.setFormatoFecha("dd/MM/yyyy");
         fecha.setFuente(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         fecha.setPlaceholder("");
-        jPanel1.add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 120, 30));
+        jPanel1.add(fecha, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 120, 30));
 
         cbTipo.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         cbTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ingreso", "Gasto" }));
@@ -75,11 +75,11 @@ public class PanelEditarMovimientos extends javax.swing.JPanel {
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 10, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jLabel4.setText("Subcategoría:");
+        jLabel4.setText("Tipo de Gasto:");
         jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, -1, -1));
 
-        cbSubcategoria.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jPanel1.add(cbSubcategoria, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, 150, -1));
+        cbGasto.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jPanel1.add(cbGasto, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 40, 150, -1));
 
         jLabel5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         jLabel5.setText("Notas:");
@@ -159,7 +159,7 @@ public class PanelEditarMovimientos extends javax.swing.JPanel {
     public javax.swing.JPanel cancelarBtn;
     public javax.swing.JLabel cancelarBtnTxt;
     public javax.swing.JComboBox<String> cbCategoria;
-    public javax.swing.JComboBox<String> cbSubcategoria;
+    public javax.swing.JComboBox<String> cbGasto;
     public javax.swing.JComboBox<String> cbTipo;
     public rojeru_san.componentes.RSDateChooser fecha;
     public javax.swing.JPanel guardarBtn;

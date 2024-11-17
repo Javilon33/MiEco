@@ -2,18 +2,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package vista;
+package vista.Paneles;
 
 /**
  *
  * @author PC-Casa
  */
-public class PanelDepositos extends javax.swing.JPanel {
+public class PanelInformes extends javax.swing.JPanel {
 
     /**
-     * Creates new form PanelPrincipal
+     * Creates new form PanelCuentas
      */
-    public PanelDepositos() {
+    public PanelInformes() {
         initComponents();
     }
 
@@ -34,7 +34,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 48)); // NOI18N
-        jLabel1.setText("PANEL DEPOSITOS");
+        jLabel1.setText("PANEL INFORMES");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);

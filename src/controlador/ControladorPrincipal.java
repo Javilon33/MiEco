@@ -8,14 +8,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import modelo.ConsultaCuentas;
 import modelo.ConsultaMovimientos;
-import modelo.Usuario;
-import vista.PanelAdmin;
-import vista.PanelBolsa;
-import vista.PanelCuentas;
-import vista.PanelDepositos;
-import vista.PanelFondos;
-import vista.PanelInformes;
-import vista.PanelPrincipal;
+import modelo.entidades.Usuario;
+import vista.Paneles.PanelAdmin;
+import vista.Paneles.PanelBolsa;
+import vista.Paneles.PanelCuentas;
+import vista.Paneles.PanelDepositos;
+import vista.Paneles.PanelFondos;
+import vista.Paneles.PanelInformes;
+import vista.Paneles.PanelPrincipal;
 import vista.VistaPrincipal;
 
 public class ControladorPrincipal {

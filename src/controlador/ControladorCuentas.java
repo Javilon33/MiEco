@@ -12,10 +12,10 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import modelo.ConsultaCuentas;
 import modelo.ConsultaMovimientos;
-import modelo.Cuenta;
-import modelo.Usuario;
-import vista.PanelCuentas;
-import vista.PanelMovimientosCuenta;
+import modelo.entidades.Cuenta;
+import modelo.entidades.Usuario;
+import vista.Paneles.PanelCuentas;
+import vista.Paneles.PanelMovimientosCuenta;
 import vista.componentes.IconRendererEditor;
 
 /**
@@ -40,7 +40,7 @@ public class ControladorCuentas {
     }
 
     // Configura eventos básicos (clicks en botones y etiquetas)
-    private void inicializarEventos() {
+    public void inicializarEventos() {
         // Saludo con el nombre del usuario
         vista.etiNombre.setText("Hola, " + usuario.getNombre() + "!!");
         vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
@@ -49,13 +49,13 @@ public class ControladorCuentas {
         vista.btnAdd.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                mostrarPanelAñadirCuenta(); // Abre el panel para agregar cuentas
+                mostrarPanelAddCuenta(); // Abre el panel para agregar cuentas
             }
         });
         vista.etiAdd.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                mostrarPanelAñadirCuenta();
+                mostrarPanelAddCuenta();
             }
         });
 
@@ -89,9 +89,9 @@ public class ControladorCuentas {
     }
 
     // Cargar y mostrar las cuentas del usuario en la tabla
-    private void cargarCuentas() {
+    public void cargarCuentas() {
         List<Cuenta> cuentas = consultaCuentas.obtenerCuentas(usuario.getCodigo()); // Trae las cuentas del usuario
-
+        vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");  
         // Configura el modelo de la tabla para limpiar datos previos
         DefaultTableModel modelo = (DefaultTableModel) vista.tablaCuentas.getModel();
         modelo.setRowCount(0); // Limpiar las filas
@@ -137,7 +137,7 @@ public class ControladorCuentas {
     }
 
     // Muestra un panel emergente para añadir una cuenta nueva
-    public void mostrarPanelAñadirCuenta() {
+    public void mostrarPanelAddCuenta() {
         // Campos de entrada para el alias, IBAN, banco y saldo
         JTextField campoAlias = new JTextField(15);        
         JTextField campoIban = new JTextField(15);
@@ -168,12 +168,12 @@ public class ControladorCuentas {
                 double saldoInicial = Double.parseDouble(campoSaldo.getText());
 
                 // Llama al modelo para añadir la cuenta
-                boolean cuentaAñadida = consultaCuentas.añadirCuenta(usuario.getCodigo(), banco, alias, iban, saldoInicial);
+                boolean cuentaInsertada = consultaCuentas.addCuenta(usuario.getCodigo(), banco, alias, iban, saldoInicial);
 
                 // Actualiza la etiqueta de saldo total
                 vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
 
-                if (cuentaAñadida) {
+                if (cuentaInsertada) {
                     JOptionPane.showMessageDialog(vista, "Cuenta añadida correctamente.");
                     cargarCuentas(); // Refresca la tabla con la nueva cuenta
                 } else {
@@ -288,7 +288,7 @@ public class ControladorCuentas {
 
         // Crea el panel de movimientos y el controlador para manejarlo
         PanelMovimientosCuenta panelMovimientos = new PanelMovimientosCuenta(idCuenta);
-        new ControladorMovimientosCuenta(panelMovimientos, consultaCuentas, idCuenta, consultaMovimientos);
+        new ControladorMovimientosCuenta(panelMovimientos, consultaCuentas, idCuenta, consultaMovimientos, this);
 
         JDialog dialogoMovimientos = new JDialog();
         dialogoMovimientos.setTitle("Movimientos de la Cuenta");

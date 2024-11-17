@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package vista;
+package vista.Paneles;
 
 import controlador.ControladorEditarMovimientos;
 import java.awt.Color;
@@ -64,11 +64,11 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Fecha", "Ingreso/Pago", "Categoria", "Subcategoria", "Notas", "Importe", "Saldo"
+                "ID", "Fecha", "Ingreso/Pago", "Categoria", "Tipo Gasto", "Notas", "Importe", "Saldo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, true
+                false, false, false, false, false, false, false, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -87,7 +87,7 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
         tablaMovimientos.getTableHeader().setReorderingAllowed(false);
         panelCuentas.setViewportView(tablaMovimientos);
 
-        jPanel1.add(panelCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 880, 390));
+        jPanel1.add(panelCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 140, 1110, 390));
 
         panelMenu.setBackground(new java.awt.Color(255, 255, 255));
         panelMenu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -129,7 +129,7 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
 
         panelMenu.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 110, 20));
 
-        jPanel1.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(530, 70, 370, 40));
+        jPanel1.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(760, 70, 370, 40));
 
         jPanel2.setBackground(new java.awt.Color(0, 134, 190));
 
@@ -175,7 +175,7 @@ public class PanelMovimientosCuenta extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 920, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 1153, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
