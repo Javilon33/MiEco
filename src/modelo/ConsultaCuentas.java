@@ -29,10 +29,10 @@ public class ConsultaCuentas {
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                int idCuenta = rs.getInt("id_cuenta"); 
-                String alias = rs.getString("alias");                                
+                int idCuenta = rs.getInt("id_cuenta");
+                String alias = rs.getString("alias");
                 String iban = rs.getString("iban");
-                String banco = rs.getString("banco"); 
+                String banco = rs.getString("banco");
                 double saldo = rs.getDouble("saldo");
 
                 cuentas.add(new Cuenta(idCuenta, alias, iban, banco, saldo));
@@ -65,7 +65,7 @@ public class ConsultaCuentas {
             stmt.setInt(1, idCuenta);  // Asigna el ID de la cuenta al parámetro de la consulta
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {                                
+            if (rs.next()) {
                 String alias = rs.getString("alias");
                 String iban = rs.getString("iban");
                 String nombreBanco = rs.getString("banco");
@@ -118,7 +118,7 @@ public class ConsultaCuentas {
     }
 
     // Método para AÑADIR CUENTA
-    public boolean addCuenta(int usuarioId, String alias,String iban, String banco) {
+    public boolean addCuenta(int usuarioId, String alias, String iban, String banco) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
@@ -127,7 +127,7 @@ public class ConsultaCuentas {
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, usuarioId);
             stmt.setString(2, alias);
-            stmt.setString(3, iban);            
+            stmt.setString(3, iban);
             stmt.setString(4, banco);
             stmt.executeUpdate();
             return true;
@@ -146,7 +146,7 @@ public class ConsultaCuentas {
     }
 
     // Método para MODFICAR CUENTA
-    public boolean modificarCuenta(int cuentaId, String alias, String iban, String banco,  double saldo) {
+    public boolean modificarCuenta(int cuentaId, String alias, String iban, String banco, double saldo) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
@@ -154,7 +154,7 @@ public class ConsultaCuentas {
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, alias);
-            stmt.setString(2, iban);            
+            stmt.setString(2, iban);
             stmt.setString(3, banco);
             stmt.setDouble(4, saldo);
             stmt.setInt(5, cuentaId);
@@ -198,8 +198,7 @@ public class ConsultaCuentas {
             }
         }
     }
-    
-    
+
     // Método para actualizar el saldo de la cuenta
     public boolean actualizarSaldoCuenta(int idCuenta, double nuevoSaldo) {
         Conexion conexion = new Conexion();
@@ -226,26 +225,35 @@ public class ConsultaCuentas {
         }
     }
 
-    public double obtenerSaldoInicial(int idCuenta) {
-        double saldoInicial = 0.0;
-        String sql = "SELECT saldo_inicial FROM CUENTAS WHERE id_cuenta = ?";
+    //Obtienr los ingresos totales de un usuario concreto
+    public double obtenerSumaIngresos(int idUsuario) {
+        double totalIngresos = 0.0;
+        String sql = "SELECT SUM(m.importe) AS total_importe \n"
+                + "      FROM mieco.movimientos m \n"
+                + "      JOIN mieco.cuentas c ON m.id_cuenta = c.id_cuenta \n"
+                + "      WHERE c.id_usuario = ? AND m.id_tipo_movimiento = 1";
+
+        //Ejemplo de consulta de lo mismo pero de los últimos 30 días
+        /*
+        SELECT SUM(m.importe) AS total_importe 
+        FROM mieco.movimientos m 
+        JOIN mieco.cuentas c ON m.id_cuenta = c.id_cuenta 
+        WHERE c.id_usuario = ? AND m.id_tipo_movimiento = 1 AND m.fecha >= CURDATE() - INTERVAL 30 DAY
+         */
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, idCuenta);
-
+            stmt.setInt(1, idUsuario);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    saldoInicial = rs.getDouble("saldo_inicial");
+                    totalIngresos = rs.getDouble("total_importe");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            // Maneja la excepción según tu necesidad, quizás lanzándola o registrándola en un log
         }
-
-        return saldoInicial;
-    }
-
+        return totalIngresos;
+    }    
+    
 }

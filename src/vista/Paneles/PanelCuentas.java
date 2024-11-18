@@ -50,6 +50,9 @@ public class PanelCuentas extends javax.swing.JPanel {
         etiModificar = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JPanel();
         etiElminar = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        etiIngresos = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(970, 600));
@@ -160,6 +163,21 @@ public class PanelCuentas extends javax.swing.JPanel {
 
         jPanel1.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 70, 370, 40));
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel6.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        jLabel6.setText("INGRESOS TOTALES");
+        jPanel2.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 10, 150, -1));
+
+        etiIngresos.setFont(new java.awt.Font("Roboto Medium", 1, 24)); // NOI18N
+        etiIngresos.setText("ingresos");
+        etiIngresos.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
+        jPanel2.add(etiIngresos, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 60, 140, 50));
+
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 440, 200, 130));
+
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 600));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -170,13 +188,16 @@ public class PanelCuentas extends javax.swing.JPanel {
     public javax.swing.JPanel btnModificar;
     public javax.swing.JLabel etiAdd;
     public javax.swing.JLabel etiElminar;
+    public javax.swing.JLabel etiIngresos;
     public javax.swing.JLabel etiModificar;
     public javax.swing.JLabel etiNombre;
     public javax.swing.JLabel etiSaldoTotal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JScrollPane panelCuentas;
     public javax.swing.JPanel panelMenu;

@@ -13,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 import modelo.ConsultaCuentas;
 import modelo.ConsultaMovimientos;
 import modelo.entidades.Cuenta;
+import modelo.entidades.Gasto;
 import modelo.entidades.Usuario;
 import vista.Paneles.PanelCuentas;
 import vista.Paneles.PanelMovimientosCuenta;
@@ -43,7 +44,6 @@ public class ControladorCuentas {
     public void inicializarEventos() {
         // Saludo con el nombre del usuario
         vista.etiNombre.setText("Hola, " + usuario.getNombre() + "!!");
-        vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
 
         // Evento para el botón y etiqueta de "Añadir cuenta"
         vista.btnAdd.addMouseListener(new MouseAdapter() {
@@ -91,7 +91,8 @@ public class ControladorCuentas {
     // Cargar y mostrar las cuentas del usuario en la tabla
     public void cargarCuentas() {
         List<Cuenta> cuentas = consultaCuentas.obtenerCuentas(usuario.getCodigo()); // Trae las cuentas del usuario
-        vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");  
+        vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
+        vista.etiIngresos.setText(consultaCuentas.obtenerSumaIngresos(usuario.getCodigo()) + "€");
         // Configura el modelo de la tabla para limpiar datos previos
         DefaultTableModel modelo = (DefaultTableModel) vista.tablaCuentas.getModel();
         modelo.setRowCount(0); // Limpiar las filas
@@ -99,7 +100,7 @@ public class ControladorCuentas {
         // Rellena la tabla con los datos de las cuentas
         for (Cuenta cuenta : cuentas) {
             Object[] fila = {
-                cuenta.getIdCuenta(),                
+                cuenta.getIdCuenta(),
                 cuenta.getAlias(),
                 cuenta.getIban(),
                 cuenta.getBanco(),
@@ -119,30 +120,29 @@ public class ControladorCuentas {
         }
 
         // Añade el listener solo para la columna de detalles
-    vista.tablaCuentas.addMouseListener(new MouseAdapter() {
-        @Override
-        public void mouseClicked(MouseEvent e) {
-            int fila = vista.tablaCuentas.rowAtPoint(e.getPoint());
-            int columna = vista.tablaCuentas.columnAtPoint(e.getPoint());
+        vista.tablaCuentas.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int fila = vista.tablaCuentas.rowAtPoint(e.getPoint());
+                int columna = vista.tablaCuentas.columnAtPoint(e.getPoint());
 
-            // Actúa solo si el clic fue en la columna de detalles (columna 5)
-            if (columna == 5) {
-                mostrarPanelMovimientos(fila);
-            } else {
-                // Permite la selección de filas si el clic no es en la columna de detalles
-                vista.tablaCuentas.setRowSelectionInterval(fila, fila);
+                // Actúa solo si el clic fue en la columna de detalles (columna 5)
+                if (columna == 5) {
+                    mostrarPanelMovimientos(fila);
+                } else {
+                    // Permite la selección de filas si el clic no es en la columna de detalles
+                    vista.tablaCuentas.setRowSelectionInterval(fila, fila);
+                }
             }
-        }
-    });
+        });
     }
 
     // Muestra un panel emergente para añadir una cuenta nueva
     public void mostrarPanelAddCuenta() {
         // Campos de entrada para el alias, IBAN, banco y saldo
-        JTextField campoAlias = new JTextField(15);        
+        JTextField campoAlias = new JTextField(15);
         JTextField campoIban = new JTextField(15);
         JTextField campoBanco = new JTextField(15);
-        
 
         // Añade los campos al panel
         JPanel panel = new JPanel();
@@ -239,14 +239,13 @@ public class ControladorCuentas {
         JTextField campoBanco = new JTextField(cuenta.getBanco(), 15);
         JTextField campoSaldo = new JTextField(String.valueOf(cuenta.getSaldo()), 10);
         campoSaldo.setEditable(false); // Hacer que el saldo no sea editable
-        
-        
+
         // Añade los campos al panel
         JPanel panel = new JPanel();
         panel.add(new JLabel("Alias:"));
-        panel.add(campoAlias);        
+        panel.add(campoAlias);
         panel.add(new JLabel("IBAN:"));
-        panel.add(campoIban); 
+        panel.add(campoIban);
         panel.add(new JLabel("Banco:"));
         panel.add(campoBanco);
         panel.add(new JLabel("Saldo actual:"));
@@ -258,8 +257,8 @@ public class ControladorCuentas {
         if (resultado == JOptionPane.OK_OPTION) {
             try {
                 // Recoge los datos modificados
-                String alias = campoAlias.getText();                
-                String iban = campoIban.getText();  
+                String alias = campoAlias.getText();
+                String iban = campoIban.getText();
                 String banco = campoBanco.getText();
                 double saldoActual = Double.parseDouble(campoSaldo.getText());
 
