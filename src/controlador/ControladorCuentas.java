@@ -1,10 +1,17 @@
 package controlador;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.text.NumberFormat;
+import java.time.LocalDate;
 import java.util.List;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -15,6 +22,13 @@ import modelo.ConsultaMovimientos;
 import modelo.entidades.Cuenta;
 import modelo.entidades.Gasto;
 import modelo.entidades.Usuario;
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.title.TextTitle;
+import org.jfree.data.general.DefaultPieDataset;
 import vista.Paneles.PanelCuentas;
 import vista.Paneles.PanelMovimientosCuenta;
 import vista.componentes.IconRendererEditor;
@@ -37,7 +51,7 @@ public class ControladorCuentas {
         this.usuario = usuario;
         this.consultaMovimientos = consultaMovimientos;
         inicializarEventos(); // Inicializar eventos de la interfaz
-        cargarCuentas(); // Cargar las cuentas en la tabla al inicio
+        cargarCuentas(); // Cargar las cuentas en la tabla al inicio        
     }
 
     // Configura eventos básicos (clicks en botones y etiquetas)
@@ -135,6 +149,9 @@ public class ControladorCuentas {
                 }
             }
         });
+
+        //Actualiza el gráfico de los gastos por si ha habido cambios
+        graficoGastos(usuario.getCodigo());
     }
 
     // Muestra un panel emergente para añadir una cuenta nueva
@@ -294,4 +311,81 @@ public class ControladorCuentas {
         dialogoMovimientos.setVisible(true);
     }
 
+    // Método para mostrar un gráfico de tarta con el desglose de los gastos por tipo en el año actual
+    public void graficoGastos(int idUsuario) {
+        // Sacamos todos los gastos del usuario en forma de un array
+        Gasto[] gastos = consultaCuentas.obtenerTodosLosGastos(idUsuario).toArray(new Gasto[0]);
+
+        // Creamos el conjunto de datos para el gráfico (una tarta necesita datos en este formato)
+        DefaultPieDataset datos = new DefaultPieDataset();
+        for (Gasto gasto : gastos) {
+            // Añadimos cada gasto al conjunto, usando la descripción como etiqueta y el total como valor
+            datos.setValue(gasto.getDescripcion(), gasto.getTotal());
+        }
+
+        // Creamos el gráfico de tarta con el título y los datos
+        JFreeChart grafico_circular = ChartFactory.createPieChart(
+                "Resumen de Gastos (" + LocalDate.now().getYear() + ")", // Título del gráfico con el año actual
+                datos, // Los datos que usamos para la tarta
+                false, // No queremos una leyenda aquí
+                true, // Permitimos herramientas como descripciones emergentes
+                false // No necesitamos URLs (no es un gráfico web)
+        );
+
+        // Cambiamos la fuente del título para que sea más estilosa (Roboto, tamaño 18)
+        Font fuenteTitulo = new Font("Roboto", Font.PLAIN, 18);
+        TextTitle titulo = new TextTitle("Resumen de Gastos (" + LocalDate.now().getYear() + ")", fuenteTitulo);
+        grafico_circular.setTitle(titulo);
+
+        // Ajustamos el fondo interno del gráfico a blanco (para que no salga gris)
+        PiePlot plot = (PiePlot) grafico_circular.getPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+
+        // Configuramos las etiquetas que aparecerán en la tarta:
+        // - {0}: Nombre de la categoría
+        // - {1}: Valor numérico con formato
+        // - {2}: Porcentaje del total
+        plot.setLabelFont(new Font("Roboto", Font.PLAIN, 8)); // Fuente de las etiquetas
+        plot.setLabelGenerator(new StandardPieSectionLabelGenerator(
+                "{0}: {1}€ ({2})", // Formato de las etiquetas
+                NumberFormat.getNumberInstance(), // Para mostrar los valores bien formateados
+                NumberFormat.getPercentInstance() // Para mostrar los porcentajes bien
+        ));
+
+        // Creamos un panel que contendrá el gráfico (para interactuar con él)
+        ChartPanel panel = new ChartPanel(grafico_circular);
+        panel.setMouseWheelEnabled(true); // Permite hacer zoom con la rueda del ratón
+        panel.setPreferredSize(new Dimension(400, 200)); // Tamaño del gráfico
+
+        // Añadimos un evento para ampliar el gráfico al hacer clic
+        panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                mostrarGraficoAmpliado(grafico_circular);
+            }
+        });
+
+        // Actualiza el panel principal
+        vista.panelGastos.removeAll();
+        vista.panelGastos.add(panel, BorderLayout.NORTH);
+        vista.panelGastos.repaint();
+    }
+    
+// Método para mostrar el gráfico ampliado en un diálogo
+    private void mostrarGraficoAmpliado(JFreeChart grafico) {
+        // Creamos un JDialog para mostrar el gráfico ampliado
+        JDialog dialogo = new JDialog();
+        dialogo.setTitle("Gráfico Ampliado");
+        dialogo.setModal(true); // Bloquea la ventana principal hasta que se cierre
+        dialogo.setSize(800, 600); // Tamaño del diálogo ampliado
+        dialogo.setLocationRelativeTo(null); // Centrado en la pantalla
+
+        // Creamos un ChartPanel para el gráfico ampliado
+        ChartPanel panelAmpliado = new ChartPanel(grafico);
+        panelAmpliado.setMouseWheelEnabled(true); // Permite el zoom
+        dialogo.add(panelAmpliado);
+
+        // Mostramos el diálogo
+        dialogo.setVisible(true);
+    }
 }

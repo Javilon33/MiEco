@@ -456,7 +456,7 @@ public class ControladorMovimientosCuenta {
 
                 // Recarga la tabla y actualiza el saldo total
                 cargarMovimientos(); // Refresca la tabla sin el movimiento elimnado
-                controladorCuentas.cargarCuentas(); // Refresca la tabla de cuentas sin el movimiento elimnado
+                controladorCuentas.cargarCuentas(); // Refresca la tabla de cuentas sin el movimiento elimnado                
 
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al eliminar la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);

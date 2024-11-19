@@ -6,7 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import modelo.entidades.Gasto;
 
 /**
  *
@@ -254,6 +257,78 @@ public class ConsultaCuentas {
             e.printStackTrace();
         }
         return totalIngresos;
-    }    
+    }
+
+    /*//Obtiene los gastos de un tipo concreto de un usuario concreto    
+    public double obtenerSumaGastos(int idUsuario, int idTipoGasto) {
+        double totalIngresos = 0.0;
+        String sql = "SELECT SUM(m.importe) AS total_gasto"
+                + "FROM MOVIMIENTOS m"
+                + "JOIN CUENTAS c ON m.id_cuenta = c.id_cuenta"
+                + "WHERE c.id_usuario = ? AND m.id_tipo_gasto = ?";
+
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    totalIngresos = rs.getDouble("total_gasto");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalIngresos;
+    }*/
     
+    //Obtiene los gastos de un usuario concreto    
+    public List<Gasto> obtenerTodosLosGastos(int idUsuario) {
+        String sql = "SELECT tg.id_tipo_gasto, tg.descripcion, tg.tipo, SUM(m.importe) AS total_gasto "
+                + "FROM MOVIMIENTOS m "
+                + "JOIN CUENTAS c ON m.id_cuenta = c.id_cuenta "
+                + "JOIN TIPOS_GASTO tg ON m.id_tipo_gasto = tg.id_tipo_gasto "
+                + "WHERE c.id_usuario = ? "
+                + "AND YEAR(m.fecha) = YEAR(CURDATE()) "
+                + "GROUP BY tg.id_tipo_gasto, tg.descripcion, tg.tipo";
+
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+        List<Gasto> listaGastos = new ArrayList<>();
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int idGasto = rs.getInt("id_tipo_gasto");
+                    String descripcion = rs.getString("descripcion");
+                    String tipo = rs.getString("tipo");
+                    double totalGasto = rs.getDouble("total_gasto");
+                    totalGasto= -totalGasto; //Pasa el gasto a número positivo
+                    if (rs.wasNull()) {
+                        totalGasto = 0.0; // Manejo de valores nulos
+                    }
+
+                    // Crear un objeto Gasto y añadirlo a la lista
+                    Gasto gasto = new Gasto(idGasto, descripcion, tipo, totalGasto);
+                    listaGastos.add(gasto);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return listaGastos;
+    }
+
 }

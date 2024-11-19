@@ -53,6 +53,7 @@ public class PanelCuentas extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         etiIngresos = new javax.swing.JLabel();
+        panelGastos = new javax.swing.JPanel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setMinimumSize(new java.awt.Dimension(970, 600));
@@ -115,7 +116,7 @@ public class PanelCuentas extends javax.swing.JPanel {
         tablaCuentas.getTableHeader().setReorderingAllowed(false);
         panelCuentas.setViewportView(tablaCuentas);
 
-        jPanel1.add(panelCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 630, 290));
+        jPanel1.add(panelCuentas, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 120, 630, 220));
 
         jLabel3.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel3.setText("¡Así está tu saldo!");
@@ -178,6 +179,11 @@ public class PanelCuentas extends javax.swing.JPanel {
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 440, 200, 130));
 
+        panelGastos.setBackground(new java.awt.Color(255, 255, 255));
+        panelGastos.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        panelGastos.setLayout(new java.awt.BorderLayout());
+        jPanel1.add(panelGastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 360, 370, 210));
+
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 600));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -200,6 +206,7 @@ public class PanelCuentas extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JScrollPane panelCuentas;
+    public javax.swing.JPanel panelGastos;
     public javax.swing.JPanel panelMenu;
     private javax.swing.JPanel panelSaldo;
     public javax.swing.JTable tablaCuentas;
