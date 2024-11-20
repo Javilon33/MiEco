@@ -170,30 +170,42 @@ public class ControladorCuentas {
         panel.add(new JLabel("Banco:"));
         panel.add(campoBanco);
 
-        // Abre un diálogo para añadir la cuenta
-        int resultado = JOptionPane.showConfirmDialog(null, panel, "Añadir nueva cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+        boolean datosValidos = false;
 
-        if (resultado == JOptionPane.OK_OPTION) {
-            try {
-                // Recoge y valida los datos introducidos
-                String alias = campoAlias.getText();
-                String iban = campoIban.getText();
-                String banco = campoBanco.getText();
-
-                // Llama al modelo para añadir la cuenta
-                boolean cuentaInsertada = consultaCuentas.addCuenta(usuario.getCodigo(), alias, iban, banco);
-
-                // Actualiza la etiqueta de saldo total
-                vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
-
-                if (cuentaInsertada) {
-                    JOptionPane.showMessageDialog(vista, "Cuenta añadida correctamente.");
-                    cargarCuentas(); // Refresca la tabla con la nueva cuenta
+        while (!datosValidos) {
+            // Abre un diálogo para añadir la cuenta 
+            int resultado = JOptionPane.showConfirmDialog(vista, panel, "Añadir nueva cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
+            
+            if (resultado == JOptionPane.OK_OPTION) {
+                // Recoge y valida los datos introducidos 
+                String alias = campoAlias.getText().trim();
+                String iban = campoIban.getText().trim();
+                String banco = campoBanco.getText().trim();
+                
+                // Comprueba que los campos no estén vacíos 
+                if (alias.isEmpty() || iban.isEmpty() || banco.isEmpty()) {
+                    JOptionPane.showMessageDialog(vista, "Todos los campos son obligatorios. Por favor, rellénalos.");
                 } else {
-                    JOptionPane.showMessageDialog(vista, "Error al añadir la cuenta. Inténtalo de nuevo.");
+                    try {
+                        // Llama al modelo para añadir la cuenta 
+                        boolean cuentaInsertada = consultaCuentas.addCuenta(usuario.getCodigo(), alias, iban, banco);
+                        // Actualiza la etiqueta de saldo total 
+                        vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
+                        if (cuentaInsertada) {
+                            JOptionPane.showMessageDialog(vista, "Cuenta añadida correctamente.");
+                            // Refresca la tabla con la nueva cuenta 
+                            cargarCuentas();
+                            // Salir del bucle 
+                            datosValidos = true;                            
+                        } else {
+                            JOptionPane.showMessageDialog(vista, "Error al añadir la cuenta. Inténtalo de nuevo.");
+                        }
+                    } catch (NumberFormatException e) {
+                        JOptionPane.showMessageDialog(vista, "Error en los datos. Verifica los campos de banco y saldo.");
+                    }
                 }
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(vista, "Error en los datos. Verifica los campos de banco y saldo.");
+            } else {
+                datosValidos = true;
             }
         }
     }
@@ -370,7 +382,7 @@ public class ControladorCuentas {
         vista.panelGastos.add(panel, BorderLayout.NORTH);
         vista.panelGastos.repaint();
     }
-    
+
 // Método para mostrar el gráfico ampliado en un diálogo
     private void mostrarGraficoAmpliado(JFreeChart grafico) {
         // Creamos un JDialog para mostrar el gráfico ampliado

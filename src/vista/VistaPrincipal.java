@@ -51,10 +51,12 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jLabel11 = new javax.swing.JLabel();
         etiInformes = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        btnAdmin = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        etiAdmin = new javax.swing.JLabel();
         favicon1 = new javax.swing.JLabel();
+        btnAdmin = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        etiAdmin = new javax.swing.JLabel();
+        btnLogout = new javax.swing.JPanel();
+        etiLogout = new javax.swing.JLabel();
         header = new javax.swing.JPanel();
         exitBtn = new javax.swing.JPanel();
         exitTxt = new javax.swing.JLabel();
@@ -64,6 +66,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
         etiNombre = new javax.swing.JLabel();
         etiEmail = new javax.swing.JLabel();
         iconoUsuario = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setLocationByPlatform(true);
@@ -79,7 +82,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         jSeparator1.setBackground(new java.awt.Color(255, 255, 255));
         jSeparator1.setForeground(new java.awt.Color(255, 255, 255));
-        menu.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 580, 152, 10));
+        menu.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 550, 152, 10));
 
         btnPrincipal.setBackground(new java.awt.Color(21, 101, 192));
         btnPrincipal.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -176,12 +179,18 @@ public class VistaPrincipal extends javax.swing.JFrame {
         jSeparator2.setForeground(new java.awt.Color(255, 255, 255));
         menu.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, 152, 10));
 
+        favicon1.setFont(new java.awt.Font("Roboto Black", 1, 36)); // NOI18N
+        favicon1.setForeground(new java.awt.Color(255, 255, 255));
+        favicon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icono3.png"))); // NOI18N
+        favicon1.setText("MiEco");
+        menu.add(favicon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 205, 60));
+
         btnAdmin.setBackground(new java.awt.Color(18, 90, 173));
         btnAdmin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnAdmin.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/admin.png"))); // NOI18N
-        btnAdmin.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 6, -1, 38));
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/admin.png"))); // NOI18N
+        btnAdmin.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(18, 6, -1, 38));
 
         etiAdmin.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
         etiAdmin.setForeground(new java.awt.Color(255, 255, 255));
@@ -191,11 +200,15 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         menu.add(btnAdmin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 470, 230, 50));
 
-        favicon1.setFont(new java.awt.Font("Roboto Black", 1, 36)); // NOI18N
-        favicon1.setForeground(new java.awt.Color(255, 255, 255));
-        favicon1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/icono3.png"))); // NOI18N
-        favicon1.setText("MiEco");
-        menu.add(favicon1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 205, 60));
+        btnLogout.setBackground(new java.awt.Color(0, 134, 190));
+        btnLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogout.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiLogout.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/logout.png"))); // NOI18N
+        etiLogout.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLogout.add(etiLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 5, -1, -1));
+
+        menu.add(btnLogout, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 580, 80, 70));
 
         bg.add(menu, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 230, 700));
 
@@ -278,6 +291,10 @@ public class VistaPrincipal extends javax.swing.JFrame {
 
         BarraSuperior.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 0, 340, 60));
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/barra.png"))); // NOI18N
+        jLabel2.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        BarraSuperior.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 590, 60));
+
         bg.add(BarraSuperior, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 40, 970, 60));
 
         getContentPane().add(bg, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1200, 700));
@@ -330,6 +347,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public javax.swing.JPanel btnDepositos;
     public javax.swing.JPanel btnFondos;
     public javax.swing.JPanel btnInformes;
+    public javax.swing.JPanel btnLogout;
     public javax.swing.JPanel btnPrincipal;
     public javax.swing.JLabel etiAdmin;
     public javax.swing.JLabel etiBolsa;
@@ -338,6 +356,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     public javax.swing.JLabel etiEmail;
     public javax.swing.JLabel etiFondos;
     public javax.swing.JLabel etiInformes;
+    public javax.swing.JLabel etiLogout;
     public javax.swing.JLabel etiNombre;
     public javax.swing.JLabel etiPrincipal;
     public javax.swing.JPanel exitBtn;
@@ -349,6 +368,7 @@ public class VistaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;

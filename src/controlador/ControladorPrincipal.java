@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 import modelo.ConsultaCuentas;
 import modelo.ConsultaMovimientos;
 import modelo.entidades.Usuario;
@@ -16,6 +18,7 @@ import vista.Paneles.PanelDepositos;
 import vista.Paneles.PanelFondos;
 import vista.Paneles.PanelInformes;
 import vista.Paneles.PanelPrincipal;
+import vista.VistaLogin;
 import vista.VistaPrincipal;
 
 public class ControladorPrincipal {
@@ -75,21 +78,21 @@ public class ControladorPrincipal {
                 vista.exitBtn.setBackground(Color.red);
                 vista.exitTxt.setForeground(Color.white);
             }
+
             @Override
             public void mouseExited(MouseEvent evt) {
                 vista.exitBtn.setBackground(Color.white);
                 vista.exitTxt.setForeground(Color.black);
             }
+
             @Override
             public void mouseClicked(MouseEvent evt) {
-                int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro que quieres salir?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro que quieres cerrar la aplicación?", "Confirmación", JOptionPane.YES_NO_OPTION);
                 if (opcion == JOptionPane.YES_OPTION) {
                     System.exit(0);
                 }
             }
         });
-        
-        
 
         //BOTON PRINCIPAL
         // Evento para mostrar el panel principal al hacer clic en el botón PRINCIPAL
@@ -162,7 +165,7 @@ public class ControladorPrincipal {
                 mostrarPanel(panelFondos);
             }
         });
-        
+
         //BOTON BOLSA
         // Evento para mostrar el panel de cuentas al hacer clic en el botón BOLSA
         vista.btnBolsa.addMouseListener(new MouseAdapter() {
@@ -217,6 +220,22 @@ public class ControladorPrincipal {
             }
         });
 
+        //BOTON LOGOUT
+        vista.btnLogout.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                int opcion = JOptionPane.showConfirmDialog(null, "¿Estás seguro que quieres desloguearte?", "Confirmación", JOptionPane.YES_NO_OPTION);
+                if (opcion == JOptionPane.YES_OPTION) {
+                    // Cierra la ventana principal                    
+                    vista.dispose();
+
+                    // Muestra la vista de inicio de sesión
+                    VistaLogin vistaLogin = new VistaLogin(); // Crear una nueva instancia de la vista de inicio de sesión
+                    ControladorLogin controladorLogin = new ControladorLogin(vistaLogin); // Pasar la vista al controlador del login
+                    vistaLogin.setVisible(true); // Mostrar la vista de inicio de sesión
+                }
+            }
+        });
     }
 
     private void cargarDatosUsuario() {
