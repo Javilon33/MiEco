@@ -52,7 +52,7 @@ public class ConsultaCuentas {
         return cuentas;
     }
 
-    //Método par aobtener la cuenta por el idCuenta
+    //Método para obtener la cuenta por el idCuenta
     public Cuenta obtenerCuentaPorId(int idCuenta) {
         Cuenta cuenta = null;
         Conexion conexion = new Conexion();
@@ -226,12 +226,13 @@ public class ConsultaCuentas {
         }
     }
 
-    //Obtienr los ingresos totales de un usuario concreto
+    //Obtiene los INGRESOS totales de un usuario concreto en el año actual
     public double obtenerSumaIngresos(int idUsuario) {
         double totalIngresos = 0.0;
         String sql = "SELECT SUM(m.importe) AS total_importe \n"
                 + "      FROM mieco.movimientos m \n"
                 + "      JOIN mieco.cuentas c ON m.id_cuenta = c.id_cuenta \n"
+                + "AND YEAR(m.fecha) = YEAR(CURDATE()) "
                 + "      WHERE c.id_usuario = ? AND m.id_tipo_movimiento = 1";
 
         //Ejemplo de consulta de lo mismo pero de los últimos 30 días
@@ -257,14 +258,14 @@ public class ConsultaCuentas {
         return totalIngresos;
     }
 
-    /*//Obtiene los gastos de un tipo concreto de un usuario concreto    
-    public double obtenerSumaGastos(int idUsuario, int idTipoGasto) {
-        double totalIngresos = 0.0;
-        String sql = "SELECT SUM(m.importe) AS total_gasto"
-                + "FROM MOVIMIENTOS m"
-                + "JOIN CUENTAS c ON m.id_cuenta = c.id_cuenta"
-                + "WHERE c.id_usuario = ? AND m.id_tipo_gasto = ?";
-
+    //Obtiene los PAGOS totales de un usuario concreto en el año actual
+    public double obtenerSumaPagos(int idUsuario) {
+        double totalPagos = 0.0;
+        String sql = "SELECT SUM(m.importe) AS total_importe \n"
+                + "      FROM mieco.movimientos m \n"
+                + "      JOIN mieco.cuentas c ON m.id_cuenta = c.id_cuenta \n"
+                + "AND YEAR(m.fecha) = YEAR(CURDATE()) "
+                + "      WHERE c.id_usuario = ? AND m.id_tipo_movimiento = 2";
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
@@ -272,16 +273,16 @@ public class ConsultaCuentas {
             stmt.setInt(1, idUsuario);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    totalIngresos = rs.getDouble("total_gasto");
+                    totalPagos = rs.getDouble("total_importe");
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return totalIngresos;
-    }*/
-    
-    //Obtiene los gastos de un usuario concreto    
+        return totalPagos;
+    }        
+
+    //Obtiene un OBJETO GASTO de un usuario concreto en el año actual    
     public List<Gasto> obtenerTodosLosGastos(int idUsuario) {
         String sql = "SELECT tg.id_tipo_gasto, tg.descripcion, tg.tipo, SUM(m.importe) AS total_gasto "
                 + "FROM MOVIMIENTOS m "
@@ -304,7 +305,7 @@ public class ConsultaCuentas {
                     String descripcion = rs.getString("descripcion");
                     String tipo = rs.getString("tipo");
                     double totalGasto = rs.getDouble("total_gasto");
-                    totalGasto= -totalGasto; //Pasa el gasto a número positivo
+                    totalGasto = -totalGasto; //Pasa el gasto a número positivo
                     if (rs.wasNull()) {
                         totalGasto = 0.0; // Manejo de valores nulos
                     }
@@ -325,7 +326,6 @@ public class ConsultaCuentas {
                 ex.printStackTrace();
             }
         }
-
         return listaGastos;
     }
 

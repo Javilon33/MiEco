@@ -48,7 +48,7 @@ public class ControladorPrincipal {
         mostrarPanel(panelPrincipal);
 
         // Oculta el botón Admin si el usuario no es administrador
-        if (usuario.getAdmin() == 0) {
+        if (usuario.getRol() == 0) {
             vista.btnAdmin.setVisible(false);
         }
     }

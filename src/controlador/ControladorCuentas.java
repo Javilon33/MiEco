@@ -10,8 +10,8 @@ import java.awt.event.MouseListener;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Locale;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -26,8 +26,12 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
+import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.renderer.category.BarRenderer;
 import org.jfree.chart.title.TextTitle;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import vista.Paneles.PanelCuentas;
 import vista.Paneles.PanelMovimientosCuenta;
@@ -43,6 +47,11 @@ public class ControladorCuentas {
     private final ConsultaCuentas consultaCuentas; // El modelo para obtener los datos de las cuentas
     private final Usuario usuario; // Usuario actual para obtener sus datos
     private final ConsultaMovimientos consultaMovimientos;
+    
+    //Formato para mostrar los importes correctamente (2 decimales y puntos en los miles)
+    NumberFormat formato = NumberFormat.getInstance(new Locale("es", "ES"));
+        
+    
 
     // Constructor para inicializar la vista, el modelo y el usuario
     public ControladorCuentas(PanelCuentas vista, ConsultaCuentas consultaCuentas, Usuario usuario, ConsultaMovimientos consultaMovimientos) {
@@ -100,13 +109,30 @@ public class ControladorCuentas {
                 mostrarPanelModificarCuenta();
             }
         });
+        
+        //Formato de los importes 
+        formato.setMaximumFractionDigits(2);
+        formato.setMinimumFractionDigits(2);
+                
     }
 
     // Cargar y mostrar las cuentas del usuario en la tabla
     public void cargarCuentas() {
-        List<Cuenta> cuentas = consultaCuentas.obtenerCuentas(usuario.getCodigo()); // Trae las cuentas del usuario
-        vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
-        vista.etiIngresos.setText(consultaCuentas.obtenerSumaIngresos(usuario.getCodigo()) + "€");
+        //Trae las cuentas del usuario
+        List<Cuenta> cuentas = consultaCuentas.obtenerCuentas(usuario.getCodigo());
+        //Muestra el saldo actual de todas las cuentas (con 2 decimales)
+        double saldoTotal = consultaCuentas.obtenerSaldoTotal(usuario.getCodigo());
+        vista.etiSaldoTotal.setText(formato.format(saldoTotal)+ " €");
+        //Muestra los ingresos totales del año en curso (con 2 decimales)
+        double ingresosTotales = consultaCuentas.obtenerSumaIngresos(usuario.getCodigo());
+        vista.sumaIngresos.setText(formato.format(ingresosTotales)+ " €");
+        vista.etiIngresosTotales.setText("Ingresos Totales (" + LocalDate.now().getYear() + ")");
+        //Muestra los pagos totales del año en curso (con 2 decimales)
+        double pagosTotales = consultaCuentas.obtenerSumaPagos(usuario.getCodigo());
+        vista.sumaPagos.setText(formato.format(pagosTotales)+ " €");
+        vista.etiPagosTotales.setText("Pagos Totales (" + LocalDate.now().getYear() + ")");
+        
+
         // Configura el modelo de la tabla para limpiar datos previos
         DefaultTableModel modelo = (DefaultTableModel) vista.tablaCuentas.getModel();
         modelo.setRowCount(0); // Limpiar las filas
@@ -118,7 +144,7 @@ public class ControladorCuentas {
                 cuenta.getAlias(),
                 cuenta.getIban(),
                 cuenta.getBanco(),
-                cuenta.getSaldo(),
+                formato.format(cuenta.getSaldo()), // Formatear saldo a 2 decimales
                 "Detalles" // Esto se verá como el botón de detalles
             };
             modelo.addRow(fila);
@@ -150,8 +176,9 @@ public class ControladorCuentas {
             }
         });
 
-        //Actualiza el gráfico de los gastos por si ha habido cambios
+        //Inicia o actualiza los gráficos por si ha habido cambios
         graficoGastos(usuario.getCodigo());
+        graficoIngresosPagos(usuario.getCodigo());
     }
 
     // Muestra un panel emergente para añadir una cuenta nueva
@@ -175,13 +202,13 @@ public class ControladorCuentas {
         while (!datosValidos) {
             // Abre un diálogo para añadir la cuenta 
             int resultado = JOptionPane.showConfirmDialog(vista, panel, "Añadir nueva cuenta", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-            
+
             if (resultado == JOptionPane.OK_OPTION) {
                 // Recoge y valida los datos introducidos 
                 String alias = campoAlias.getText().trim();
                 String iban = campoIban.getText().trim();
                 String banco = campoBanco.getText().trim();
-                
+
                 // Comprueba que los campos no estén vacíos 
                 if (alias.isEmpty() || iban.isEmpty() || banco.isEmpty()) {
                     JOptionPane.showMessageDialog(vista, "Todos los campos son obligatorios. Por favor, rellénalos.");
@@ -196,7 +223,7 @@ public class ControladorCuentas {
                             // Refresca la tabla con la nueva cuenta 
                             cargarCuentas();
                             // Salir del bucle 
-                            datosValidos = true;                            
+                            datosValidos = true;
                         } else {
                             JOptionPane.showMessageDialog(vista, "Error al añadir la cuenta. Inténtalo de nuevo.");
                         }
@@ -236,7 +263,9 @@ public class ControladorCuentas {
 
                 // Recarga la tabla y actualiza el saldo total
                 cargarCuentas();
-                vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
+                //Muestra el saldo actual de todas las cuentas (con 2 decimales)
+                double saldoTotal = consultaCuentas.obtenerSaldoTotal(usuario.getCodigo());
+                vista.etiSaldoTotal.setText(String.format("%.2f€", saldoTotal));
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al eliminar la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -297,7 +326,9 @@ public class ControladorCuentas {
                 if (cuentaModificada) {
                     JOptionPane.showMessageDialog(vista, "Cuenta modificada correctamente.");
                     cargarCuentas(); // Refresca la tabla con los cambios
-                    vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
+                    //Muestra el saldo actual de todas las cuentas (con 2 decimales)
+                    double saldoTotal = consultaCuentas.obtenerSaldoTotal(usuario.getCodigo());
+                    vista.etiSaldoTotal.setText(String.format("%.2f€", saldoTotal));
                 } else {
                     JOptionPane.showMessageDialog(vista, "Error al modificar la cuenta. Inténtalo de nuevo.");
                 }
@@ -323,37 +354,37 @@ public class ControladorCuentas {
         dialogoMovimientos.setVisible(true);
     }
 
-    // Método para mostrar un gráfico de tarta con el desglose de los gastos por tipo en el año actual
+    // Método para mostrar un gráfico de tarta con el desglose de los GASTOS por tipo en el año actual
     public void graficoGastos(int idUsuario) {
         // Sacamos todos los gastos del usuario en forma de un array
         Gasto[] gastos = consultaCuentas.obtenerTodosLosGastos(idUsuario).toArray(new Gasto[0]);
 
-        // Creamos el conjunto de datos para el gráfico (una tarta necesita datos en este formato)
+        // Crea el conjunto de datos para el gráfico (una tarta necesita datos en este formato)
         DefaultPieDataset datos = new DefaultPieDataset();
         for (Gasto gasto : gastos) {
             // Añadimos cada gasto al conjunto, usando la descripción como etiqueta y el total como valor
             datos.setValue(gasto.getDescripcion(), gasto.getTotal());
         }
 
-        // Creamos el gráfico de tarta con el título y los datos
+        // Crea el gráfico de tarta con el título y los datos
         JFreeChart grafico_circular = ChartFactory.createPieChart(
                 "Resumen de Gastos (" + LocalDate.now().getYear() + ")", // Título del gráfico con el año actual
                 datos, // Los datos que usamos para la tarta
-                false, // No queremos una leyenda aquí
+                false, // Sin descripciones
                 true, // Permitimos herramientas como descripciones emergentes
                 false // No necesitamos URLs (no es un gráfico web)
         );
 
-        // Cambiamos la fuente del título para que sea más estilosa (Roboto, tamaño 18)
+        // Cambia la fuente del título para que sea más estilosa (Roboto, tamaño 18)
         Font fuenteTitulo = new Font("Roboto", Font.PLAIN, 18);
-        TextTitle titulo = new TextTitle("Resumen de Gastos (" + LocalDate.now().getYear() + ")", fuenteTitulo);
+        TextTitle titulo = new TextTitle("Desglose de Gastos (" + LocalDate.now().getYear() + ")", fuenteTitulo);
         grafico_circular.setTitle(titulo);
 
-        // Ajustamos el fondo interno del gráfico a blanco (para que no salga gris)
+        // Ajusta el fondo interno del gráfico a blanco (para que no salga gris)
         PiePlot plot = (PiePlot) grafico_circular.getPlot();
         plot.setBackgroundPaint(Color.WHITE);
 
-        // Configuramos las etiquetas que aparecerán en la tarta:
+        // Configura las etiquetas que aparecerán en la tarta:
         // - {0}: Nombre de la categoría
         // - {1}: Valor numérico con formato
         // - {2}: Porcentaje del total
@@ -364,12 +395,12 @@ public class ControladorCuentas {
                 NumberFormat.getPercentInstance() // Para mostrar los porcentajes bien
         ));
 
-        // Creamos un panel que contendrá el gráfico (para interactuar con él)
+        // Crea un panel que contendrá el gráfico (para interactuar con él)
         ChartPanel panel = new ChartPanel(grafico_circular);
-        panel.setMouseWheelEnabled(true); // Permite hacer zoom con la rueda del ratón
-        panel.setPreferredSize(new Dimension(400, 200)); // Tamaño del gráfico
+        panel.setMouseWheelEnabled(true); // Permite hacer zoom con la rueda del ratón        
+        panel.setPreferredSize(new Dimension(400, 295)); // Tamaño del gráfico
 
-        // Añadimos un evento para ampliar el gráfico al hacer clic
+        // Añade un evento para ampliar el gráfico al hacer clic
         panel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent e) {
@@ -380,10 +411,76 @@ public class ControladorCuentas {
         // Actualiza el panel principal
         vista.panelGastos.removeAll();
         vista.panelGastos.add(panel, BorderLayout.NORTH);
+        vista.panelIngresos.revalidate();
         vista.panelGastos.repaint();
     }
+    
+    // Método para mostrar un gráfico de barras comparando INGRESOS/PAGOS en el año actual
+    public void graficoIngresosPagos(int idUsuario) {
+        // Obtener los datos para el gráfico
+        double sumaIngresos = consultaCuentas.obtenerSumaIngresos(idUsuario);
+        double sumaPagos = consultaCuentas.obtenerSumaPagos(idUsuario);
+        sumaPagos = -sumaPagos;//Convirte el importe a positivo para que no salga la barra invertida en el gráfico 
+        
+        // Crear el conjunto de datos para el gráfico de barras
+        DefaultCategoryDataset datos = new DefaultCategoryDataset();
+        datos.addValue(sumaIngresos, "Ingresos", "");
+        datos.addValue(sumaPagos, "Pagos", "");       
 
-// Método para mostrar el gráfico ampliado en un diálogo
+        // Crear el gráfico de barras
+        JFreeChart graficoBarras = ChartFactory.createBarChart(
+                "Comparativa de Ingresos y Pagos", // Título del gráfico
+                "", // Etiqueta del eje X
+                "Cantidad (€)", // Etiqueta del eje Y
+                datos, // Conjunto de datos
+                PlotOrientation.VERTICAL, // Orientación del gráfico
+                false, // No queremos leyenda
+                true, // Habilitar herramientas (como descripciones emergentes)
+                false // No necesitamos URLs
+        );
+
+        // Cambiar la fuente del título
+        Font fuenteTitulo = new Font("Roboto", Font.PLAIN, 18);
+        graficoBarras.setTitle(new TextTitle("Ingresos y Pagos ("+ LocalDate.now().getYear() + ")", fuenteTitulo));
+
+        // Cambiar el fondo del gráfico a blanco
+        CategoryPlot plot = graficoBarras.getCategoryPlot();
+        plot.setBackgroundPaint(Color.WHITE);
+                
+        // Configurar el renderizador para personalizar el ancho y color de las barras
+        BarRenderer renderer = (BarRenderer) plot.getRenderer();
+        renderer.setSeriesPaint(0, new Color(60, 179, 113)); // Verde para ingresos
+        renderer.setSeriesPaint(1, new Color(220, 20, 60)); // Rojo para pagos
+        renderer.setMaximumBarWidth(0.3); // Ancho máximo de las barras 
+        renderer.setItemMargin(0.0); // Eliminar espacio entre barras del mismo grupo
+        renderer.setShadowVisible(true); //Muestra la sombra de las barras
+
+        // Ajustar la fuente del eje X y del eje Y
+        plot.getDomainAxis().setLabelFont(new Font("Roboto", Font.PLAIN, 12));
+        plot.getRangeAxis().setLabelFont(new Font("Roboto", Font.PLAIN, 12));
+
+        // Crear el panel para mostrar el gráfico
+        ChartPanel panel = new ChartPanel(graficoBarras);
+        panel.setPreferredSize(new Dimension(190, 290));
+        
+        
+        
+        // Añade un evento para ampliar el gráfico al hacer clic
+        panel.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                mostrarGraficoAmpliado(graficoBarras);
+            }
+        });
+
+        // Mostrar el gráfico en el panel correspondiente de la vista
+        vista.panelIngresos.removeAll();
+        vista.panelIngresos.add(panel, BorderLayout.CENTER);
+        vista.panelIngresos.revalidate();
+        vista.panelIngresos.repaint();
+    }
+    
+    // Método para mostrar el gráfico ampliado en un diálogo
     private void mostrarGraficoAmpliado(JFreeChart grafico) {
         // Creamos un JDialog para mostrar el gráfico ampliado
         JDialog dialogo = new JDialog();
@@ -400,4 +497,5 @@ public class ControladorCuentas {
         // Mostramos el diálogo
         dialogo.setVisible(true);
     }
+
 }

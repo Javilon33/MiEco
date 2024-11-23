@@ -1,6 +1,7 @@
 package controlador;
 
 import Utilidades.ComboBoxItem;
+import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
@@ -123,8 +124,8 @@ public class ControladorMovimientosCuenta {
                 nombreSubtipo,
                 nombreGasto,
                 movimiento.getNotas(),
-                movimiento.getImporte(),
-                saldo
+                String.format("%.2f", movimiento.getImporte()), // Formatear saldo a 2 decimales
+                String.format("%.2f", saldo) // Formatear saldo acumulado a 2 decimales
             };
             // Añadir la fila al modelo de la tabla
             modelo.addRow(fila);
@@ -193,7 +194,7 @@ public class ControladorMovimientosCuenta {
 
         // Listener para actualizar gastos según tipo y categoría
         cbCategoria.addActionListener(e -> {
-            ComboBoxItem tipoSeleccionado = (ComboBoxItem) cbTipo.getSelectedItem();
+            //ComboBoxItem tipoSeleccionado = (ComboBoxItem) cbTipo.getSelectedItem();
             ComboBoxItem categoriaSeleccionada = (ComboBoxItem) cbCategoria.getSelectedItem();
 
             if (categoriaSeleccionada.getId() == 9) {
@@ -424,7 +425,7 @@ public class ControladorMovimientosCuenta {
                 } else {
                     JOptionPane.showMessageDialog(vista, "Error al modificar el movimiento.");
                 }
-            } catch (Exception ex) {
+            } catch (HeadlessException | NumberFormatException ex) {
                 JOptionPane.showMessageDialog(vista, "Error en los datos. Verifica los campos.");
             }
         }
