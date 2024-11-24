@@ -8,7 +8,12 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
+import modelo.ConsultaAdmin;
+import modelo.ConsultaBolsa;
 import modelo.ConsultaCuentas;
+import modelo.ConsultaDepositos;
+import modelo.ConsultaFondos;
+import modelo.ConsultaInformes;
 import modelo.ConsultaInicio;
 import modelo.ConsultaMovimientos;
 import modelo.entidades.Usuario;
@@ -40,9 +45,13 @@ public class ControladorPrincipal {
     private PanelDepositos panelDepositos;
     private ControladorDepositos controladorDepositos;
     private PanelFondos panelFondos;
+    private ControladorFondos controladorFondos;
     private PanelBolsa panelBolsa;
+    private ControladorBolsa controladorBolsa;
     private PanelInformes panelInformes;
+    private ControladorInformes controladorInformes;
     private PanelAdmin panelAdmin;
+    private ControladorAdmin controladorAdmin;
 
     public ControladorPrincipal(VistaPrincipal vista, Usuario usuario) {
         this.vista = vista;
@@ -252,26 +261,41 @@ public class ControladorPrincipal {
 
     // Método para instanciar y configurar todos los paneles y controladores
     private void cargarPaneles() {
-        // Panel Inicio
+        // Panel INICIO y su sontrolador
         panelInicio = new PanelInicio();
         ConsultaInicio consultaInicio = new ConsultaInicio();
         controladorInicio = new ControladorInicio(panelInicio, consultaInicio, usuario);        
 
-        // Panel de cuentas y su controlador
+        // Panel de CUENTAS y sus controladores
         panelCuentas = new PanelCuentas();
         ConsultaCuentas consultaCuentas = new ConsultaCuentas();
         ConsultaMovimientos consultamMovimiento = new ConsultaMovimientos();
         controladorCuentas = new ControladorCuentas(panelCuentas, consultaCuentas, usuario, consultamMovimiento);
         
-        // Panel Depósitos
+        // Panel DEPÓSITOS y su controlador
         panelDepositos = new PanelDepositos();
+        ConsultaDepositos consultaDepositos = new ConsultaDepositos();
+        controladorDepositos = new ControladorDepositos(panelDepositos, consultaDepositos, usuario);
         
-
-        // Otros paneles        
+        // Panel FONDOS y sus controladores
         panelFondos = new PanelFondos();
+        ConsultaFondos consultaFondos = new ConsultaFondos();
+        controladorFondos = new ControladorFondos(panelFondos, consultaFondos, usuario);
+
+        // Panel BOLSA y sus controladores
         panelBolsa = new PanelBolsa();
+        ConsultaBolsa consultaBolsa = new ConsultaBolsa();
+        controladorBolsa = new ControladorBolsa(panelBolsa, consultaBolsa, usuario);
+        
+        // Panel Fondos y sus controladores
         panelInformes = new PanelInformes();
+        ConsultaInformes consultaInformes = new ConsultaInformes();
+        controladorInformes = new ControladorInformes(panelInformes, consultaInformes, usuario);
+        
+        // Panel ADMIN y sus controladores
         panelAdmin = new PanelAdmin();
+        ConsultaAdmin consultaAdmin = new ConsultaAdmin();
+        controladorAdmin = new ControladorAdmin(panelAdmin, consultaAdmin, usuario);        
     }
 
     private void mostrarPanel(JPanel panel) {
