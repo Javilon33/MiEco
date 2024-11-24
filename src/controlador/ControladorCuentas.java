@@ -65,9 +65,7 @@ public class ControladorCuentas {
 
     // Configura eventos básicos (clicks en botones y etiquetas)
     public void inicializarEventos() {
-        // Saludo con el nombre del usuario
-        vista.etiNombre.setText("Hola, " + usuario.getNombre() + "!!");
-
+        
         // Evento para el botón y etiqueta de "Añadir cuenta"
         vista.btnAdd.addMouseListener(new MouseAdapter() {
             @Override

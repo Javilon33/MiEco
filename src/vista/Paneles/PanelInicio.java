@@ -8,12 +8,12 @@ package vista.Paneles;
  *
  * @author PC-Casa
  */
-public class PanelInformes extends javax.swing.JPanel {
+public class PanelInicio extends javax.swing.JPanel {
 
     /**
-     * Creates new form PanelCuentas
+     * Creates new form PanelPrincipal
      */
-    public PanelInformes() {
+    public PanelInicio() {
         initComponents();
     }
 
@@ -36,7 +36,7 @@ public class PanelInformes extends javax.swing.JPanel {
 
         etiNombre.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         etiNombre.setForeground(new java.awt.Color(0, 134, 190));
-        etiNombre.setText("INFORMES");
+        etiNombre.setText("Hola");
         jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 510, 40));
 
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 600));

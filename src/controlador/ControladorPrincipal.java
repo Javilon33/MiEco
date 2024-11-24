@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import modelo.ConsultaCuentas;
+import modelo.ConsultaInicio;
 import modelo.ConsultaMovimientos;
 import modelo.entidades.Usuario;
 import vista.Paneles.PanelAdmin;
@@ -17,10 +18,14 @@ import vista.Paneles.PanelCuentas;
 import vista.Paneles.PanelDepositos;
 import vista.Paneles.PanelFondos;
 import vista.Paneles.PanelInformes;
-import vista.Paneles.PanelPrincipal;
+import vista.Paneles.PanelInicio;
 import vista.VistaLogin;
 import vista.VistaPrincipal;
 
+/**
+ *
+ * @author Francisco Javier Gómez Gamero
+ */
 public class ControladorPrincipal {
 
     private final VistaPrincipal vista; // Instancia de la vista principal
@@ -28,10 +33,12 @@ public class ControladorPrincipal {
     private int xMouse, yMouse;
 
     // Definición de los paneles y controladores
-    private PanelCuentas vistaCuentas;
+    private PanelCuentas panelCuentas;
     private ControladorCuentas controladorCuentas;
-    private PanelPrincipal panelPrincipal;
+    private PanelInicio panelInicio;
+    private ControladorInicio controladorInicio;
     private PanelDepositos panelDepositos;
+    private ControladorDepositos controladorDepositos;
     private PanelFondos panelFondos;
     private PanelBolsa panelBolsa;
     private PanelInformes panelInformes;
@@ -45,7 +52,7 @@ public class ControladorPrincipal {
         cargarPaneles(); // Inicialización de los paneles y controladores
 
         // Establece el Panel principal al inicio de la aplicación
-        mostrarPanel(panelPrincipal);
+        mostrarPanel(panelInicio);
 
         // Oculta el botón Admin si el usuario no es administrador
         if (usuario.getRol() == 0) {
@@ -100,7 +107,7 @@ public class ControladorPrincipal {
             @Override
             public void mousePressed(MouseEvent evt) {
                 cambiarColorBotones(vista.btnPrincipal);
-                mostrarPanel(panelPrincipal);
+                mostrarPanel(panelInicio);
             }
         });
         //Evento para el texto JLabel y que funcione el click
@@ -108,7 +115,7 @@ public class ControladorPrincipal {
             @Override
             public void mousePressed(MouseEvent evt) {
                 cambiarColorBotones(vista.btnPrincipal);
-                mostrarPanel(panelPrincipal);
+                mostrarPanel(panelInicio);
             }
         });
 
@@ -118,7 +125,7 @@ public class ControladorPrincipal {
             @Override
             public void mousePressed(MouseEvent evt) {
                 cambiarColorBotones(vista.btnCuentas);
-                mostrarPanel(vistaCuentas);
+                mostrarPanel(panelCuentas);
             }
         });
         //Evento para el texto JLabel y que funcione el click
@@ -126,7 +133,7 @@ public class ControladorPrincipal {
             @Override
             public void mousePressed(MouseEvent evt) {
                 cambiarColorBotones(vista.btnCuentas);
-                mostrarPanel(vistaCuentas);
+                mostrarPanel(panelCuentas);
             }
         });
 
@@ -245,18 +252,22 @@ public class ControladorPrincipal {
 
     // Método para instanciar y configurar todos los paneles y controladores
     private void cargarPaneles() {
-        // Panel principal
-        panelPrincipal = new PanelPrincipal();
-        panelPrincipal.setSize(970, 600);
+        // Panel Inicio
+        panelInicio = new PanelInicio();
+        ConsultaInicio consultaInicio = new ConsultaInicio();
+        controladorInicio = new ControladorInicio(panelInicio, consultaInicio, usuario);        
 
         // Panel de cuentas y su controlador
-        vistaCuentas = new PanelCuentas();
+        panelCuentas = new PanelCuentas();
         ConsultaCuentas consultaCuentas = new ConsultaCuentas();
         ConsultaMovimientos consultamMovimiento = new ConsultaMovimientos();
-        controladorCuentas = new ControladorCuentas(vistaCuentas, consultaCuentas, usuario, consultamMovimiento);
-
-        // Otros paneles
+        controladorCuentas = new ControladorCuentas(panelCuentas, consultaCuentas, usuario, consultamMovimiento);
+        
+        // Panel Depósitos
         panelDepositos = new PanelDepositos();
+        
+
+        // Otros paneles        
         panelFondos = new PanelFondos();
         panelBolsa = new PanelBolsa();
         panelInformes = new PanelInformes();

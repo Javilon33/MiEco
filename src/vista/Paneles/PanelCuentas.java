@@ -68,8 +68,9 @@ public class PanelCuentas extends javax.swing.JPanel {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiNombre.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
-        etiNombre.setText("Hola");
-        jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 0, 510, 40));
+        etiNombre.setForeground(new java.awt.Color(0, 134, 190));
+        etiNombre.setText("CUENTAS CORRIENTES");
+        jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 510, 40));
 
         jLabel2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
         jLabel2.setText("Todas tus cuentas:");
