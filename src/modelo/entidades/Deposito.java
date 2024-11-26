@@ -1,61 +1,66 @@
 package modelo.entidades;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
- * Clase que representa un depósito bancario asociado a un usuario.
- * Contiene información como el importe inicial, intereses, fechas, 
- * y el usuario al que pertenece.
- * 
+ * Clase que representa un depósito bancario asociado a un usuario. Contiene
+ * información como el importe inicial, intereses, fechas, y el usuario al que
+ * pertenece.
+ *
  * @author Francisco Javier Gómez Gamero
  */
 public class Deposito {
+
     // Identificador único del depósito
     private int idDeposito;
     // Identificador del usuario al que pertenece el depósito
     private int idUsuario;
     // Nombre o alias del depósito
     private String nombre;
+    // Banco donde se ha contratado
+    private String banco;
+    // Fecha de inicio del depósito    
+    private Date fechaInicio;
+    // Plazo de contratación (Meses)
+    private int meses;    
     // Cantidad inicial invertida en el depósito
-    private BigDecimal importeInicial;
+    private double importeInicial;
     // Porcentaje de interés anual del depósito
-    private BigDecimal interesAnual;
-    // Fecha de inicio del depósito
-    private LocalDate fechaInicio;
-    // Fecha de vencimiento del depósito
-    private LocalDate fechaVencimiento;
+    private double interesAnual;    
     // Importe final esperado tras vencimiento y retenciones
-    private BigDecimal importeFinal;
+    private double importeFinal;
 
     /**
      * Constructor para crear un depósito con todos sus datos.
-     * 
+     *
      * @param idDeposito ID único del depósito.
      * @param idUsuario ID del usuario asociado.
      * @param nombre Nombre o alias del depósito.
-     * @param importeInicial Cantidad inicial del depósito.
-     * @param interesAnual Porcentaje de interés anual.
+     * @param banco Banco donde se ha contratado
      * @param fechaInicio Fecha de inicio del depósito.
-     * @param fechaVencimiento Fecha de vencimiento del depósito.
+     * @param meses Plazo de duración del depósito.
+     * @param importeInicial Cantidad inicial del depósito.
+     * @param interesAnual Porcentaje de interés anual.     *
      * @param importeFinal Importe final esperado tras vencimiento.
      */
-    public Deposito(int idDeposito, int idUsuario, String nombre, BigDecimal importeInicial,
-                    BigDecimal interesAnual, LocalDate fechaInicio, LocalDate fechaVencimiento, 
-                    BigDecimal importeFinal) {
+    public Deposito(int idDeposito, int idUsuario, String nombre, String banco, Date fechaInicio, int meses, double importeInicial,
+            double interesAnual, double importeFinal) {
         this.idDeposito = idDeposito;
         this.idUsuario = idUsuario;
         this.nombre = nombre;
-        this.importeInicial = importeInicial;
-        this.interesAnual = interesAnual;
+        this.banco = banco;
         this.fechaInicio = fechaInicio;
-        this.fechaVencimiento = fechaVencimiento;
+        this.meses = meses;
+        this.importeInicial = importeInicial;
+        this.interesAnual = interesAnual;        
         this.importeFinal = importeFinal;
     }
 
     /**
      * Obtiene el ID del depósito.
-     * 
+     *
      * @return El ID del depósito.
      */
     public int getIdDeposito() {
@@ -64,7 +69,7 @@ public class Deposito {
 
     /**
      * Cambia el ID del depósito.
-     * 
+     *
      * @param idDeposito Nuevo ID del depósito.
      */
     public void setIdDeposito(int idDeposito) {
@@ -73,7 +78,7 @@ public class Deposito {
 
     /**
      * Obtiene el ID del usuario asociado al depósito.
-     * 
+     *
      * @return El ID del usuario.
      */
     public int getIdUsuario() {
@@ -82,7 +87,7 @@ public class Deposito {
 
     /**
      * Cambia el ID del usuario asociado al depósito.
-     * 
+     *
      * @param idUsuario Nuevo ID del usuario.
      */
     public void setIdUsuario(int idUsuario) {
@@ -91,7 +96,7 @@ public class Deposito {
 
     /**
      * Obtiene el nombre o alias del depósito.
-     * 
+     *
      * @return El nombre del depósito.
      */
     public String getNombre() {
@@ -100,7 +105,7 @@ public class Deposito {
 
     /**
      * Cambia el nombre o alias del depósito.
-     * 
+     *
      * @param nombre Nuevo nombre del depósito.
      */
     public void setNombre(String nombre) {
@@ -108,93 +113,125 @@ public class Deposito {
     }
 
     /**
-     * Obtiene el importe inicial del depósito.
-     * 
-     * @return El importe inicial.
+     * Obtiene el banco del depósito.
+     *
+     * @return El banco del depósito.
      */
-    public BigDecimal getImporteInicial() {
-        return importeInicial;
+    public String getBanco() {
+        return banco;
     }
 
     /**
-     * Cambia el importe inicial del depósito.
-     * 
-     * @param importeInicial Nuevo importe inicial.
+     * Cambia el banco del depósito.
+     *
+     * @param banco Nuevo nombre del depósito.
      */
-    public void setImporteInicial(BigDecimal importeInicial) {
-        this.importeInicial = importeInicial;
+    public void setBanco(String banco) {
+        this.banco = banco;
     }
-
-    /**
-     * Obtiene el porcentaje de interés anual del depósito.
-     * 
-     * @return El porcentaje de interés anual.
-     */
-    public BigDecimal getInteresAnual() {
-        return interesAnual;
-    }
-
-    /**
-     * Cambia el porcentaje de interés anual del depósito.
-     * 
-     * @param interesAnual Nuevo porcentaje de interés anual.
-     */
-    public void setInteresAnual(BigDecimal interesAnual) {
-        this.interesAnual = interesAnual;
-    }
-
+    
     /**
      * Obtiene la fecha de inicio del depósito.
-     * 
+     *
      * @return La fecha de inicio.
      */
-    public LocalDate getFechaInicio() {
+    public Date getFechaInicio() {
         return fechaInicio;
     }
 
     /**
      * Cambia la fecha de inicio del depósito.
-     * 
+     *
      * @param fechaInicio Nueva fecha de inicio.
      */
-    public void setFechaInicio(LocalDate fechaInicio) {
+    public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
     /**
-     * Obtiene la fecha de vencimiento del depósito.
-     * 
-     * @return La fecha de vencimiento.
+     * Obtiene el plazo de duración del depósito en meses.
+     *
+     * @return Los meses de duración.
      */
-    public LocalDate getFechaVencimiento() {
-        return fechaVencimiento;
+    public int getMeses() {
+        return meses;
     }
 
     /**
-     * Cambia la fecha de vencimiento del depósito.
-     * 
-     * @param fechaVencimiento Nueva fecha de vencimiento.
+     * Cambia la duración en meses del depósito.
+     *
+     * @param meses Nuevo plazo de duración del depósito en meses.
      */
-    public void setFechaVencimiento(LocalDate fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
+    public void setMeses(int meses) {
+        this.meses = meses;
+    }  
+    
+    /**
+     * Obtiene el importe inicial del depósito.
+     *
+     * @return El importe inicial.
+     */
+    public double getImporteInicial() {
+        return importeInicial;
     }
 
+    /**
+     * Cambia el importe inicial del depósito.
+     *
+     * @param importeInicial Nuevo importe inicial.
+     */
+    public void setImporteInicial(double importeInicial) {
+        this.importeInicial = importeInicial;
+    }
+
+    /**
+     * Obtiene el porcentaje de interés anual del depósito.
+     *
+     * @return El porcentaje de interés anual.
+     */
+    public double getInteresAnual() {
+        return interesAnual;
+    }
+
+    /**
+     * Cambia el porcentaje de interés anual del depósito.
+     *
+     * @param interesAnual Nuevo porcentaje de interés anual.
+     */
+    public void setInteresAnual(double interesAnual) {
+        this.interesAnual = interesAnual;
+    }
+    
     /**
      * Obtiene el importe final esperado tras vencimiento.
-     * 
+     *
      * @return El importe final esperado.
      */
-    public BigDecimal getImporteFinal() {
+    public double getImporteFinal() {
         return importeFinal;
     }
 
     /**
      * Cambia el importe final esperado tras vencimiento.
-     * 
+     *
      * @param importeFinal Nuevo importe final esperado.
      */
-    public void setImporteFinal(BigDecimal importeFinal) {
+    public void setImporteFinal(double importeFinal) {
         this.importeFinal = importeFinal;
     }
-}
 
+    /**
+     * Calcula la fecha de vencimiento del depósito según los meses.
+     *
+     * @return La fecha de vencimiento del depósito.
+     */
+    public Date getFechaVencimiento() {
+        // Calcular la fecha final usando Calendar
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(fechaInicio); // Establecer la fecha de inicio
+                    calendar.add(Calendar.MONTH, meses); // Añadir los meses
+                    Date fechaFin = calendar.getTime(); // Obtener la fecha final
+        return fechaFin;
+    }
+    
+}

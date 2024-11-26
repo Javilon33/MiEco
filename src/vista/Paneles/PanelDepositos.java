@@ -4,6 +4,9 @@
  */
 package vista.Paneles;
 
+import java.awt.Color;
+import java.awt.Font;
+
 /**
  *
  * @author PC-Casa
@@ -15,6 +18,13 @@ public class PanelDepositos extends javax.swing.JPanel {
      */
     public PanelDepositos() {
         initComponents();
+        
+        //Modificaciones al JTable para mostrar las cuentas
+        tablaDepositos.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 14));
+        tablaDepositos.getTableHeader().setOpaque(false);
+        tablaDepositos.getTableHeader().setBackground(new Color(0,134,190));
+        tablaDepositos.getTableHeader().setForeground(new Color(255,255,255));
+        tablaDepositos.setRowHeight(25);
     }
 
     /**
@@ -28,6 +38,135 @@ public class PanelDepositos extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         etiNombre = new javax.swing.JLabel();
+        panelMenu = new javax.swing.JPanel();
+        btnAdd = new javax.swing.JPanel();
+        etiAdd = new javax.swing.JLabel();
+        btnModificar = new javax.swing.JPanel();
+        etiModificar = new javax.swing.JLabel();
+        btnEliminar = new javax.swing.JPanel();
+        etiElminar = new javax.swing.JLabel();
+        panelDepositos = new javax.swing.JScrollPane();
+        tablaDepositos = new javax.swing.JTable();
+        panelDeposito1 = new javax.swing.JPanel();
+        panelVencido1 = new javax.swing.JPanel();
+        etiVencido1 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        etiImporteInicial1 = new javax.swing.JLabel();
+        etiImporteFinal1 = new javax.swing.JLabel();
+        etiDeposito1 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        etiFecha1 = new javax.swing.JLabel();
+        fechaFin1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        etiBeneficio1 = new javax.swing.JLabel();
+        icono = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        panelDeposito2 = new javax.swing.JPanel();
+        panelVencido2 = new javax.swing.JPanel();
+        etiVencido2 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        etiImporteInicial2 = new javax.swing.JLabel();
+        etiImporteFinal2 = new javax.swing.JLabel();
+        etiDeposito2 = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        etiFecha2 = new javax.swing.JLabel();
+        fechaFin2 = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        etiBeneficio2 = new javax.swing.JLabel();
+        icono1 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        panelDeposito3 = new javax.swing.JPanel();
+        panelVencido3 = new javax.swing.JPanel();
+        etiVencido3 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        etiImporteInicial3 = new javax.swing.JLabel();
+        etiImporteFinal3 = new javax.swing.JLabel();
+        etiDeposito3 = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        etiFecha3 = new javax.swing.JLabel();
+        fechaFin3 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        etiBeneficio3 = new javax.swing.JLabel();
+        icono2 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        panelDeposito4 = new javax.swing.JPanel();
+        panelVencido4 = new javax.swing.JPanel();
+        etiVencido4 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        etiImporteInicial4 = new javax.swing.JLabel();
+        etiImporteFinal4 = new javax.swing.JLabel();
+        etiDeposito4 = new javax.swing.JLabel();
+        jSeparator4 = new javax.swing.JSeparator();
+        etiFecha4 = new javax.swing.JLabel();
+        fechaFin4 = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        etiBeneficio4 = new javax.swing.JLabel();
+        icono3 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        panelDeposito5 = new javax.swing.JPanel();
+        panelVencido5 = new javax.swing.JPanel();
+        etiVencido5 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        etiImporteInicial5 = new javax.swing.JLabel();
+        etiImporteFinal5 = new javax.swing.JLabel();
+        etiDeposito5 = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
+        etiFecha5 = new javax.swing.JLabel();
+        fechaFin5 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        etiBeneficio5 = new javax.swing.JLabel();
+        icono4 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        panelDeposito6 = new javax.swing.JPanel();
+        panelVencido6 = new javax.swing.JPanel();
+        etiVencido6 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        etiImporteInicial6 = new javax.swing.JLabel();
+        etiImporteFinal6 = new javax.swing.JLabel();
+        etiDeposito6 = new javax.swing.JLabel();
+        jSeparator6 = new javax.swing.JSeparator();
+        etiFecha6 = new javax.swing.JLabel();
+        fechaFin6 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        etiBeneficio6 = new javax.swing.JLabel();
+        icono5 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        panelDeposito7 = new javax.swing.JPanel();
+        panelVencido7 = new javax.swing.JPanel();
+        etiVencido7 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        etiImporteInicial7 = new javax.swing.JLabel();
+        etiImporteFinal7 = new javax.swing.JLabel();
+        etiDeposito7 = new javax.swing.JLabel();
+        jSeparator7 = new javax.swing.JSeparator();
+        etiFecha7 = new javax.swing.JLabel();
+        fechaFin7 = new javax.swing.JLabel();
+        jPanel8 = new javax.swing.JPanel();
+        etiBeneficio7 = new javax.swing.JLabel();
+        icono6 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        panelDeposito8 = new javax.swing.JPanel();
+        panelVencido8 = new javax.swing.JPanel();
+        etiVencido8 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        etiImporteInicial8 = new javax.swing.JLabel();
+        etiImporteFinal8 = new javax.swing.JLabel();
+        etiDeposito8 = new javax.swing.JLabel();
+        jSeparator8 = new javax.swing.JSeparator();
+        etiFecha8 = new javax.swing.JLabel();
+        fechaFin8 = new javax.swing.JLabel();
+        jPanel9 = new javax.swing.JPanel();
+        etiBeneficio8 = new javax.swing.JLabel();
+        icono7 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
+        jLabel31 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -39,12 +178,710 @@ public class PanelDepositos extends javax.swing.JPanel {
         etiNombre.setText("DEPÓSITOS BANCARIOS");
         jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 510, 40));
 
+        panelMenu.setBackground(new java.awt.Color(255, 255, 255));
+        panelMenu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelMenu.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnAdd.setBackground(new java.awt.Color(190, 56, 0));
+        btnAdd.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAdd.setLayout(new java.awt.GridBagLayout());
+
+        etiAdd.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        etiAdd.setForeground(new java.awt.Color(255, 255, 255));
+        etiAdd.setText("AÑADIR");
+        etiAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnAdd.add(etiAdd, new java.awt.GridBagConstraints());
+
+        panelMenu.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 20));
+
+        btnModificar.setBackground(new java.awt.Color(190, 56, 0));
+        btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnModificar.setLayout(new java.awt.GridBagLayout());
+
+        etiModificar.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        etiModificar.setForeground(new java.awt.Color(255, 255, 255));
+        etiModificar.setText("MODIFICAR");
+        etiModificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnModificar.add(etiModificar, new java.awt.GridBagConstraints());
+
+        panelMenu.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 110, 20));
+
+        btnEliminar.setBackground(new java.awt.Color(190, 56, 0));
+        btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnEliminar.setLayout(new java.awt.GridBagLayout());
+
+        etiElminar.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        etiElminar.setForeground(new java.awt.Color(255, 255, 255));
+        etiElminar.setText("ELIMINAR");
+        etiElminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEliminar.add(etiElminar, new java.awt.GridBagConstraints());
+
+        panelMenu.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 110, 20));
+
+        jPanel1.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, 370, 40));
+
+        tablaDepositos.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        tablaDepositos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Depósito", "Banco", "Fecha Inicio", "Duración (Meses)", "Importe Inicial", "Interés Anual", "Importe Final Neto", "Finalizado"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tablaDepositos.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tablaDepositos.setFocusable(false);
+        tablaDepositos.setGridColor(new java.awt.Color(255, 255, 255));
+        tablaDepositos.setRowHeight(25);
+        tablaDepositos.setRowMargin(1);
+        tablaDepositos.setSelectionBackground(new java.awt.Color(255, 248, 236));
+        tablaDepositos.setSelectionForeground(new java.awt.Color(51, 51, 51));
+        tablaDepositos.setShowGrid(false);
+        tablaDepositos.setShowHorizontalLines(true);
+        tablaDepositos.getTableHeader().setReorderingAllowed(false);
+        panelDepositos.setViewportView(tablaDepositos);
+
+        jPanel1.add(panelDepositos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 910, 160));
+
+        panelDeposito1.setBackground(new java.awt.Color(255, 255, 255));
+        panelDeposito1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        panelDeposito1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelVencido1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiVencido1.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        etiVencido1.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido1.setText("VENCIDO");
+        panelVencido1.add(etiVencido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
+
+        panelDeposito1.add(panelVencido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
+        panelVencido1.setBackground(new Color(242,242,242,150));
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-roja.png"))); // NOI18N
+        panelDeposito1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 40, -1));
+
+        etiImporteInicial1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteInicial1.setText("Importe Inicial");
+        panelDeposito1.add(etiImporteInicial1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
+
+        etiImporteFinal1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteFinal1.setText("Importe Final");
+        panelDeposito1.add(etiImporteFinal1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+
+        etiDeposito1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiDeposito1.setText("DEPOSITO");
+        panelDeposito1.add(etiDeposito1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 120, -1));
+        panelDeposito1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 200, 10));
+
+        etiFecha1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        etiFecha1.setText("Fecha Inicio");
+        panelDeposito1.add(etiFecha1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        fechaFin1.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        fechaFin1.setText("Fecha fin");
+        panelDeposito1.add(fechaFin1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiBeneficio1.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiBeneficio1.setForeground(new java.awt.Color(0, 204, 51));
+        etiBeneficio1.setText("Importe");
+        jPanel2.add(etiBeneficio1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 80, -1));
+
+        icono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Icono_beneficio.png"))); // NOI18N
+        jPanel2.add(icono, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        jLabel9.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel9.setText("BENEFICIO");
+        jPanel2.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 10));
+
+        jLabel10.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel10.setText("(NETO)");
+        jPanel2.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        panelDeposito1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 90, 90));
+
+        jPanel1.add(panelDeposito1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 270, 220, 150));
+
+        panelDeposito2.setBackground(new java.awt.Color(255, 255, 255));
+        panelDeposito2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        panelDeposito2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelVencido2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiVencido2.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        etiVencido2.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido2.setText("VENCIDO");
+        panelVencido2.add(etiVencido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
+
+        panelDeposito2.add(panelVencido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
+        panelVencido2.setBackground(new Color(242,242,242,150));
+
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-roja.png"))); // NOI18N
+        panelDeposito2.add(jLabel11, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 40, -1));
+
+        etiImporteInicial2.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteInicial2.setText("Importe Inicial");
+        panelDeposito2.add(etiImporteInicial2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
+
+        etiImporteFinal2.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteFinal2.setText("Importe Final");
+        panelDeposito2.add(etiImporteFinal2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+
+        etiDeposito2.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiDeposito2.setText("DEPOSITO");
+        panelDeposito2.add(etiDeposito2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 120, -1));
+        panelDeposito2.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 200, 10));
+
+        etiFecha2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        etiFecha2.setText("Fecha Inicio");
+        panelDeposito2.add(etiFecha2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        fechaFin2.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        fechaFin2.setText("Fecha fin");
+        panelDeposito2.add(fechaFin2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiBeneficio2.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiBeneficio2.setForeground(new java.awt.Color(0, 204, 51));
+        etiBeneficio2.setText("Importe");
+        jPanel3.add(etiBeneficio2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 80, -1));
+
+        icono1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Icono_beneficio.png"))); // NOI18N
+        jPanel3.add(icono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        jLabel12.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel12.setText("BENEFICIO");
+        jPanel3.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 10));
+
+        jLabel13.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel13.setText("(NETO)");
+        jPanel3.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        panelDeposito2.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 90, 90));
+
+        jPanel1.add(panelDeposito2, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 270, 220, 150));
+
+        panelDeposito3.setBackground(new java.awt.Color(255, 255, 255));
+        panelDeposito3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        panelDeposito3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelVencido3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiVencido3.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        etiVencido3.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido3.setText("VENCIDO");
+        panelVencido3.add(etiVencido3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
+
+        panelDeposito3.add(panelVencido3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
+        panelVencido3.setBackground(new Color(242,242,242,150));
+
+        jLabel14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-roja.png"))); // NOI18N
+        panelDeposito3.add(jLabel14, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 40, -1));
+
+        etiImporteInicial3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteInicial3.setText("Importe Inicial");
+        panelDeposito3.add(etiImporteInicial3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
+
+        etiImporteFinal3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteFinal3.setText("Importe Final");
+        panelDeposito3.add(etiImporteFinal3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+
+        etiDeposito3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiDeposito3.setText("DEPOSITO");
+        panelDeposito3.add(etiDeposito3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 120, -1));
+        panelDeposito3.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 200, 10));
+
+        etiFecha3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        etiFecha3.setText("Fecha Inicio");
+        panelDeposito3.add(etiFecha3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        fechaFin3.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        fechaFin3.setText("Fecha fin");
+        panelDeposito3.add(fechaFin3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiBeneficio3.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiBeneficio3.setForeground(new java.awt.Color(0, 204, 51));
+        etiBeneficio3.setText("Importe");
+        jPanel4.add(etiBeneficio3, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 80, -1));
+
+        icono2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Icono_beneficio.png"))); // NOI18N
+        jPanel4.add(icono2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        jLabel15.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel15.setText("BENEFICIO");
+        jPanel4.add(jLabel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 10));
+
+        jLabel16.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel16.setText("(NETO)");
+        jPanel4.add(jLabel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        panelDeposito3.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 90, 90));
+
+        jPanel1.add(panelDeposito3, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 270, 220, 150));
+
+        panelDeposito4.setBackground(new java.awt.Color(255, 255, 255));
+        panelDeposito4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        panelDeposito4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelVencido4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiVencido4.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        etiVencido4.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido4.setText("VENCIDO");
+        panelVencido4.add(etiVencido4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
+
+        panelDeposito4.add(panelVencido4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
+        panelVencido4.setBackground(new Color(242,242,242,150));
+
+        jLabel17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-roja.png"))); // NOI18N
+        panelDeposito4.add(jLabel17, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 40, -1));
+
+        etiImporteInicial4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteInicial4.setText("Importe Inicial");
+        panelDeposito4.add(etiImporteInicial4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
+
+        etiImporteFinal4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteFinal4.setText("Importe Final");
+        panelDeposito4.add(etiImporteFinal4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+
+        etiDeposito4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiDeposito4.setText("DEPOSITO");
+        panelDeposito4.add(etiDeposito4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 120, -1));
+        panelDeposito4.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 200, 10));
+
+        etiFecha4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        etiFecha4.setText("Fecha Inicio");
+        panelDeposito4.add(etiFecha4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        fechaFin4.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        fechaFin4.setText("Fecha fin");
+        panelDeposito4.add(fechaFin4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+
+        jPanel5.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiBeneficio4.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiBeneficio4.setForeground(new java.awt.Color(0, 204, 51));
+        etiBeneficio4.setText("Importe");
+        jPanel5.add(etiBeneficio4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 70, -1));
+
+        icono3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Icono_beneficio.png"))); // NOI18N
+        jPanel5.add(icono3, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        jLabel18.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel18.setText("BENEFICIO");
+        jPanel5.add(jLabel18, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 10));
+
+        jLabel19.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel19.setText("(NETO)");
+        jPanel5.add(jLabel19, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        panelDeposito4.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 90, 90));
+
+        jPanel1.add(panelDeposito4, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 270, 220, 150));
+
+        panelDeposito5.setBackground(new java.awt.Color(255, 255, 255));
+        panelDeposito5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        panelDeposito5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelVencido5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiVencido5.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        etiVencido5.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido5.setText("VENCIDO");
+        panelVencido5.add(etiVencido5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
+
+        panelDeposito5.add(panelVencido5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
+        panelVencido5.setBackground(new Color(242,242,242,150));
+
+        jLabel20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-roja.png"))); // NOI18N
+        panelDeposito5.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 40, -1));
+
+        etiImporteInicial5.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteInicial5.setText("Importe Inicial");
+        panelDeposito5.add(etiImporteInicial5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
+
+        etiImporteFinal5.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteFinal5.setText("Importe Final");
+        panelDeposito5.add(etiImporteFinal5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+
+        etiDeposito5.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiDeposito5.setText("DEPOSITO");
+        panelDeposito5.add(etiDeposito5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 120, -1));
+        panelDeposito5.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 200, 10));
+
+        etiFecha5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        etiFecha5.setText("Fecha Inicio");
+        panelDeposito5.add(etiFecha5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        fechaFin5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        fechaFin5.setText("Fecha fin");
+        panelDeposito5.add(fechaFin5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiBeneficio5.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiBeneficio5.setForeground(new java.awt.Color(0, 204, 51));
+        etiBeneficio5.setText("Importe");
+        jPanel6.add(etiBeneficio5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 70, -1));
+
+        icono4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Icono_beneficio.png"))); // NOI18N
+        jPanel6.add(icono4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        jLabel21.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel21.setText("BENEFICIO");
+        jPanel6.add(jLabel21, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 10));
+
+        jLabel22.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel22.setText("(NETO)");
+        jPanel6.add(jLabel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        panelDeposito5.add(jPanel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 90, 90));
+
+        jPanel1.add(panelDeposito5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 430, 220, 150));
+
+        panelDeposito6.setBackground(new java.awt.Color(255, 255, 255));
+        panelDeposito6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        panelDeposito6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelVencido6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiVencido6.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        etiVencido6.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido6.setText("VENCIDO");
+        panelVencido6.add(etiVencido6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
+
+        panelDeposito6.add(panelVencido6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
+        panelVencido6.setBackground(new Color(242,242,242,150));
+
+        jLabel23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-roja.png"))); // NOI18N
+        panelDeposito6.add(jLabel23, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 40, -1));
+
+        etiImporteInicial6.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteInicial6.setText("Importe Inicial");
+        panelDeposito6.add(etiImporteInicial6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
+
+        etiImporteFinal6.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteFinal6.setText("Importe Final");
+        panelDeposito6.add(etiImporteFinal6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+
+        etiDeposito6.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiDeposito6.setText("DEPOSITO");
+        panelDeposito6.add(etiDeposito6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 120, -1));
+        panelDeposito6.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 200, 10));
+
+        etiFecha6.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        etiFecha6.setText("Fecha Inicio");
+        panelDeposito6.add(etiFecha6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        fechaFin6.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        fechaFin6.setText("Fecha fin");
+        panelDeposito6.add(fechaFin6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+
+        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiBeneficio6.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiBeneficio6.setForeground(new java.awt.Color(0, 204, 51));
+        etiBeneficio6.setText("Importe");
+        jPanel7.add(etiBeneficio6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 70, -1));
+
+        icono5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Icono_beneficio.png"))); // NOI18N
+        jPanel7.add(icono5, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        jLabel24.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel24.setText("BENEFICIO");
+        jPanel7.add(jLabel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 10));
+
+        jLabel25.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel25.setText("(NETO)");
+        jPanel7.add(jLabel25, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        panelDeposito6.add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 90, 90));
+
+        jPanel1.add(panelDeposito6, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 430, 220, 150));
+
+        panelDeposito7.setBackground(new java.awt.Color(255, 255, 255));
+        panelDeposito7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        panelDeposito7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelVencido7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiVencido7.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        etiVencido7.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido7.setText("VENCIDO");
+        panelVencido7.add(etiVencido7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
+
+        panelDeposito7.add(panelVencido7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
+        panelVencido7.setBackground(new Color(242,242,242,150));
+
+        jLabel26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-roja.png"))); // NOI18N
+        panelDeposito7.add(jLabel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 40, -1));
+
+        etiImporteInicial7.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteInicial7.setText("Importe Inicial");
+        panelDeposito7.add(etiImporteInicial7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
+
+        etiImporteFinal7.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteFinal7.setText("Importe Final");
+        panelDeposito7.add(etiImporteFinal7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+
+        etiDeposito7.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiDeposito7.setText("DEPOSITO");
+        panelDeposito7.add(etiDeposito7, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 120, -1));
+        panelDeposito7.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 200, 10));
+
+        etiFecha7.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        etiFecha7.setText("Fecha Inicio");
+        panelDeposito7.add(etiFecha7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        fechaFin7.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        fechaFin7.setText("Fecha fin");
+        panelDeposito7.add(fechaFin7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+
+        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiBeneficio7.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiBeneficio7.setForeground(new java.awt.Color(0, 204, 51));
+        etiBeneficio7.setText("Importe");
+        jPanel8.add(etiBeneficio7, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 70, -1));
+
+        icono6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Icono_beneficio.png"))); // NOI18N
+        jPanel8.add(icono6, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        jLabel27.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel27.setText("BENEFICIO");
+        jPanel8.add(jLabel27, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 10));
+
+        jLabel28.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel28.setText("(NETO)");
+        jPanel8.add(jLabel28, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        panelDeposito7.add(jPanel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 90, 90));
+
+        jPanel1.add(panelDeposito7, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 430, 220, 150));
+
+        panelDeposito8.setBackground(new java.awt.Color(255, 255, 255));
+        panelDeposito8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
+        panelDeposito8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        panelVencido8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiVencido8.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
+        etiVencido8.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido8.setText("VENCIDO");
+        panelVencido8.add(etiVencido8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
+
+        panelDeposito8.add(panelVencido8, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
+        panelVencido8.setBackground(new Color(242,242,242,150));
+
+        jLabel29.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/flecha-roja.png"))); // NOI18N
+        panelDeposito8.add(jLabel29, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 80, 40, -1));
+
+        etiImporteInicial8.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteInicial8.setText("Importe Inicial");
+        panelDeposito8.add(etiImporteInicial8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 60, -1, -1));
+
+        etiImporteFinal8.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiImporteFinal8.setText("Importe Final");
+        panelDeposito8.add(etiImporteFinal8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 120, -1, -1));
+
+        etiDeposito8.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiDeposito8.setText("DEPOSITO");
+        panelDeposito8.add(etiDeposito8, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 120, -1));
+        panelDeposito8.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 200, 10));
+
+        etiFecha8.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        etiFecha8.setText("Fecha Inicio");
+        panelDeposito8.add(etiFecha8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, -1, -1));
+
+        fechaFin8.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        fechaFin8.setText("Fecha fin");
+        panelDeposito8.add(fechaFin8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
+
+        jPanel9.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel9.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204)));
+        jPanel9.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        etiBeneficio8.setFont(new java.awt.Font("Roboto", 1, 14)); // NOI18N
+        etiBeneficio8.setForeground(new java.awt.Color(0, 204, 51));
+        etiBeneficio8.setText("Importe");
+        jPanel9.add(etiBeneficio8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 70, -1));
+
+        icono7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/Icono_beneficio.png"))); // NOI18N
+        jPanel9.add(icono7, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, -1, -1));
+
+        jLabel30.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel30.setText("BENEFICIO");
+        jPanel9.add(jLabel30, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 0, -1, 10));
+
+        jLabel31.setFont(new java.awt.Font("Roboto", 1, 10)); // NOI18N
+        jLabel31.setText("(NETO)");
+        jPanel9.add(jLabel31, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, -1, -1));
+
+        panelDeposito8.add(jPanel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 50, 90, 90));
+
+        jPanel1.add(panelDeposito8, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 430, 220, 150));
+
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 600));
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public javax.swing.JPanel btnAdd;
+    public javax.swing.JPanel btnEliminar;
+    public javax.swing.JPanel btnModificar;
+    public javax.swing.JLabel etiAdd;
+    public javax.swing.JLabel etiBeneficio1;
+    public javax.swing.JLabel etiBeneficio2;
+    public javax.swing.JLabel etiBeneficio3;
+    public javax.swing.JLabel etiBeneficio4;
+    public javax.swing.JLabel etiBeneficio5;
+    public javax.swing.JLabel etiBeneficio6;
+    public javax.swing.JLabel etiBeneficio7;
+    public javax.swing.JLabel etiBeneficio8;
+    public javax.swing.JLabel etiDeposito1;
+    public javax.swing.JLabel etiDeposito2;
+    public javax.swing.JLabel etiDeposito3;
+    public javax.swing.JLabel etiDeposito4;
+    public javax.swing.JLabel etiDeposito5;
+    public javax.swing.JLabel etiDeposito6;
+    public javax.swing.JLabel etiDeposito7;
+    public javax.swing.JLabel etiDeposito8;
+    public javax.swing.JLabel etiElminar;
+    public javax.swing.JLabel etiFecha1;
+    public javax.swing.JLabel etiFecha2;
+    public javax.swing.JLabel etiFecha3;
+    public javax.swing.JLabel etiFecha4;
+    public javax.swing.JLabel etiFecha5;
+    public javax.swing.JLabel etiFecha6;
+    public javax.swing.JLabel etiFecha7;
+    public javax.swing.JLabel etiFecha8;
+    public javax.swing.JLabel etiImporteFinal1;
+    public javax.swing.JLabel etiImporteFinal2;
+    public javax.swing.JLabel etiImporteFinal3;
+    public javax.swing.JLabel etiImporteFinal4;
+    public javax.swing.JLabel etiImporteFinal5;
+    public javax.swing.JLabel etiImporteFinal6;
+    public javax.swing.JLabel etiImporteFinal7;
+    public javax.swing.JLabel etiImporteFinal8;
+    public javax.swing.JLabel etiImporteInicial1;
+    public javax.swing.JLabel etiImporteInicial2;
+    public javax.swing.JLabel etiImporteInicial3;
+    public javax.swing.JLabel etiImporteInicial4;
+    public javax.swing.JLabel etiImporteInicial5;
+    public javax.swing.JLabel etiImporteInicial6;
+    public javax.swing.JLabel etiImporteInicial7;
+    public javax.swing.JLabel etiImporteInicial8;
+    public javax.swing.JLabel etiModificar;
     public javax.swing.JLabel etiNombre;
+    private javax.swing.JLabel etiVencido1;
+    private javax.swing.JLabel etiVencido2;
+    private javax.swing.JLabel etiVencido3;
+    private javax.swing.JLabel etiVencido4;
+    private javax.swing.JLabel etiVencido5;
+    private javax.swing.JLabel etiVencido6;
+    private javax.swing.JLabel etiVencido7;
+    private javax.swing.JLabel etiVencido8;
+    public javax.swing.JLabel fechaFin1;
+    public javax.swing.JLabel fechaFin2;
+    public javax.swing.JLabel fechaFin3;
+    public javax.swing.JLabel fechaFin4;
+    public javax.swing.JLabel fechaFin5;
+    public javax.swing.JLabel fechaFin6;
+    public javax.swing.JLabel fechaFin7;
+    public javax.swing.JLabel fechaFin8;
+    private javax.swing.JLabel icono;
+    private javax.swing.JLabel icono1;
+    private javax.swing.JLabel icono2;
+    private javax.swing.JLabel icono3;
+    private javax.swing.JLabel icono4;
+    private javax.swing.JLabel icono5;
+    private javax.swing.JLabel icono6;
+    private javax.swing.JLabel icono7;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
+    private javax.swing.JLabel jLabel30;
+    private javax.swing.JLabel jLabel31;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JSeparator jSeparator8;
+    public javax.swing.JPanel panelDeposito1;
+    public javax.swing.JPanel panelDeposito2;
+    public javax.swing.JPanel panelDeposito3;
+    public javax.swing.JPanel panelDeposito4;
+    public javax.swing.JPanel panelDeposito5;
+    public javax.swing.JPanel panelDeposito6;
+    public javax.swing.JPanel panelDeposito7;
+    public javax.swing.JPanel panelDeposito8;
+    private javax.swing.JScrollPane panelDepositos;
+    public javax.swing.JPanel panelMenu;
+    public javax.swing.JPanel panelVencido1;
+    public javax.swing.JPanel panelVencido2;
+    public javax.swing.JPanel panelVencido3;
+    public javax.swing.JPanel panelVencido4;
+    public javax.swing.JPanel panelVencido5;
+    public javax.swing.JPanel panelVencido6;
+    public javax.swing.JPanel panelVencido7;
+    public javax.swing.JPanel panelVencido8;
+    public javax.swing.JTable tablaDepositos;
     // End of variables declaration//GEN-END:variables
 }

@@ -119,7 +119,7 @@ public class ControladorMovimientosCuenta {
             // Crear un array con los datos del movimiento para cada fila de la tabla
             Object[] fila = {
                 movimiento.getId_movimiento(), // Incluir el id_movimiento (oculto)
-                movimiento.getFecha(),
+                new SimpleDateFormat("dd-MM-yyyy").format(movimiento.getFecha()), //Fecha formateada a dd-MM-yyyy
                 nombreTipo,
                 nombreSubtipo,
                 nombreGasto,
