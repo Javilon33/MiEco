@@ -167,6 +167,8 @@ public class PanelDepositos extends javax.swing.JPanel {
         icono7 = new javax.swing.JLabel();
         jLabel30 = new javax.swing.JLabel();
         jLabel31 = new javax.swing.JLabel();
+        etiTotal = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -176,7 +178,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         etiNombre.setFont(new java.awt.Font("Roboto", 1, 24)); // NOI18N
         etiNombre.setForeground(new java.awt.Color(0, 134, 190));
         etiNombre.setText("DEPÓSITOS BANCARIOS");
-        jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 10, 510, 40));
+        jPanel1.add(etiNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 10, 510, 40));
 
         panelMenu.setBackground(new java.awt.Color(255, 255, 255));
         panelMenu.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -258,7 +260,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         panelVencido1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiVencido1.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        etiVencido1.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido1.setForeground(new java.awt.Color(18, 90, 173));
         etiVencido1.setText("VENCIDO");
         panelVencido1.add(etiVencido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
 
@@ -320,7 +322,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         panelVencido2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiVencido2.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        etiVencido2.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido2.setForeground(new java.awt.Color(18, 90, 173));
         etiVencido2.setText("VENCIDO");
         panelVencido2.add(etiVencido2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
 
@@ -382,7 +384,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         panelVencido3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiVencido3.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        etiVencido3.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido3.setForeground(new java.awt.Color(18, 90, 173));
         etiVencido3.setText("VENCIDO");
         panelVencido3.add(etiVencido3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
 
@@ -444,7 +446,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         panelVencido4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiVencido4.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        etiVencido4.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido4.setForeground(new java.awt.Color(18, 90, 173));
         etiVencido4.setText("VENCIDO");
         panelVencido4.add(etiVencido4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
 
@@ -506,7 +508,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         panelVencido5.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiVencido5.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        etiVencido5.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido5.setForeground(new java.awt.Color(18, 90, 173));
         etiVencido5.setText("VENCIDO");
         panelVencido5.add(etiVencido5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
 
@@ -568,7 +570,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         panelVencido6.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiVencido6.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        etiVencido6.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido6.setForeground(new java.awt.Color(18, 90, 173));
         etiVencido6.setText("VENCIDO");
         panelVencido6.add(etiVencido6, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
 
@@ -630,7 +632,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         panelVencido7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiVencido7.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        etiVencido7.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido7.setForeground(new java.awt.Color(18, 90, 173));
         etiVencido7.setText("VENCIDO");
         panelVencido7.add(etiVencido7, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
 
@@ -692,7 +694,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         panelVencido8.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         etiVencido8.setFont(new java.awt.Font("Roboto", 1, 36)); // NOI18N
-        etiVencido8.setForeground(new java.awt.Color(204, 0, 51));
+        etiVencido8.setForeground(new java.awt.Color(18, 90, 173));
         etiVencido8.setText("VENCIDO");
         panelVencido8.add(etiVencido8, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
 
@@ -747,6 +749,14 @@ public class PanelDepositos extends javax.swing.JPanel {
 
         jPanel1.add(panelDeposito8, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 430, 220, 150));
 
+        etiTotal.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        etiTotal.setText("Total depositos");
+        jPanel1.add(etiTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, -1, -1));
+
+        jLabel2.setFont(new java.awt.Font("Roboto", 0, 18)); // NOI18N
+        jLabel2.setText("Importe total:");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 60, -1, -1));
+
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 600));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -799,6 +809,7 @@ public class PanelDepositos extends javax.swing.JPanel {
     public javax.swing.JLabel etiImporteInicial8;
     public javax.swing.JLabel etiModificar;
     public javax.swing.JLabel etiNombre;
+    public javax.swing.JLabel etiTotal;
     private javax.swing.JLabel etiVencido1;
     private javax.swing.JLabel etiVencido2;
     private javax.swing.JLabel etiVencido3;
@@ -834,6 +845,7 @@ public class PanelDepositos extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;

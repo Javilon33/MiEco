@@ -203,5 +203,34 @@ public class ConsultaDepositos {
         }
         return deposito; // Devuelve el movimiento obtenido o null si no existe
     }
+    
+    public double obtenerTotalDepositos(int idUsuario){
+        
+        double saldoTotal = 0.0;        
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        String sql = "SELECT SUM(importe) AS saldo_total FROM DEPOSITOS WHERE id_usuario = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idUsuario);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                saldoTotal = rs.getDouble("saldo_total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener el saldo total: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+        return saldoTotal;
+    }
 
 }

@@ -47,10 +47,8 @@ public class ControladorCuentas {
     private final ConsultaCuentas consultaCuentas; // El modelo para obtener los datos de las cuentas
     private final Usuario usuario; // Usuario actual para obtener sus datos
     private final ConsultaMovimientos consultaMovimientos;
+    private final NumberFormat formato; //Formato para mostrar los importes correctamente (2 decimales y puntos en los miles)
     
-    //Formato para mostrar los importes correctamente (2 decimales y puntos en los miles)
-    NumberFormat formato = NumberFormat.getInstance(new Locale("es", "ES"));
-        
     
 
     // Constructor para inicializar la vista, el modelo y el usuario
@@ -59,6 +57,12 @@ public class ControladorCuentas {
         this.consultaCuentas = consultaCuentas;
         this.usuario = usuario;
         this.consultaMovimientos = consultaMovimientos;
+        
+        // Configurar el formato para importes (una sola vez)
+        this.formato = NumberFormat.getInstance(new Locale("es", "ES"));
+        formato.setMaximumFractionDigits(2);
+        formato.setMinimumFractionDigits(2);
+        
         inicializarEventos(); // Inicializar eventos de la interfaz
         cargarCuentas(); // Cargar las cuentas en la tabla al inicio        
     }
@@ -107,11 +111,7 @@ public class ControladorCuentas {
                 mostrarPanelModificarCuenta();
             }
         });
-        
-        //Formato de los importes 
-        formato.setMaximumFractionDigits(2);
-        formato.setMinimumFractionDigits(2);
-                
+                        
     }
 
     // Cargar y mostrar las cuentas del usuario en la tabla

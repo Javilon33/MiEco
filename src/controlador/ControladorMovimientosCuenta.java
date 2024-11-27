@@ -4,9 +4,14 @@ import Utilidades.ComboBoxItem;
 import java.awt.HeadlessException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -24,10 +29,13 @@ import vista.Paneles.PanelMovimientosCuenta;
 public class ControladorMovimientosCuenta {
 
     private final PanelMovimientosCuenta vista; // Vista del panel MovimientosCuenta
-    private final ConsultaCuentas consultaCuentas; // ControladorCuentas para obtener los movimientos
-    private final ConsultaMovimientos consultaMovimientos;
+    private final ConsultaCuentas consultaCuentas; // ControladorCuentas para obtener las cuentas
+    private final ConsultaMovimientos consultaMovimientos; // Modelo para manejar movimientos
     private final int idCuenta; // ID de la cuenta seleccionada
     private final ControladorCuentas controladorCuentas; // Referencia al ControladorCuentas
+    private final NumberFormat formato; //Formato para mostrar los importes correctamente (2 decimales y puntos en los miles)
+    
+    
 
     public ControladorMovimientosCuenta(PanelMovimientosCuenta vista, ConsultaCuentas consultaCuentas, int idCuenta, ConsultaMovimientos consultaMovimientos, ControladorCuentas controladorCuentas) {
         this.vista = vista;
@@ -35,8 +43,17 @@ public class ControladorMovimientosCuenta {
         this.idCuenta = idCuenta;
         this.consultaMovimientos = consultaMovimientos;
         this.controladorCuentas = controladorCuentas;
+        
+        // Configurar el formato para importes (una sola vez)
+        this.formato = NumberFormat.getInstance(new Locale("es", "ES"));
+        formato.setMaximumFractionDigits(2);
+        formato.setMinimumFractionDigits(2);
+        
         inicializarEventos();  // Inicializar eventos de la interfaz
         cargarMovimientos(); // Cargar los movimientos al inicio
+        
+        
+        
     }
 
     // Método para inicializar la vista con el nombre de la cuenta
@@ -124,8 +141,8 @@ public class ControladorMovimientosCuenta {
                 nombreSubtipo,
                 nombreGasto,
                 movimiento.getNotas(),
-                String.format("%.2f", movimiento.getImporte()), // Formatear saldo a 2 decimales
-                String.format("%.2f", saldo) // Formatear saldo acumulado a 2 decimales
+                formato.format(movimiento.getImporte()),
+                formato.format(saldo),                
             };
             // Añadir la fila al modelo de la tabla
             modelo.addRow(fila);
@@ -245,8 +262,15 @@ public class ControladorMovimientosCuenta {
                     String notas = campoNotas.getText();
                     // Verificar si el movimiento es un pago, y si es así, convertir el importe a negativo
 
+                    // Crear un NumberFormat basado en la configuración regional
+                     NumberFormat formatoNumero = NumberFormat.getInstance(Locale.getDefault());
+
+                    // Analizar el texto del importe con NumberFormat
+                    Number numero = formatoNumero.parse(campoImporte.getText());
+                    double importe = numero.doubleValue();
+                    
                     //Convierte el importe en negativo si es un pago (tipo 2)
-                    double importe = Double.parseDouble(campoImporte.getText());
+                    
                     if (tipo == 2) {
                         importe = -importe;
                     }
@@ -263,6 +287,8 @@ public class ControladorMovimientosCuenta {
                     }
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(vista, "Error en los datos. Verifica los campos.");
+                } catch (ParseException ex) {
+                    Logger.getLogger(ControladorMovimientosCuenta.class.getName()).log(Level.SEVERE, null, ex);
                 }
             } else {
                 JOptionPane.showMessageDialog(vista, "No has introducido Fecha");
@@ -391,10 +417,7 @@ public class ControladorMovimientosCuenta {
         if (resultado == JOptionPane.OK_OPTION) {
             try {
                 // Validar y obtener datos
-                String formatoFecha = "yyyy/MM/dd";
-                SimpleDateFormat formato = new SimpleDateFormat(formatoFecha);
-                String fecha = formato.format(campoFecha.getDatoFecha());
-
+                String fecha = new SimpleDateFormat("yyyy/MM/dd").format(campoFecha.getDatoFecha());
                 ComboBoxItem tipoSeleccionado = (ComboBoxItem) cbTipo.getSelectedItem();
                 ComboBoxItem categoriaSeleccionada = (ComboBoxItem) cbCategoria.getSelectedItem();
                 ComboBoxItem gastoSeleccionado = (ComboBoxItem) cbGasto.getSelectedItem();
@@ -409,8 +432,11 @@ public class ControladorMovimientosCuenta {
                 int gasto = gastoSeleccionado != null ? gastoSeleccionado.getId() : 0;
                 String notas = campoNotas.getText();
 
-                //Convierte el importe en negativo si es un pago (tipo 2)
-                double importe = Double.parseDouble(campoImporte.getText());
+                // Normalizar el importe para que acepte comas
+                String importeTexto = campoImporte.getText().replace(",", ".");
+                double importe = Double.parseDouble(importeTexto);
+
+                //Convierte el importe en negativo si es un pago (tipo 2)                
                 if (tipo == 2) {
                     importe = -importe;
                 }

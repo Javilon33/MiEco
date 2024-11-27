@@ -3,10 +3,8 @@ package controlador;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -33,28 +31,29 @@ public class ControladorDepositos {
     private final PanelDepositos vista; // La vista donde se muestran los depósitos
     private final ConsultaDepositos consultaDepositos; // El modelo para obtener los datos de los depósitos
     private final Usuario usuario; // Usuario actual para obtener sus datos
-
-    //Formato para mostrar los importes correctamente (2 decimales y puntos en los miles)
-    NumberFormat formato = NumberFormat.getInstance(new Locale("es", "ES"));
-
+    private final NumberFormat formato; //Formato para mostrar los importes correctamente (2 decimales y puntos en los miles)
+  
     public ControladorDepositos(PanelDepositos vista, ConsultaDepositos consultaDepositos, Usuario usuario) {
         this.vista = vista;
         this.consultaDepositos = consultaDepositos;
         this.usuario = usuario;
+        
+        // Configurar el formato para importes (una sola vez)
+        this.formato = NumberFormat.getInstance(new Locale("es", "ES"));
+        formato.setMaximumFractionDigits(2);
+        formato.setMinimumFractionDigits(2);
+                
         inicializarEventos(); // Inicializar eventos de la interfaz
-        try {
-            cargarDepositos(); // Cargar los depositos en la tabla al inicio        
-        } catch (NoSuchFieldException ex) {
-            Logger.getLogger(ControladorDepositos.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalArgumentException ex) {
-            Logger.getLogger(ControladorDepositos.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(ControladorDepositos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        cargarDepositos(); // Cargar los depositos en la tabla al inicio          
     }
 
     // Configura eventos básicos (clicks en botones y etiquetas)
     public void inicializarEventos() {
+        
+        //Muestra el saldo actual de todos los depósitos (con 2 decimales)
+        double saldoTotal = consultaDepositos.obtenerTotalDepositos(usuario.getCodigo());
+        vista.etiTotal.setText(formato.format(+saldoTotal)+ " €");
+        
 
         // Evento para el botón y etiqueta de "Añadir depósito"
         vista.btnAdd.addMouseListener(new MouseAdapter() {
@@ -104,103 +103,92 @@ public class ControladorDepositos {
             public void mousePressed(MouseEvent evt) {
                 mostrarPanelModificarDeposito(); // Abre el panel para modificar depósito
             }
-        });
-
-        //Formato de los importes 
-        formato.setMaximumFractionDigits(2);
-        formato.setMinimumFractionDigits(2);
+        });        
 
     }
-
-    public void cargarDepositos() throws NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-        //Trae las cuentas del usuario
-        List<Deposito> depositos = consultaDepositos.obtenerDepositos(usuario.getCodigo());
-
-        //Paneles de depositos invisibles por defecto al cargar
-        vista.panelDeposito1.setVisible(false);
-        vista.panelDeposito2.setVisible(false);
-        vista.panelDeposito3.setVisible(false);
-        vista.panelDeposito4.setVisible(false);
-        vista.panelDeposito5.setVisible(false);
-        vista.panelDeposito6.setVisible(false);
-        vista.panelDeposito7.setVisible(false);
-        vista.panelDeposito8.setVisible(false);
+    
+    //Método para cargar los depósitos desde la BD
+    public void cargarDepositos() {
         
+        //Muestra el saldo actual de todos los depósitos (con 2 decimales)
+        double saldoTotal = consultaDepositos.obtenerTotalDepositos(usuario.getCodigo());
+        vista.etiTotal.setText(formato.format(+saldoTotal)+ " €");
+        
+        try {
+            List<Deposito> depositos = consultaDepositos.obtenerDepositos(usuario.getCodigo());
+            configurarPaneles(depositos);
+            rellenarTablaDepositos(depositos);
+        } catch (Exception ex) {
+            Logger.getLogger(ControladorDepositos.class.getName()).log(Level.SEVERE, "Error al cargar depósitos", ex);
+            JOptionPane.showMessageDialog(vista, "Error al cargar los depósitos. Inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    //Activa los paneles según los depósitos que haya
+    private void configurarPaneles(List<Deposito> depositos) throws NoSuchFieldException, IllegalAccessException {
+        Date hoy = new Date();
+        for (int i = 0; i < 8; i++) {
+            JPanel panel = (JPanel) vista.getClass().getDeclaredField("panelDeposito" + (i + 1)).get(vista);
+            panel.setVisible(i < depositos.size());
 
-        //Formato de los importes 
-        formato.setMaximumFractionDigits(2);
-        formato.setMinimumFractionDigits(2);
-
-        // Configura el modelo de la tabla para limpiar datos previos
-        DefaultTableModel modelo = (DefaultTableModel) vista.tablaDepositos.getModel();
-        modelo.setRowCount(0); // Limpiar las filas
-
-        // Rellena la tabla con los datos de los depósitos
-        String finalizado = "";
-        Date hoy = new Date(); // Fecha actual
-        for (Deposito deposito : depositos) {
-            //Marca el depósito cono vencido si ha pasado la fecha de vencimiento
-            if (deposito.getFechaVencimiento().before(hoy)) {
-                finalizado = "SI";
-            } else {
-                finalizado = "NO";
+            if (i < depositos.size()) {
+                Deposito deposito = depositos.get(i);
+                actualizarEtiquetasPanel(panel, deposito, hoy, i + 1);
             }
-            //Rellena la tabla
+        }
+        //He tenido que incluir revalidate y repaint para hacer un refresco después de cada cambio ya que el panel vencido salía mal
+        vista.revalidate();
+        vista.repaint();
+    }
+    
+    //Rellena las etiquetas de los paneles activos
+    private void actualizarEtiquetasPanel(JPanel panel, Deposito deposito, Date hoy, int indice) throws NoSuchFieldException, IllegalAccessException {
+        JLabel etiDeposito = (JLabel) vista.getClass().getDeclaredField("etiDeposito" + indice).get(vista);
+        etiDeposito.setText("DEPÓSITO Nº " + deposito.getIdDeposito());
+
+        JLabel etiFecha = (JLabel) vista.getClass().getDeclaredField("etiFecha" + indice).get(vista);
+        etiFecha.setText(new SimpleDateFormat("dd-MM-yyyy").format(deposito.getFechaInicio()));
+
+        JLabel etiImporteInicial = (JLabel) vista.getClass().getDeclaredField("etiImporteInicial" + indice).get(vista);
+        etiImporteInicial.setText(formato.format(deposito.getImporteInicial()) + " €");
+
+        JLabel etiImporteFinal = (JLabel) vista.getClass().getDeclaredField("etiImporteFinal" + indice).get(vista);
+        etiImporteFinal.setText(formato.format(deposito.getImporteFinal()) + " €");
+
+        double beneficio = deposito.getImporteFinal() - deposito.getImporteInicial();
+        JLabel etiBeneficio = (JLabel) vista.getClass().getDeclaredField("etiBeneficio" + indice).get(vista);
+        etiBeneficio.setText(formato.format(beneficio) + " €");
+
+        JLabel fechaFin = (JLabel) vista.getClass().getDeclaredField("fechaFin" + indice).get(vista);
+        fechaFin.setText(new SimpleDateFormat("dd-MM-yyyy").format(deposito.getFechaVencimiento()));
+
+        JPanel panelVencido = (JPanel) vista.getClass().getDeclaredField("panelVencido" + indice).get(vista);
+        panelVencido.setVisible(deposito.getFechaVencimiento().before(hoy));
+    }
+    
+    //Rellena la tabla con los depósitos
+    private void rellenarTablaDepositos(List<Deposito> depositos) {
+        DefaultTableModel modelo = (DefaultTableModel) vista.tablaDepositos.getModel();
+        modelo.setRowCount(0);
+
+        for (Deposito deposito : depositos) {
             Object[] fila = {
                 deposito.getIdDeposito(),
                 deposito.getNombre(),
                 deposito.getBanco(),
-                new SimpleDateFormat("dd-MM-yyyy").format(deposito.getFechaInicio()), //Fecha formateada a dd-MM-yyyy
+                new SimpleDateFormat("dd-MM-yyyy").format(deposito.getFechaInicio()),
                 deposito.getMeses(),
-                formato.format(deposito.getImporteInicial()) + " €", // Formatear a 2 decimales
-                deposito.getInteresAnual() + "%",
-                formato.format(deposito.getImporteFinal()) + " €", // Formatear a 2 decimales
-                finalizado
+                //String.format("%.2f", deposito.getImporteInicial())+ " €", // Formatear saldo a 2 decimales
+                formato.format(deposito.getImporteInicial()) + " €",
+                //String.format("%.2f", deposito.getInteresAnual())+ " %", // Formatear saldo a 2 decimales
+                formato.format(deposito.getInteresAnual()) + "%",
+                //String.format("%.2f", deposito.getImporteFinal())+ " €", // Formatear saldo a 2 decimales
+                formato.format(deposito.getImporteFinal()) + " €",                
+                deposito.getFechaVencimiento().before(new Date()) ? "SI" : "NO"
             };
             modelo.addRow(fila);
         }
-
-        //Activar paneles según los depósitos que haya y rellenamos con los datos de la tabla
-        for (int i = 0; i < Math.min(depositos.size(), 8); i++) {
-            // Mostrar el panel correspondiente
-            JPanel panel = (JPanel) vista.getClass().getDeclaredField("panelDeposito" + (i + 1)).get(vista);            
-            panel.setVisible(true);
-
-            // Configurar etiquetas dinámicamente
-            JLabel etiDeposito = (JLabel) vista.getClass().getDeclaredField("etiDeposito" + (i + 1)).get(vista);
-            etiDeposito.setText("DEPÓSITO Nº " + vista.tablaDepositos.getModel().getValueAt(i, 0).toString());
-
-            JLabel etiFecha = (JLabel) vista.getClass().getDeclaredField("etiFecha" + (i + 1)).get(vista);
-            etiFecha.setText(vista.tablaDepositos.getModel().getValueAt(i, 3).toString());
-                      
-            JLabel etiImporteInicial = (JLabel) vista.getClass().getDeclaredField("etiImporteInicial" + (i + 1)).get(vista);
-            etiImporteInicial.setText(vista.tablaDepositos.getModel().getValueAt(i, 5).toString());
-
-            JLabel etiImporteFinal = (JLabel) vista.getClass().getDeclaredField("etiImporteFinal" + (i + 1)).get(vista);
-            etiImporteFinal.setText(vista.tablaDepositos.getModel().getValueAt(i, 7).toString());
-
-            // Calcular y mostrar el beneficio
-            Deposito deposito = depositos.get(i); //Se extrae el depósito de la lista
-            double beneficio = deposito.getImporteFinal() - deposito.getImporteInicial(); //Se calcula el beneficio neto
-            JLabel etiBeneficio = (JLabel) vista.getClass().getDeclaredField("etiBeneficio" + (i + 1)).get(vista);
-            etiBeneficio.setText(String.valueOf(formato.format(beneficio)) + " €"); //formateado a 2 decimales
-            
-            //Etiqueta Fecha Fin calculando la fecha
-            String formatoFecha = "dd/MM/yyyy";
-            SimpleDateFormat formatt = new SimpleDateFormat(formatoFecha);
-            JLabel fechaFin = (JLabel) vista.getClass().getDeclaredField("fechaFin" + (i + 1)).get(vista);
-            fechaFin.setText(formatt.format(deposito.getFechaVencimiento()));
-            
-            //Comprobar si está vencido para mostrar el panelVencido y marcar el depósito
-            JPanel panelVencido = (JPanel) vista.getClass().getDeclaredField("panelVencido" + (i + 1)).get(vista);
-            if(deposito.getFechaVencimiento().before(hoy)){
-                panelVencido.setVisible(true);
-            }else{
-                panelVencido.setVisible(false);
-            }
-            
-        }
-    }
+    }    
 
     //Muestra un panel emergente para AÑADIR un Deposito nuevo
     public void mostrarPanelAddDeposito() {
@@ -234,14 +222,19 @@ public class ControladorDepositos {
             if (resultado == JOptionPane.OK_OPTION) {
                 try {                    
                     //Obtener los datos
-                    String formatoFecha = "yyyy/MM/dd";
-                    SimpleDateFormat formatt = new SimpleDateFormat(formatoFecha);
-                    String fecha = formatt.format(fechaInicio.getDatoFecha());
+                    String fecha = new SimpleDateFormat("yyyy/MM/dd").format(fechaInicio.getDatoFecha());
                     int meses = Integer.parseInt(campoMeses.getText());
                     String nombre = campoNombre.getText();
                     String banco = campoBanco.getText();
-                    double importe = Double.parseDouble(campoImporte.getText());
-                    double interes = Double.parseDouble(campoInteres.getText());
+                    
+                    // Crear un NumberFormat basado en la configuración regional
+                     NumberFormat formatoNumero = NumberFormat.getInstance(Locale.getDefault());
+                    // Analizar el texto del importe con NumberFormat
+                    Number numero = formatoNumero.parse(campoImporte.getText());
+                    double importe = numero.doubleValue();
+                    // Analizar el texto del importe con NumberFormat
+                    Number numero2 = formatoNumero.parse(campoInteres.getText());
+                    double interes = numero2.doubleValue();
 
                     // Llama al modelo para añadir el depósito
                     boolean depositoInsertado = consultaDepositos.addDeposito(usuario.getCodigo(), nombre, banco, fecha, meses, importe, interes);
@@ -254,7 +247,7 @@ public class ControladorDepositos {
                     }
                 } catch (NumberFormatException e) {
                     JOptionPane.showMessageDialog(vista, "Error en los datos. Verifica los campos.");
-                } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
+                } catch (IllegalArgumentException | ParseException ex) {
                     Logger.getLogger(ControladorDepositos.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -319,8 +312,12 @@ public class ControladorDepositos {
                 String nombre = campoNombre.getText();
                 String banco = campoBanco.getText();
                 int meses = Integer.parseInt(campoMeses.getText());
-                double importe = Double.parseDouble(campoImporte.getText());
-                double interes = Double.parseDouble(campoInteres.getText());
+                // Normalizar el importe para que acepte comas
+                String importeTexto = campoImporte.getText().replace(",", ".");
+                double importe = Double.parseDouble(importeTexto);
+                // Normalizar el importe para que acepte comas
+                String interesTexto = campoInteres.getText().replace(",", ".");
+                double interes = Double.parseDouble(interesTexto);
                 
                 // Actualizar el depóstito
                 boolean actualizado = consultaDepositos.modificarDeposito(deposito.getIdDeposito(), nombre, banco, fecha, meses, importe, interes);
@@ -334,7 +331,7 @@ public class ControladorDepositos {
                 }
             } catch ( NumberFormatException ex) {
                 JOptionPane.showMessageDialog(vista, "Error en los datos. Verifica los campos.");
-            } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
+            } catch (IllegalArgumentException ex) {
                 Logger.getLogger(ControladorDepositos.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
