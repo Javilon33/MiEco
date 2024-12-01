@@ -6,7 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import modelo.entidades.Deposito;
 
 /**
@@ -21,7 +25,7 @@ public class ConsultaDepositos {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "SELECT DEPOSITOS.id_deposito,  DEPOSITOS.nombre, DEPOSITOS.banco, DEPOSITOS.fecha_inicio, DEPOSITOS.plazo_meses, DEPOSITOS.importe, DEPOSITOS.interes  "
+        String sql = "SELECT DEPOSITOS.id_deposito, DEPOSITOS.id_cuenta ,DEPOSITOS.nombre, DEPOSITOS.fecha_inicio, DEPOSITOS.plazo_meses, DEPOSITOS.importe, DEPOSITOS.interes  "
                 + "FROM DEPOSITOS "
                 + "WHERE DEPOSITOS.id_usuario = ?";
 
@@ -31,15 +35,15 @@ public class ConsultaDepositos {
 
             while (rs.next()) {
                 int idDeposito = rs.getInt("id_deposito");
+                int idCuenta = rs.getInt("id_cuenta");
                 String nombre = rs.getString("nombre");
-                String banco = rs.getString("banco");
                 Date fechaInicio = rs.getDate("fecha_inicio");
                 int meses = rs.getInt("plazo_meses");
                 double importeInicial = rs.getDouble("importe");
                 double interes = rs.getDouble("interes");
                 double importeFinal = calcularImporteFinal(fechaInicio, meses, importeInicial, interes);
 
-                depositos.add(new Deposito(idDeposito, usuarioId, nombre, banco, fechaInicio, meses, importeInicial, interes, importeFinal));
+                depositos.add(new Deposito(idDeposito, usuarioId, idCuenta, nombre, fechaInicio, meses, importeInicial, interes, importeFinal));
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener cuentas: " + e.getMessage());
@@ -76,16 +80,16 @@ public class ConsultaDepositos {
     }
 
     // Método para AÑADIR DEPOSITO
-    public boolean addDeposito(int idUsuario, String nombre, String banco, String fechaInicio, int meses, double importeInicial, double interesAnual) {
+    public boolean addDeposito(int idUsuario, int idCuenta, String nombre, String fechaInicio, int meses, double importeInicial, double interesAnual) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "INSERT INTO DEPOSITOS (id_usuario, nombre, banco, fecha_inicio, plazo_meses, importe, interes) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO DEPOSITOS (id_usuario, id_Cuenta, nombre, fecha_inicio, plazo_meses, importe, interes) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idUsuario);
-            stmt.setString(2, nombre);
-            stmt.setString(3, banco);
+            stmt.setInt(2, idCuenta);
+            stmt.setString(3, nombre);
             stmt.setString(4, fechaInicio);
             stmt.setInt(5, meses);
             stmt.setDouble(6, importeInicial);
@@ -108,15 +112,15 @@ public class ConsultaDepositos {
     }
 
     // Método para MODIFICAR DEPOSITO
-    public boolean modificarDeposito(int idDeposito, String nombre, String banco, String fechaInicio, int meses, double importeInicial, double interesAnual) {
+    public boolean modificarDeposito(int idDeposito, int idCuenta, String nombre, String fechaInicio, int meses, double importeInicial, double interesAnual) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "UPDATE DEPOSITOS SET nombre = ?, banco = ?, fecha_inicio = ?, plazo_meses = ?, importe = ?, interes = ? WHERE id_deposito = ?";
+        String sql = "UPDATE DEPOSITOS SET nombre = ?, id_cuenta = ?, fecha_inicio = ?, plazo_meses = ?, importe = ?, interes = ? WHERE id_deposito = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nombre);
-            stmt.setString(2, banco);
+            stmt.setInt(2, idCuenta);
             stmt.setString(3, fechaInicio);
             stmt.setInt(4, meses);
             stmt.setDouble(5, importeInicial);
@@ -169,7 +173,7 @@ public class ConsultaDepositos {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "SELECT DEPOSITOS.id_usuario,  DEPOSITOS.nombre, DEPOSITOS.banco, DEPOSITOS.fecha_inicio, DEPOSITOS.plazo_meses, DEPOSITOS.importe, DEPOSITOS.interes  "
+        String sql = "SELECT DEPOSITOS.id_usuario, DEPOSITOS.id_cuenta, DEPOSITOS.nombre, DEPOSITOS.fecha_inicio, DEPOSITOS.plazo_meses, DEPOSITOS.importe, DEPOSITOS.interes  "
                 + "FROM DEPOSITOS "
                 + "WHERE DEPOSITOS.id_deposito = ?";
 
@@ -179,8 +183,8 @@ public class ConsultaDepositos {
 
             if (rs.next()) {
                 int idUsuario = rs.getInt("id_usuario");
+                int idCuenta = rs.getInt("id_cuenta");
                 String nombre = rs.getString("nombre");
-                String banco = rs.getString("banco");
                 Date fechaInicio = rs.getDate("fecha_inicio");
                 int meses = rs.getInt("plazo_meses");
                 double importeInicial = rs.getDouble("importe");
@@ -188,7 +192,7 @@ public class ConsultaDepositos {
                 double importeFinal = calcularImporteFinal(fechaInicio, meses, importeInicial, interes);
 
                 // Crea una instancia de Movimiento con los datos obtenidos
-                deposito = new Deposito(idDeposito, idUsuario, nombre, banco, fechaInicio, meses, importeInicial, interes, importeFinal);
+                deposito = new Deposito(idDeposito, idUsuario, idCuenta, nombre, fechaInicio, meses, importeInicial, interes, importeFinal);
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener el depósito: " + e.getMessage());
@@ -203,10 +207,10 @@ public class ConsultaDepositos {
         }
         return deposito; // Devuelve el movimiento obtenido o null si no existe
     }
-    
-    public double obtenerTotalDepositos(int idUsuario){
-        
-        double saldoTotal = 0.0;        
+
+    public double obtenerTotalDepositos(int idUsuario) {
+
+        double saldoTotal = 0.0;
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
@@ -232,5 +236,32 @@ public class ConsultaDepositos {
         }
         return saldoTotal;
     }
+
+    public Map<Integer, String> obtenerCuentasConAliasYBanco(int idUsuario) {
+        Map<Integer, String> cuentas = new HashMap<>();
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+        String query = "SELECT id_cuenta, alias, banco FROM CUENTAS WHERE id_usuario = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            // Configurar el parámetro id_usuario
+            stmt.setInt(1, idUsuario);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    int idCuenta = rs.getInt("id_cuenta");
+                    String alias = rs.getString("alias");
+                    String banco = rs.getString("banco");
+                    cuentas.put(idCuenta, alias + " (" + banco + ")");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return cuentas;
+    }
+
+    
 
 }

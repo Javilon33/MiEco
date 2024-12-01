@@ -4,10 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import modelo.ConsultaAdmin;
 import modelo.ConsultaBolsa;
 import modelo.ConsultaCuentas;
@@ -64,7 +62,7 @@ public class ControladorPrincipal {
         mostrarPanel(panelInicio);
 
         // Oculta el botón Admin si el usuario no es administrador
-        if (usuario.getRol() == 0) {
+        if (usuario.getRol() != 0) {
             vista.btnAdmin.setVisible(false);
         }
     }
@@ -124,7 +122,7 @@ public class ControladorPrincipal {
             @Override
             public void mousePressed(MouseEvent evt) {
                 cambiarColorBotones(vista.btnPrincipal);
-                mostrarPanel(panelInicio);
+                mostrarPanel(panelInicio);              
             }
         });
 
@@ -135,6 +133,7 @@ public class ControladorPrincipal {
             public void mousePressed(MouseEvent evt) {
                 cambiarColorBotones(vista.btnCuentas);
                 mostrarPanel(panelCuentas);
+                controladorCuentas.cargarCuentas();
             }
         });
         //Evento para el texto JLabel y que funcione el click
@@ -143,6 +142,7 @@ public class ControladorPrincipal {
             public void mousePressed(MouseEvent evt) {
                 cambiarColorBotones(vista.btnCuentas);
                 mostrarPanel(panelCuentas);
+                controladorCuentas.cargarCuentas();
             }
         });
 

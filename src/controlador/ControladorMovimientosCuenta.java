@@ -18,8 +18,10 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import modelo.ConsultaCuentas;
 import modelo.ConsultaMovimientos;
 import modelo.entidades.Movimiento;
@@ -34,8 +36,6 @@ public class ControladorMovimientosCuenta {
     private final int idCuenta; // ID de la cuenta seleccionada
     private final ControladorCuentas controladorCuentas; // Referencia al ControladorCuentas
     private final NumberFormat formato; //Formato para mostrar los importes correctamente (2 decimales y puntos en los miles)
-    
-    
 
     public ControladorMovimientosCuenta(PanelMovimientosCuenta vista, ConsultaCuentas consultaCuentas, int idCuenta, ConsultaMovimientos consultaMovimientos, ControladorCuentas controladorCuentas) {
         this.vista = vista;
@@ -43,17 +43,14 @@ public class ControladorMovimientosCuenta {
         this.idCuenta = idCuenta;
         this.consultaMovimientos = consultaMovimientos;
         this.controladorCuentas = controladorCuentas;
-        
+
         // Configurar el formato para importes (una sola vez)
         this.formato = NumberFormat.getInstance(new Locale("es", "ES"));
         formato.setMaximumFractionDigits(2);
         formato.setMinimumFractionDigits(2);
-        
+
         inicializarEventos();  // Inicializar eventos de la interfaz
         cargarMovimientos(); // Cargar los movimientos al inicio
-        
-        
-        
     }
 
     // Método para inicializar la vista con el nombre de la cuenta
@@ -74,25 +71,12 @@ public class ControladorMovimientosCuenta {
                 mostrarPanelAddMovimiento();
             }
         });
-        vista.etiAdd.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                //mostrarPanel();
-                mostrarPanelAddMovimiento();
-            }
-        });
 
         // Evento para el botón y etiqueta de "Eliminar movimiento"
         vista.btnEliminar.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
                 eliminarMovimientoSeleccionado(); // Llama a eliminar movimiento
-            }
-        });
-        vista.etiElminar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                eliminarMovimientoSeleccionado();
             }
         });
 
@@ -103,12 +87,7 @@ public class ControladorMovimientosCuenta {
                 mostrarPanelModificarMovimiento(); // Llama a modificar movimiento
             }
         });
-        vista.etiModificar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                mostrarPanelModificarMovimiento();
-            }
-        });
+
     }
 
     // Método para cargar los movimientos de la cuenta y mostrarlos en la tabla
@@ -117,7 +96,7 @@ public class ControladorMovimientosCuenta {
         List<Movimiento> movimientos = consultaMovimientos.obtenerMovimientos(idCuenta);
 
         // Obtener el saldo de la cuenta
-        double saldo=0;//
+        double saldo = 0;//
 
         // Obtener el modelo de la tabla y limpiar cualquier dato existente
         DefaultTableModel modelo = (DefaultTableModel) vista.tablaMovimientos.getModel();
@@ -142,8 +121,7 @@ public class ControladorMovimientosCuenta {
                 nombreGasto,
                 movimiento.getNotas(),
                 formato.format(movimiento.getImporte()),
-                formato.format(saldo),                
-            };
+                formato.format(saldo),};
             // Añadir la fila al modelo de la tabla
             modelo.addRow(fila);
         }
@@ -152,11 +130,13 @@ public class ControladorMovimientosCuenta {
         vista.tablaMovimientos.getColumnModel().getColumn(0).setMinWidth(0);
         vista.tablaMovimientos.getColumnModel().getColumn(0).setMaxWidth(0);
         vista.tablaMovimientos.getColumnModel().getColumn(0).setPreferredWidth(0);
+        
+        ajustarAnchoColumnas(); // Llamamos a este método para ajustar el ancho de las columnas
 
-        // Actualizar el saldo en la base de datos
+        /*// Actualizar el saldo en la base de datos
         if (!consultaCuentas.actualizarSaldoCuenta(idCuenta, saldo)) {
             System.err.println("Error al actualizar el saldo de la cuenta.");
-        }
+        }*/
     }
 
     //Método para AÑADIR MOVIMIENTOS
@@ -197,7 +177,7 @@ public class ControladorMovimientosCuenta {
                         .toArray(ComboBoxItem[]::new)));
 
                 ComboBoxItem categoriaSeleccionada = (ComboBoxItem) cbCategoria.getSelectedItem();
-                if (categoriaSeleccionada.getId() == 9) {
+                if ("Gasto".equalsIgnoreCase(categoriaSeleccionada.getDescripcion())) {
                     Map<Integer, String> listaGasto = consultaMovimientos.listaGastos();
                     cbGasto.setModel(new DefaultComboBoxModel<>(listaGasto.entrySet().stream()
                             .map(entry -> new ComboBoxItem(entry.getKey(), entry.getValue()))
@@ -214,7 +194,7 @@ public class ControladorMovimientosCuenta {
             //ComboBoxItem tipoSeleccionado = (ComboBoxItem) cbTipo.getSelectedItem();
             ComboBoxItem categoriaSeleccionada = (ComboBoxItem) cbCategoria.getSelectedItem();
 
-            if (categoriaSeleccionada.getId() == 9) {
+            if ("Gasto".equalsIgnoreCase(categoriaSeleccionada.getDescripcion())) {
                 Map<Integer, String> listaGasto = consultaMovimientos.listaGastos();
                 cbGasto.setModel(new DefaultComboBoxModel<>(listaGasto.entrySet().stream()
                         .map(entry -> new ComboBoxItem(entry.getKey(), entry.getValue()))
@@ -263,14 +243,13 @@ public class ControladorMovimientosCuenta {
                     // Verificar si el movimiento es un pago, y si es así, convertir el importe a negativo
 
                     // Crear un NumberFormat basado en la configuración regional
-                     NumberFormat formatoNumero = NumberFormat.getInstance(Locale.getDefault());
+                    NumberFormat formatoNumero = NumberFormat.getInstance(Locale.getDefault());
 
                     // Analizar el texto del importe con NumberFormat
                     Number numero = formatoNumero.parse(campoImporte.getText());
                     double importe = numero.doubleValue();
-                    
+
                     //Convierte el importe en negativo si es un pago (tipo 2)
-                    
                     if (tipo == 2) {
                         importe = -importe;
                     }
@@ -421,8 +400,8 @@ public class ControladorMovimientosCuenta {
                 ComboBoxItem tipoSeleccionado = (ComboBoxItem) cbTipo.getSelectedItem();
                 ComboBoxItem categoriaSeleccionada = (ComboBoxItem) cbCategoria.getSelectedItem();
                 ComboBoxItem gastoSeleccionado = (ComboBoxItem) cbGasto.getSelectedItem();
-                
-                if(categoriaSeleccionada.getId() == 9 && gastoSeleccionado == null){
+
+                if (categoriaSeleccionada.getId() == 9 && gastoSeleccionado == null) {
                     JOptionPane.showMessageDialog(vista, "No Has seleccionado el tipo de gasto");
                     return;
                 }
@@ -489,6 +468,25 @@ public class ControladorMovimientosCuenta {
                 JOptionPane.showMessageDialog(vista, "Error al eliminar la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    //Método para ajustar el ancho de las columnas de la tabla manualmente
+    private void ajustarAnchoColumnas() {
+        JTable tabla = vista.tablaMovimientos;  // Suponiendo que 'tablaDepositos' es el nombre de la tabla
+
+        // Obtener el modelo de columnas de la tabla
+        TableColumnModel columnModel = tabla.getColumnModel();
+
+        // Ajustar el ancho de cada columna (aquí puedes especificar el tamaño que desees para cada columna)
+        columnModel.getColumn(0).setPreferredWidth(0);  // Columna 0: ID Movimiento (no se muestra)
+        columnModel.getColumn(1).setPreferredWidth(80);  // Columna 0: Fecha
+        columnModel.getColumn(2).setPreferredWidth(100); // Columna 1: Ingreso/pago
+        columnModel.getColumn(3).setPreferredWidth(200); // Columna 2: Categoria
+        columnModel.getColumn(4).setPreferredWidth(200); // Columna 3: Tipo Gasto
+        columnModel.getColumn(5).setPreferredWidth(300); // Columna 4: Notas
+        columnModel.getColumn(6).setPreferredWidth(80); // Columna 5: Importe 
+        columnModel.getColumn(7).setPreferredWidth(80); // Columna 5: Saldo
+        
     }
 
 }

@@ -31,7 +31,7 @@ public class Usuario {
      * Constructor completo para inicializar todos los datos de un usuario.
      * 
      * @param codigo Código único del usuario.
-     * @param rol Indica el rol del usuario (1 para ADMIN, 0 para USUARIO, 2 para FAMILIAR)
+     * @param rol Indica el rol del usuario (0 para ADMIN, 1 para USUARIO, 2 para FAMILIAR)
      * @param email Email del usuario.
      * @param nombre Nombre del usuario.
      * @param apellidos Apellidos del usuario.
@@ -84,7 +84,7 @@ public class Usuario {
     /**
      * Indica si el usuario es administrador.
      * 
-     * @return 1 para ADMIN, 0 para USUARIO, 2 para FAMILIAR
+     * @return 0 para ADMIN, 1 para USUARIO, 2 para FAMILIAR
      */
     public int getRol() {
         return rol;
@@ -93,7 +93,7 @@ public class Usuario {
     /**
      * Cambia el rol del usuario.
      * 
-     * @param rol 1 para ADMIN, 0 para USUARIO, 2 para FAMILIAR
+     * @param rol 0 para ADMIN, 1 para USUARIO, 2 para FAMILIAR
      */
     public void setRol(int rol) {
         this.rol = rol;

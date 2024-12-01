@@ -199,32 +199,7 @@ public class ConsultaCuentas {
             }
         }
     }
-
-    // Método para actualizar el saldo de la cuenta
-    public boolean actualizarSaldoCuenta(int idCuenta, double nuevoSaldo) {
-        Conexion conexion = new Conexion();
-        Connection conn = conexion.getConexion();
-
-        String sql = "UPDATE CUENTAS SET saldo = ? WHERE id_cuenta = ?";
-
-        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setDouble(1, nuevoSaldo);
-            stmt.setInt(2, idCuenta);
-            int filasAfectadas = stmt.executeUpdate();
-            return filasAfectadas > 0; // Retorna true si se actualizó correctamente
-        } catch (SQLException e) {
-            System.err.println("Error al actualizar el saldo de la cuenta: " + e.getMessage());
-            return false;
-        } finally {
-            try {
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
-            }
-        }
-    }
+    
 
     //Obtiene los INGRESOS totales de un usuario concreto en el año actual
     public double obtenerSumaIngresos(int idUsuario) {
@@ -258,14 +233,14 @@ public class ConsultaCuentas {
         return totalIngresos;
     }
 
-    //Obtiene los PAGOS totales de un usuario concreto en el año actual
-    public double obtenerSumaPagos(int idUsuario) {
+    //Obtiene los GASTOS totales de un usuario concreto en el año actual
+    public double obtenerSumaGastos(int idUsuario) {
         double totalPagos = 0.0;
         String sql = "SELECT SUM(m.importe) AS total_importe \n"
                 + "      FROM mieco.movimientos m \n"
                 + "      JOIN mieco.cuentas c ON m.id_cuenta = c.id_cuenta \n"
                 + "AND YEAR(m.fecha) = YEAR(CURDATE()) "
-                + "      WHERE c.id_usuario = ? AND m.id_tipo_movimiento = 2";
+                + "      WHERE c.id_usuario = ? AND m.id_subtipo_movimiento = 9";
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 

@@ -15,8 +15,10 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import modelo.ConsultaCuentas;
 import modelo.ConsultaMovimientos;
 import modelo.entidades.Cuenta;
@@ -76,13 +78,7 @@ public class ControladorCuentas {
             public void mousePressed(MouseEvent evt) {
                 mostrarPanelAddCuenta(); // Abre el panel para agregar cuentas
             }
-        });
-        vista.etiAdd.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                mostrarPanelAddCuenta();
-            }
-        });
+        });        
 
         // Evento para el botón y etiqueta de "Eliminar cuenta"
         vista.btnEliminar.addMouseListener(new MouseAdapter() {
@@ -90,13 +86,7 @@ public class ControladorCuentas {
             public void mousePressed(MouseEvent evt) {
                 eliminarCuentaSeleccionada(); // Llama a eliminar cuenta
             }
-        });
-        vista.etiElminar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                eliminarCuentaSeleccionada();
-            }
-        });
+        });        
 
         // Evento para el botón y etiqueta de "Modificar cuenta"
         vista.btnModificar.addMouseListener(new MouseAdapter() {
@@ -104,13 +94,7 @@ public class ControladorCuentas {
             public void mousePressed(MouseEvent evt) {
                 mostrarPanelModificarCuenta(); // Llama a modificar cuenta
             }
-        });
-        vista.etiModificar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                mostrarPanelModificarCuenta();
-            }
-        });
+        });        
                         
     }
 
@@ -126,9 +110,9 @@ public class ControladorCuentas {
         vista.sumaIngresos.setText(formato.format(ingresosTotales)+ " €");
         vista.etiIngresosTotales.setText("Ingresos Totales (" + LocalDate.now().getYear() + ")");
         //Muestra los pagos totales del año en curso (con 2 decimales)
-        double pagosTotales = consultaCuentas.obtenerSumaPagos(usuario.getCodigo());
-        vista.sumaPagos.setText(formato.format(pagosTotales)+ " €");
-        vista.etiPagosTotales.setText("Pagos Totales (" + LocalDate.now().getYear() + ")");
+        double gastosTotales = consultaCuentas.obtenerSumaGastos(usuario.getCodigo());
+        vista.sumaPagos.setText(formato.format(gastosTotales)+ " €");
+        vista.etiPagosTotales.setText("Gastos Totales (" + LocalDate.now().getYear() + ")");
         
 
         // Configura el modelo de la tabla para limpiar datos previos
@@ -143,7 +127,7 @@ public class ControladorCuentas {
                 cuenta.getIban(),
                 cuenta.getBanco(),
                 formato.format(cuenta.getSaldo()), // Formatear saldo a 2 decimales
-                "Detalles" // Esto se verá como el botón de detalles
+                "Ver detalles" // Esto se verá como el botón de detalles
             };
             modelo.addRow(fila);
         }
@@ -173,10 +157,12 @@ public class ControladorCuentas {
                 }
             }
         });
+        
+        ajustarAnchoColumnas(); // Llamamos a este método para ajustar el ancho de las columnas
 
         //Inicia o actualiza los gráficos por si ha habido cambios
         graficoGastos(usuario.getCodigo());
-        graficoIngresosPagos(usuario.getCodigo());
+        graficoIngresosGastos(usuario.getCodigo());
     }
 
     // Muestra un panel emergente para añadir una cuenta nueva
@@ -215,7 +201,7 @@ public class ControladorCuentas {
                         // Llama al modelo para añadir la cuenta 
                         boolean cuentaInsertada = consultaCuentas.addCuenta(usuario.getCodigo(), alias, iban, banco);
                         // Actualiza la etiqueta de saldo total 
-                        vista.etiSaldoTotal.setText(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo()) + "€");
+                        vista.etiSaldoTotal.setText(formato.format(consultaCuentas.obtenerSaldoTotal(usuario.getCodigo())) + " €");
                         if (cuentaInsertada) {
                             JOptionPane.showMessageDialog(vista, "Cuenta añadida correctamente.");
                             // Refresca la tabla con la nueva cuenta 
@@ -263,7 +249,7 @@ public class ControladorCuentas {
                 cargarCuentas();
                 //Muestra el saldo actual de todas las cuentas (con 2 decimales)
                 double saldoTotal = consultaCuentas.obtenerSaldoTotal(usuario.getCodigo());
-                vista.etiSaldoTotal.setText(String.format("%.2f€", saldoTotal));
+                vista.etiSaldoTotal.setText(formato.format( saldoTotal) + " €");
             } else {
                 JOptionPane.showMessageDialog(vista, "Error al eliminar la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -326,7 +312,7 @@ public class ControladorCuentas {
                     cargarCuentas(); // Refresca la tabla con los cambios
                     //Muestra el saldo actual de todas las cuentas (con 2 decimales)
                     double saldoTotal = consultaCuentas.obtenerSaldoTotal(usuario.getCodigo());
-                    vista.etiSaldoTotal.setText(String.format("%.2f€", saldoTotal));
+                    vista.etiSaldoTotal.setText(formato.format(saldoTotal)+" €");
                 } else {
                     JOptionPane.showMessageDialog(vista, "Error al modificar la cuenta. Inténtalo de nuevo.");
                 }
@@ -413,21 +399,21 @@ public class ControladorCuentas {
         vista.panelGastos.repaint();
     }
     
-    // Método para mostrar un gráfico de barras comparando INGRESOS/PAGOS en el año actual
-    public void graficoIngresosPagos(int idUsuario) {
+    // Método para mostrar un gráfico de barras comparando INGRESOS/GASTOS en el año actual
+    public void graficoIngresosGastos(int idUsuario) {
         // Obtener los datos para el gráfico
         double sumaIngresos = consultaCuentas.obtenerSumaIngresos(idUsuario);
-        double sumaPagos = consultaCuentas.obtenerSumaPagos(idUsuario);
-        sumaPagos = -sumaPagos;//Convirte el importe a positivo para que no salga la barra invertida en el gráfico 
+        double sumaGastos = consultaCuentas.obtenerSumaGastos(idUsuario);
+        sumaGastos = -sumaGastos;//Convirte el importe a positivo para que no salga la barra invertida en el gráfico 
         
         // Crear el conjunto de datos para el gráfico de barras
         DefaultCategoryDataset datos = new DefaultCategoryDataset();
         datos.addValue(sumaIngresos, "Ingresos", "");
-        datos.addValue(sumaPagos, "Pagos", "");       
+        datos.addValue(sumaGastos, "Gastos", "");       
 
         // Crear el gráfico de barras
         JFreeChart graficoBarras = ChartFactory.createBarChart(
-                "Comparativa de Ingresos y Pagos", // Título del gráfico
+                "Comparativa de Ingresos y Gastos", // Título del gráfico
                 "", // Etiqueta del eje X
                 "Cantidad (€)", // Etiqueta del eje Y
                 datos, // Conjunto de datos
@@ -439,7 +425,7 @@ public class ControladorCuentas {
 
         // Cambiar la fuente del título
         Font fuenteTitulo = new Font("Roboto", Font.PLAIN, 18);
-        graficoBarras.setTitle(new TextTitle("Ingresos y Pagos ("+ LocalDate.now().getYear() + ")", fuenteTitulo));
+        graficoBarras.setTitle(new TextTitle("Ingresos y Gastos ("+ LocalDate.now().getYear() + ")", fuenteTitulo));
 
         // Cambiar el fondo del gráfico a blanco
         CategoryPlot plot = graficoBarras.getCategoryPlot();
@@ -494,6 +480,22 @@ public class ControladorCuentas {
 
         // Mostramos el diálogo
         dialogo.setVisible(true);
+    }
+    
+    //Método para ajustar el ancho de las columnas de la tabla manualmente
+    private void ajustarAnchoColumnas() {
+        JTable tabla = vista.tablaCuentas;  // Suponiendo que 'tablaDepositos' es el nombre de la tabla
+
+        // Obtener el modelo de columnas de la tabla
+        TableColumnModel columnModel = tabla.getColumnModel();
+
+        // Ajustar el ancho de cada columna (aquí puedes especificar el tamaño que desees para cada columna)
+        columnModel.getColumn(0).setPreferredWidth(20);  // Columna 0: ID de la cuenta
+        columnModel.getColumn(1).setPreferredWidth(150); // Columna 1: Alias de la cuenta
+        columnModel.getColumn(2).setPreferredWidth(180); // Columna 2: IBAN
+        columnModel.getColumn(3).setPreferredWidth(130); // Columna 3: Banco
+        columnModel.getColumn(4).setPreferredWidth(80); // Columna 4: Saldo
+        columnModel.getColumn(5).setPreferredWidth(90); // Columna 5: Movimientos (icono)
     }
 
 }

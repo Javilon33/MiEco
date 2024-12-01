@@ -17,10 +17,10 @@ public class Deposito {
     private int idDeposito;
     // Identificador del usuario al que pertenece el depósito
     private int idUsuario;
+    // Identificador de la cuenta donde está asociado el depósito
+    private int idCuenta;
     // Nombre o alias del depósito
-    private String nombre;
-    // Banco donde se ha contratado
-    private String banco;
+    private String nombre;    
     // Fecha de inicio del depósito    
     private Date fechaInicio;
     // Plazo de contratación (Meses)
@@ -37,20 +37,20 @@ public class Deposito {
      *
      * @param idDeposito ID único del depósito.
      * @param idUsuario ID del usuario asociado.
+     * @param idCuenta ID de la cuenta
      * @param nombre Nombre o alias del depósito.
-     * @param banco Banco donde se ha contratado
      * @param fechaInicio Fecha de inicio del depósito.
      * @param meses Plazo de duración del depósito.
      * @param importeInicial Cantidad inicial del depósito.
      * @param interesAnual Porcentaje de interés anual.     *
      * @param importeFinal Importe final esperado tras vencimiento.
      */
-    public Deposito(int idDeposito, int idUsuario, String nombre, String banco, Date fechaInicio, int meses, double importeInicial,
+    public Deposito(int idDeposito, int idUsuario, int idCuenta, String nombre, Date fechaInicio, int meses, double importeInicial,
             double interesAnual, double importeFinal) {
         this.idDeposito = idDeposito;
         this.idUsuario = idUsuario;
+        this.idCuenta = idCuenta;
         this.nombre = nombre;
-        this.banco = banco;
         this.fechaInicio = fechaInicio;
         this.meses = meses;
         this.importeInicial = importeInicial;
@@ -93,6 +93,14 @@ public class Deposito {
     public void setIdUsuario(int idUsuario) {
         this.idUsuario = idUsuario;
     }
+    
+    public int getIdCuenta() {
+        return idCuenta;
+    }
+    
+    public void setCuenta(int idCuenta) {
+        this.idCuenta = idCuenta;
+    }
 
     /**
      * Obtiene el nombre o alias del depósito.
@@ -110,25 +118,7 @@ public class Deposito {
      */
     public void setNombre(String nombre) {
         this.nombre = nombre;
-    }
-
-    /**
-     * Obtiene el banco del depósito.
-     *
-     * @return El banco del depósito.
-     */
-    public String getBanco() {
-        return banco;
-    }
-
-    /**
-     * Cambia el banco del depósito.
-     *
-     * @param banco Nuevo nombre del depósito.
-     */
-    public void setBanco(String banco) {
-        this.banco = banco;
-    }
+    }    
     
     /**
      * Obtiene la fecha de inicio del depósito.

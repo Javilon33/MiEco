@@ -27,10 +27,10 @@ public class ConsultaRegistro {
         Connection conn = conexion.getConexion();
 
         boolean registroExitoso = false;
-        String sql = "INSERT INTO USUARIOS (rol, email, nombre, apellidos, telefono, fecha, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO USUARIOS (id_rol, email, nombre, apellidos, telefono, fecha, password) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, 0); // Asignar rol 0 (USUARIO estándar) por defecto
+            stmt.setInt(1, 1); // Asignar rol 1 (USUARIO estándar) por defecto
             stmt.setString(2, email);
             stmt.setString(3, nombre);
             stmt.setString(4, apellidos);

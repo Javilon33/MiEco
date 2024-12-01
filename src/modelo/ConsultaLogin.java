@@ -72,8 +72,8 @@ public class ConsultaLogin {
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     usuario = new Usuario(
-                        rs.getInt("codigo"),
-                        rs.getInt("rol"),
+                        rs.getInt("id_usuario"),
+                        rs.getInt("id_rol"),
                         rs.getString("email"),
                         rs.getString("nombre"),
                         rs.getString("apellidos"),

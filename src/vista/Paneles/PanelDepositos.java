@@ -50,6 +50,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         panelDeposito1 = new javax.swing.JPanel();
         panelVencido1 = new javax.swing.JPanel();
         etiVencido1 = new javax.swing.JLabel();
+        btnPasar1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         etiImporteInicial1 = new javax.swing.JLabel();
         etiImporteFinal1 = new javax.swing.JLabel();
@@ -190,7 +191,7 @@ public class PanelDepositos extends javax.swing.JPanel {
 
         etiAdd.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
         etiAdd.setForeground(new java.awt.Color(255, 255, 255));
-        etiAdd.setText("AÑADIR");
+        etiAdd.setText("CONTRATAR");
         etiAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAdd.add(etiAdd, new java.awt.GridBagConstraints());
 
@@ -228,11 +229,11 @@ public class PanelDepositos extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Depósito", "Banco", "Fecha Inicio", "Duración (Meses)", "Importe Inicial", "Interés Anual", "Importe Final Neto", "Finalizado"
+                "ID", "Depósito", "Cuenta", "Fecha Inicio", "Duración", "Importe", "Interés", "Finalizado"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -263,6 +264,9 @@ public class PanelDepositos extends javax.swing.JPanel {
         etiVencido1.setForeground(new java.awt.Color(18, 90, 173));
         etiVencido1.setText("VENCIDO");
         panelVencido1.add(etiVencido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
+
+        btnPasar1.setText("Pasar a la Cuenta");
+        panelVencido1.add(btnPasar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, -1));
 
         panelDeposito1.add(panelVencido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
         panelVencido1.setBackground(new Color(242,242,242,150));
@@ -765,6 +769,7 @@ public class PanelDepositos extends javax.swing.JPanel {
     public javax.swing.JPanel btnAdd;
     public javax.swing.JPanel btnEliminar;
     public javax.swing.JPanel btnModificar;
+    public javax.swing.JButton btnPasar1;
     public javax.swing.JLabel etiAdd;
     public javax.swing.JLabel etiBeneficio1;
     public javax.swing.JLabel etiBeneficio2;

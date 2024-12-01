@@ -6,17 +6,23 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 import modelo.ConsultaDepositos;
+import modelo.ConsultaMovimientos;
 import modelo.entidades.Deposito;
 import modelo.entidades.Usuario;
 import rojeru_san.componentes.RSDateChooser;
@@ -32,28 +38,27 @@ public class ControladorDepositos {
     private final ConsultaDepositos consultaDepositos; // El modelo para obtener los datos de los depósitos
     private final Usuario usuario; // Usuario actual para obtener sus datos
     private final NumberFormat formato; //Formato para mostrar los importes correctamente (2 decimales y puntos en los miles)
-  
+
     public ControladorDepositos(PanelDepositos vista, ConsultaDepositos consultaDepositos, Usuario usuario) {
         this.vista = vista;
         this.consultaDepositos = consultaDepositos;
         this.usuario = usuario;
-        
+
         // Configurar el formato para importes (una sola vez)
         this.formato = NumberFormat.getInstance(new Locale("es", "ES"));
         formato.setMaximumFractionDigits(2);
         formato.setMinimumFractionDigits(2);
-                
+
         inicializarEventos(); // Inicializar eventos de la interfaz
         cargarDepositos(); // Cargar los depositos en la tabla al inicio          
     }
 
     // Configura eventos básicos (clicks en botones y etiquetas)
     public void inicializarEventos() {
-        
+
         //Muestra el saldo actual de todos los depósitos (con 2 decimales)
         double saldoTotal = consultaDepositos.obtenerTotalDepositos(usuario.getCodigo());
-        vista.etiTotal.setText(formato.format(+saldoTotal)+ " €");
-        
+        vista.etiTotal.setText(formato.format(+saldoTotal) + " €");
 
         // Evento para el botón y etiqueta de "Añadir depósito"
         vista.btnAdd.addMouseListener(new MouseAdapter() {
@@ -62,25 +67,9 @@ public class ControladorDepositos {
                 mostrarPanelAddDeposito(); // Abre el panel para agregar depósitos
             }
         });
-        vista.etiAdd.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                mostrarPanelAddDeposito();
-            }
-        });
 
         // Evento para el botón y etiqueta de "Eliminar depósito"
         vista.btnEliminar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                try {
-                    eliminarDepositoSeleccionado(); // Llama a eliminar el depósito
-                } catch (NoSuchFieldException | IllegalArgumentException | IllegalAccessException ex) {
-                    Logger.getLogger(ControladorDepositos.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        });
-        vista.etiElminar.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
                 try {
@@ -98,22 +87,16 @@ public class ControladorDepositos {
                 mostrarPanelModificarDeposito(); // Abre el panel para modificar depósito
             }
         });
-        vista.etiModificar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent evt) {
-                mostrarPanelModificarDeposito(); // Abre el panel para modificar depósito
-            }
-        });        
 
     }
-    
+
     //Método para cargar los depósitos desde la BD
     public void cargarDepositos() {
-        
+
         //Muestra el saldo actual de todos los depósitos (con 2 decimales)
         double saldoTotal = consultaDepositos.obtenerTotalDepositos(usuario.getCodigo());
-        vista.etiTotal.setText(formato.format(+saldoTotal)+ " €");
-        
+        vista.etiTotal.setText(formato.format(+saldoTotal) + " €");
+
         try {
             List<Deposito> depositos = consultaDepositos.obtenerDepositos(usuario.getCodigo());
             configurarPaneles(depositos);
@@ -123,7 +106,7 @@ public class ControladorDepositos {
             JOptionPane.showMessageDialog(vista, "Error al cargar los depósitos. Inténtelo de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     //Activa los paneles según los depósitos que haya
     private void configurarPaneles(List<Deposito> depositos) throws NoSuchFieldException, IllegalAccessException {
         Date hoy = new Date();
@@ -140,7 +123,7 @@ public class ControladorDepositos {
         vista.revalidate();
         vista.repaint();
     }
-    
+
     //Rellena las etiquetas de los paneles activos
     private void actualizarEtiquetasPanel(JPanel panel, Deposito deposito, Date hoy, int indice) throws NoSuchFieldException, IllegalAccessException {
         JLabel etiDeposito = (JLabel) vista.getClass().getDeclaredField("etiDeposito" + indice).get(vista);
@@ -165,49 +148,61 @@ public class ControladorDepositos {
         JPanel panelVencido = (JPanel) vista.getClass().getDeclaredField("panelVencido" + indice).get(vista);
         panelVencido.setVisible(deposito.getFechaVencimiento().before(hoy));
     }
-    
+
     //Rellena la tabla con los depósitos
     private void rellenarTablaDepositos(List<Deposito> depositos) {
         DefaultTableModel modelo = (DefaultTableModel) vista.tablaDepositos.getModel();
         modelo.setRowCount(0);
 
+        // Supongamos que tienes un mapa que contiene las cuentas con su alias y banco
+        Map<Integer, String> cuentasConAliasYBanco = consultaDepositos.obtenerCuentasConAliasYBanco(usuario.getCodigo()); // Obtener este mapa previamente
+
         for (Deposito deposito : depositos) {
+            // Obtener el alias+banco correspondiente a la cuenta
+            String aliasBanco = cuentasConAliasYBanco.get(deposito.getIdCuenta());
+
             Object[] fila = {
                 deposito.getIdDeposito(),
                 deposito.getNombre(),
-                deposito.getBanco(),
+                aliasBanco, // Mostrar alias+nombre del banco en lugar de idCuenta
                 new SimpleDateFormat("dd-MM-yyyy").format(deposito.getFechaInicio()),
                 deposito.getMeses(),
-                //String.format("%.2f", deposito.getImporteInicial())+ " €", // Formatear saldo a 2 decimales
                 formato.format(deposito.getImporteInicial()) + " €",
-                //String.format("%.2f", deposito.getInteresAnual())+ " %", // Formatear saldo a 2 decimales
                 formato.format(deposito.getInteresAnual()) + "%",
-                //String.format("%.2f", deposito.getImporteFinal())+ " €", // Formatear saldo a 2 decimales
-                formato.format(deposito.getImporteFinal()) + " €",                
                 deposito.getFechaVencimiento().before(new Date()) ? "SI" : "NO"
             };
             modelo.addRow(fila);
         }
-    }    
+        ajustarAnchoColumnas(); // Llamamos a este método para ajustar el ancho de las columnas
+    }
 
     //Muestra un panel emergente para AÑADIR un Deposito nuevo
     public void mostrarPanelAddDeposito() {
         // Campos de entrada para los datos del depósito
         JTextField campoNombre = new JTextField(20);
-        JTextField campoBanco = new JTextField(15);
+        JComboBox<String> cbCuenta = new JComboBox<>(); // ComboBox para las cuentas disponibles del usuario
         RSDateChooser fechaInicio = new RSDateChooser();
         JTextField campoMeses = new JTextField(5);
         JTextField campoImporte = new JTextField(15);
         JTextField campoInteres = new JTextField(5);
 
+        // Carga de la lista de cuentas
+        Map<Integer, String> listaCuentas = consultaDepositos.obtenerCuentasConAliasYBanco(usuario.getCodigo()); // Obtiene cuentas directamente
+        Map<String, Integer> cuentaIds = new HashMap<>(); // Relación inversa para obtener el ID de la cuenta desde el alias
+        for (Map.Entry<Integer, String> entry : listaCuentas.entrySet()) {
+            String displayText = entry.getValue();
+            cbCuenta.addItem(displayText);
+            cuentaIds.put(displayText, entry.getKey());
+        }
+
         // Añade los campos al panel
         JPanel panel = new JPanel();
-        panel.add(fechaInicio);
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(fechaInicio);
         panel.add(new JLabel("Nombre del depósito:"));
         panel.add(campoNombre);
-        panel.add(new JLabel("Banco:"));
-        panel.add(campoBanco);
+        panel.add(new JLabel("Cuenta:"));
+        panel.add(cbCuenta);
         panel.add(new JLabel("Duración (meses):"));
         panel.add(campoMeses);
         panel.add(new JLabel("Importe:"));
@@ -215,32 +210,30 @@ public class ControladorDepositos {
         panel.add(new JLabel("Interés anual:"));
         panel.add(campoInteres);
 
-        // Abre un diálogo para añadir el depósito 
+        // Abre un diálogo para añadir el depósito
         int resultado = JOptionPane.showConfirmDialog(vista, panel, "Añadir nuevo depósito", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
 
         if (fechaInicio.getDatoFecha() != null) {
             if (resultado == JOptionPane.OK_OPTION) {
-                try {                    
-                    //Obtener los datos
+                try {
+                    // Obtener los datos
                     String fecha = new SimpleDateFormat("yyyy/MM/dd").format(fechaInicio.getDatoFecha());
                     int meses = Integer.parseInt(campoMeses.getText());
                     String nombre = campoNombre.getText();
-                    String banco = campoBanco.getText();
-                    
+                    String cuentaSeleccionada = (String) cbCuenta.getSelectedItem();
+                    int cuentaId = cuentaIds.getOrDefault(cuentaSeleccionada, 0);
+
                     // Crear un NumberFormat basado en la configuración regional
-                     NumberFormat formatoNumero = NumberFormat.getInstance(Locale.getDefault());
-                    // Analizar el texto del importe con NumberFormat
-                    Number numero = formatoNumero.parse(campoImporte.getText());
-                    double importe = numero.doubleValue();
-                    // Analizar el texto del importe con NumberFormat
-                    Number numero2 = formatoNumero.parse(campoInteres.getText());
-                    double interes = numero2.doubleValue();
+                    NumberFormat formatoNumero = NumberFormat.getInstance(Locale.getDefault());
+                    double importe = formatoNumero.parse(campoImporte.getText()).doubleValue();
+                    double interes = formatoNumero.parse(campoInteres.getText()).doubleValue();
 
                     // Llama al modelo para añadir el depósito
-                    boolean depositoInsertado = consultaDepositos.addDeposito(usuario.getCodigo(), nombre, banco, fecha, meses, importe, interes);
+                    boolean depositoInsertado = consultaDepositos.addDeposito(usuario.getCodigo(), cuentaId, nombre, fecha, meses, importe, interes);
 
                     if (depositoInsertado) {
                         JOptionPane.showMessageDialog(vista, "Depósito añadido correctamente.");
+                        addMovimientoContratarDeposito(cuentaId, fecha, nombre, importe); //Añade el movimiento a la cuenta automaticamente
                         cargarDepositos(); // Refresca la tabla
                     } else {
                         JOptionPane.showMessageDialog(vista, "Error al añadir el depósito. Inténtalo de nuevo.");
@@ -254,11 +247,10 @@ public class ControladorDepositos {
         } else {
             JOptionPane.showMessageDialog(vista, "No has introducido Fecha");
         }
-
     }
-    
+
     //Muestra un panel emergente para MODIFICAR el Deposito seleccionado
-    public void mostrarPanelModificarDeposito() {        
+    public void mostrarPanelModificarDeposito() {
         int filaSeleccionada = vista.tablaDepositos.getSelectedRow(); // Obtiene la fila seleccionada
 
         if (filaSeleccionada == -1) { // Verifica que haya una selección
@@ -268,49 +260,68 @@ public class ControladorDepositos {
 
         // Recupera los datos del depósito seleccionado por idDeposito
         int idDeposito = (int) vista.tablaDepositos.getValueAt(filaSeleccionada, 0);
-        Deposito deposito = consultaDepositos.obtenerDepositoPorId(idDeposito); 
-        
+        Deposito deposito = consultaDepositos.obtenerDepositoPorId(idDeposito);
+
         if (deposito == null) {
             JOptionPane.showMessageDialog(vista, "No se pudo recuperar la información del deposito.");
             return;
         }
-        
+
         // Campos de entrada para los datos del depósito
         RSDateChooser campoFecha = new RSDateChooser();
         campoFecha.setDatoFecha(deposito.getFechaInicio());
-        JTextField campoNombre = new JTextField(deposito.getNombre(),20);
-        JTextField campoBanco = new JTextField(deposito.getBanco(),15);        
-        JTextField campoMeses = new JTextField(String.valueOf(deposito.getMeses()),5);
+        JTextField campoNombre = new JTextField(deposito.getNombre(), 20);
+        JComboBox<String> cbCuenta = new JComboBox<>(); // ComboBox para las cuentas disponibles del usuario
+        JTextField campoMeses = new JTextField(String.valueOf(deposito.getMeses()), 5);
         JTextField campoImporte = new JTextField(String.valueOf(deposito.getImporteInicial()), 15);
         JTextField campoInteres = new JTextField(String.valueOf(deposito.getInteresAnual()), 5);
 
+        // Carga de la lista de cuentas
+        Map<Integer, String> listaCuentas = consultaDepositos.obtenerCuentasConAliasYBanco(usuario.getCodigo()); // Obtiene cuentas directamente
+        Map<String, Integer> cuentaIds = new HashMap<>(); // Relación inversa para obtener el ID de la cuenta desde el alias
+        for (Map.Entry<Integer, String> entry : listaCuentas.entrySet()) {
+            String displayText = entry.getValue();
+            cbCuenta.addItem(displayText);
+            cuentaIds.put(displayText, entry.getKey());
+        }
+
+        // Selecciona la cuenta asociada al depósito
+        int cuentaSeleccionada = deposito.getIdCuenta();
+        String cuentaAlias = cuentaIds.entrySet().stream()
+                .filter(entry -> entry.getValue() == cuentaSeleccionada)
+                .map(Map.Entry::getKey)
+                .findFirst()
+                .orElse(null);
+        cbCuenta.setSelectedItem(cuentaAlias);
+
         // Añade los campos al panel
-        JPanel panel = new JPanel();        
+        JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
         panel.add(new JLabel("Fecha:"));
         panel.add(campoFecha);
         panel.add(new JLabel("Nombre del depósito:"));
         panel.add(campoNombre);
-        panel.add(new JLabel("Banco:"));
-        panel.add(campoBanco);
+        panel.add(new JLabel("Cuenta:"));
+        panel.add(cbCuenta);
         panel.add(new JLabel("Duración (meses):"));
         panel.add(campoMeses);
         panel.add(new JLabel("Importe:"));
         panel.add(campoImporte);
         panel.add(new JLabel("Interés anual:"));
         panel.add(campoInteres);
-        
+
         // Mostrar diálogo
         int resultado = JOptionPane.showConfirmDialog(null, panel, "Modificar Depósito", JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE);
-        
+
         if (resultado == JOptionPane.OK_OPTION) {
             try {
                 // Validar y obtener datos
                 String formatoFecha = "yyyy/MM/dd";
                 SimpleDateFormat formatt = new SimpleDateFormat(formatoFecha);
-                String fecha = formatt.format(campoFecha.getDatoFecha());  
+                String fecha = formatt.format(campoFecha.getDatoFecha());
                 String nombre = campoNombre.getText();
-                String banco = campoBanco.getText();
+                String cuentaSeleccionadaModificada = (String) cbCuenta.getSelectedItem();
+                int cuentaId = cuentaIds.getOrDefault(cuentaSeleccionadaModificada, 0); // Obtiene el ID de la cuenta seleccionada
                 int meses = Integer.parseInt(campoMeses.getText());
                 // Normalizar el importe para que acepte comas
                 String importeTexto = campoImporte.getText().replace(",", ".");
@@ -318,18 +329,17 @@ public class ControladorDepositos {
                 // Normalizar el importe para que acepte comas
                 String interesTexto = campoInteres.getText().replace(",", ".");
                 double interes = Double.parseDouble(interesTexto);
-                
-                // Actualizar el depóstito
-                boolean actualizado = consultaDepositos.modificarDeposito(deposito.getIdDeposito(), nombre, banco, fecha, meses, importe, interes);
+
+                // Actualizar el depósito
+                boolean actualizado = consultaDepositos.modificarDeposito(deposito.getIdDeposito(), cuentaId, nombre, fecha, meses, importe, interes);
 
                 if (actualizado) {
                     JOptionPane.showMessageDialog(vista, "Depósito modificado correctamente.");
                     cargarDepositos(); // Refresca la tabla
-                    
                 } else {
                     JOptionPane.showMessageDialog(vista, "Error al modificar el depósito.");
                 }
-            } catch ( NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(vista, "Error en los datos. Verifica los campos.");
             } catch (IllegalArgumentException ex) {
                 Logger.getLogger(ControladorDepositos.class.getName()).log(Level.SEVERE, null, ex);
@@ -368,6 +378,43 @@ public class ControladorDepositos {
                 JOptionPane.showMessageDialog(vista, "Error al eliminar la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    //Método para ajustar el ancho de las columnas de la tabla manualmente
+    private void ajustarAnchoColumnas() {
+        JTable tabla = vista.tablaDepositos;  // Suponiendo que 'tablaDepositos' es el nombre de la tabla
+
+        // Obtener el modelo de columnas de la tabla
+        TableColumnModel columnModel = tabla.getColumnModel();
+
+        // Ajustar el ancho de cada columna (aquí puedes especificar el tamaño que desees para cada columna)
+        columnModel.getColumn(0).setPreferredWidth(30);  // Columna 0: ID del depósito
+        columnModel.getColumn(1).setPreferredWidth(150); // Columna 1: Nombre del depósito
+        columnModel.getColumn(2).setPreferredWidth(200); // Columna 2: Alias y banco
+        columnModel.getColumn(3).setPreferredWidth(100); // Columna 3: Fecha inicio
+        columnModel.getColumn(4).setPreferredWidth(70); // Columna 4: Meses
+        columnModel.getColumn(5).setPreferredWidth(100); // Columna 5: Importe
+        columnModel.getColumn(6).setPreferredWidth(80); // Columna 6: Interés
+        columnModel.getColumn(7).setPreferredWidth(60);  // Columna 7: Vencimiento
+    }
+
+    //Método para añadir automaticamente a la cuenta el MOVIMIENTO de CONTRATAR DEPOSITO
+    public void addMovimientoContratarDeposito(int idCuenta, String fecha, String notas, double importe) {
+        // Definir parámetros para el movimiento
+        ConsultaMovimientos consulta = new ConsultaMovimientos();
+        int tipo = 2; // Tipo de movimiento: 1 (Pago)
+        Integer idGasto = null; // no hay gasto asociado, se deja como null
+        int idSubtipoMovimiento = 11; // Subtipo de movimiento: 11 (Contrato de depósito)
+        importe = -importe; //Convierte el importe en negativo ya que es un pago
+
+        // Llamar al método addMovimiento para agregar el movimiento a la cuenta
+        boolean movimientoExitoso = consulta.addMovimiento(idCuenta, fecha, tipo, idSubtipoMovimiento, idGasto, notas, importe);
+
+        if (!movimientoExitoso) {
+            System.out.println("Error al añadir el movimiento al contratar el depósito.");
+        }
+        
 
     }
+
 }
