@@ -23,7 +23,7 @@ public class ConsultaMovimientos {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "SELECT id_movimiento, id_cuenta, id_tipo_movimiento, id_subtipo_movimiento, id_tipo_gasto, notas, importe, fecha FROM MOVIMIENTOS WHERE id_cuenta = ? ORDER BY fecha ASC";
+        String sql = "SELECT id_movimiento, id_cuenta, id_tipo_movimiento, id_subtipo_movimiento, id_tipo_gasto, notas, importe, fecha, id_deposito FROM MOVIMIENTOS WHERE id_cuenta = ? ORDER BY fecha ASC";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idCuenta);
@@ -34,12 +34,19 @@ public class ConsultaMovimientos {
                 int id_cuenta = rs.getInt("id_cuenta");
                 int id_tipo_movimiento = rs.getInt("id_tipo_movimiento");
                 int id_subtipo_movimiento = rs.getInt("id_subtipo_movimiento");
+
+                // Si id_tipo_gasto es null, asignamos null; de lo contrario, asignamos el valor.
                 Integer id_tipo_gasto = (rs.getObject("id_tipo_gasto") != null) ? rs.getInt("id_tipo_gasto") : null;
+
                 String notas = rs.getString("notas");
                 double importe = rs.getDouble("importe");
                 Date fecha = rs.getDate("fecha");
 
-                movimientos.add(new Movimiento(id_movimiento, idCuenta, fecha, id_tipo_movimiento, id_subtipo_movimiento, id_tipo_gasto, notas, importe));
+                // Verificamos si el valor de id_deposito es null y lo asignamos correctamente.
+                Integer idDeposito = rs.wasNull() ? null : rs.getInt("id_deposito");
+
+                // Agregar el movimiento a la lista
+                movimientos.add(new Movimiento(id_movimiento, idCuenta, fecha, id_tipo_movimiento, id_subtipo_movimiento, id_tipo_gasto, notas, importe, idDeposito));
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener movimientos: " + e.getMessage());
@@ -57,11 +64,11 @@ public class ConsultaMovimientos {
     }
 
     // Método para AÑADIR MOVIMIENTO
-    public boolean addMovimiento(int idCuenta, String fecha, int tipo, int idCategoria, Integer idGasto, String notas, double importe) {
+    public boolean addMovimiento(int idCuenta, String fecha, int tipo, int idCategoria, Integer idGasto, String notas, double importe, Integer idDeposito) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "INSERT INTO MOVIMIENTOS (id_cuenta, fecha, id_tipo_movimiento, id_subtipo_movimiento, id_tipo_gasto, notas, importe) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO MOVIMIENTOS (id_cuenta, fecha, id_tipo_movimiento, id_subtipo_movimiento, id_tipo_gasto, notas, importe, id_deposito) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idCuenta);
             stmt.setString(2, fecha);
@@ -75,6 +82,12 @@ public class ConsultaMovimientos {
             }
             stmt.setString(6, notas);
             stmt.setDouble(7, importe);
+            // Cambiado: usa setNull para el caso en que idDeposito sea null
+            if (idDeposito == null || idDeposito == -1 || idDeposito == 0) {
+                stmt.setNull(8, java.sql.Types.INTEGER);  // Establece null para id_deposito
+            } else {
+                stmt.setInt(8, idDeposito);  // Si idGasto tiene valor, se pasa como entero
+            }
 
             stmt.executeUpdate();
             return true;
@@ -93,12 +106,12 @@ public class ConsultaMovimientos {
     }
 
     //Método para MODIFICAR MOVIMIENTO
-    public boolean modificarMovimiento(int idMovimiento, String fecha, int tipo, int idCategoria, Integer idGasto, String notas, double importe) {
+    public boolean modificarMovimiento(int idCuenta, int idMovimiento, String fecha, int tipo, int idCategoria, Integer idGasto, String notas, double importe, Integer idDeposito) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "UPDATE MOVIMIENTOS SET fecha = ?, id_tipo_movimiento = ?, id_subtipo_movimiento = ?, id_tipo_gasto = ?, notas = ?, importe = ? "
-                + "WHERE id_movimiento = ?";
+        String sql = "UPDATE MOVIMIENTOS SET fecha = ?, id_tipo_movimiento = ?, id_subtipo_movimiento = ?, id_tipo_gasto = ?, notas = ?, importe = ?, id_deposito = ? , id_cuenta = ?"
+                + " WHERE id_movimiento = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, fecha);
@@ -112,7 +125,14 @@ public class ConsultaMovimientos {
             }
             stmt.setString(5, notas);
             stmt.setDouble(6, importe);
-            stmt.setInt(7, idMovimiento);
+            // Cambiado: usa setNull para el caso en que idDeposito sea null
+            if (idDeposito == null || idDeposito == -1 || idDeposito == 0) {
+                stmt.setNull(7, java.sql.Types.INTEGER);  // Establece null para id_deposito
+            } else {
+                stmt.setInt(7, idDeposito);  // Si idDeposito tiene valor, se pasa como entero
+            }
+            stmt.setInt(8, idCuenta);
+            stmt.setInt(9, idMovimiento);
 
             int filasAfectadas = stmt.executeUpdate();
             return filasAfectadas > 0;
@@ -330,7 +350,7 @@ public class ConsultaMovimientos {
 
         String sql = "SELECT MOVIMIENTOS.id_cuenta, MOVIMIENTOS.fecha, MOVIMIENTOS.id_tipo_movimiento, "
                 + "MOVIMIENTOS.id_subtipo_movimiento, MOVIMIENTOS.id_tipo_gasto, MOVIMIENTOS.notas, "
-                + "MOVIMIENTOS.importe "
+                + "MOVIMIENTOS.importe, MOVIMIENTOS.id_deposito "
                 + "FROM MOVIMIENTOS "
                 + "WHERE MOVIMIENTOS.id_movimiento = ?";
 
@@ -346,10 +366,11 @@ public class ConsultaMovimientos {
                 Integer idTipoGasto = rs.getObject("id_tipo_gasto") != null ? rs.getInt("id_tipo_gasto") : null;
                 String notas = rs.getString("notas");
                 double importe = rs.getDouble("importe");
+                Integer idDeposito = rs.getObject("id_deposito") != null ? rs.getInt("id_deposito") : null;
 
                 // Crea una instancia de Movimiento con los datos obtenidos
                 movimiento = new Movimiento(idMovimiento, idCuenta, fecha, idTipoMovimiento,
-                        idSubtipoMovimiento, idTipoGasto, notas, importe);
+                        idSubtipoMovimiento, idTipoGasto, notas, importe, idDeposito);
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener el movimiento: " + e.getMessage());

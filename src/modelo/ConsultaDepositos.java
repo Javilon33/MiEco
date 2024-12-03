@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -79,7 +80,48 @@ public class ConsultaDepositos {
         return importeFinal;
     }
 
-    // Método para AÑADIR DEPOSITO
+    // Método para AÑADIR DEPOSITO (devolviendo el idDeposito
+    public int addDeposito(int idUsuario, int idCuenta, String nombre, String fechaInicio, int meses, double importeInicial, double interesAnual) {
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        String sql = "INSERT INTO DEPOSITOS (id_usuario, id_Cuenta, nombre, fecha_inicio, plazo_meses, importe, interes) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            stmt.setInt(1, idUsuario);
+            stmt.setInt(2, idCuenta);
+            stmt.setString(3, nombre);
+            stmt.setString(4, fechaInicio);
+            stmt.setInt(5, meses);
+            stmt.setDouble(6, importeInicial);
+            stmt.setDouble(7, interesAnual);
+
+            // Ejecuta la inserción
+            int filasAfectadas = stmt.executeUpdate();
+
+            if (filasAfectadas > 0) {
+                // Captura el ID generado automáticamente
+                ResultSet generatedKeys = stmt.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    return generatedKeys.getInt(1); // Devuelve el ID generado
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al añadir el depósito: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+
+        return -1; // Retorna -1 si no se pudo obtener el ID
+    }
+
+    /*// Método para AÑADIR DEPOSITO
     public boolean addDeposito(int idUsuario, int idCuenta, String nombre, String fechaInicio, int meses, double importeInicial, double interesAnual) {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
@@ -109,8 +151,7 @@ public class ConsultaDepositos {
                 System.err.println("Error al cerrar la conexión: " + e.getMessage());
             }
         }
-    }
-
+    }*/
     // Método para MODIFICAR DEPOSITO
     public boolean modificarDeposito(int idDeposito, int idCuenta, String nombre, String fechaInicio, int meses, double importeInicial, double interesAnual) {
         Conexion conexion = new Conexion();
@@ -166,6 +207,59 @@ public class ConsultaDepositos {
                 System.err.println("Error al cerrar la conexión: " + e.getMessage());
             }
         }
+    }
+
+    //Método para ELIMINAR MOVIMIENTOS DEL DEPOSITO 
+    public boolean eliminarMovimientoDeposito(int idDeposito) {
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        String sql = "DELETE FROM MOVIMIENTOS WHERE id_deposito = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idDeposito);
+            int filasAfectadas = stmt.executeUpdate();
+            return filasAfectadas > 0;
+        } catch (SQLException e) {
+            System.err.println("Error al eliminar el depósito: " + e.getMessage());
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+    }
+
+    // Método para obtener el idMovimiento por el idDeposito
+    public int obtenerIdMovimientoDeposito(int idDeposito) {
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        String sql = "SELECT id_movimiento FROM MOVIMIENTOS WHERE id_deposito = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idDeposito);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt("id_movimiento");
+                }
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener el idMovimiento: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+        return -1; // Valor por defecto si no se encuentra el idMovimiento
     }
 
     public Deposito obtenerDepositoPorId(int idDeposito) {
@@ -261,7 +355,5 @@ public class ConsultaDepositos {
 
         return cuentas;
     }
-
-    
 
 }

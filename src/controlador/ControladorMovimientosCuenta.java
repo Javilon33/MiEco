@@ -253,9 +253,10 @@ public class ControladorMovimientosCuenta {
                     if (tipo == 2) {
                         importe = -importe;
                     }
-
+                    Integer idDeposito = null; //Como no proviene de un deposito es null
+               
                     // Llama al modelo para añadir el movimiento
-                    boolean movimientoInsertado = consultaMovimientos.addMovimiento(idCuenta, fecha, tipo, categoria, gasto, notas, importe);
+                    boolean movimientoInsertado = consultaMovimientos.addMovimiento(idCuenta, fecha, tipo, categoria, gasto, notas, importe, idDeposito);
 
                     if (movimientoInsertado) {
                         JOptionPane.showMessageDialog(vista, "Movimiento añadido correctamente.");
@@ -292,6 +293,7 @@ public class ControladorMovimientosCuenta {
             JOptionPane.showMessageDialog(vista, "No se pudo recuperar la información del movimiento.");
             return;
         }
+        
 
         // Componentes del formulario
         RSDateChooser campoFecha = new RSDateChooser();
@@ -396,6 +398,7 @@ public class ControladorMovimientosCuenta {
         if (resultado == JOptionPane.OK_OPTION) {
             try {
                 // Validar y obtener datos
+                int idCuenta = movimiento.getIdCuenta();
                 String fecha = new SimpleDateFormat("yyyy/MM/dd").format(campoFecha.getDatoFecha());
                 ComboBoxItem tipoSeleccionado = (ComboBoxItem) cbTipo.getSelectedItem();
                 ComboBoxItem categoriaSeleccionada = (ComboBoxItem) cbCategoria.getSelectedItem();
@@ -419,9 +422,10 @@ public class ControladorMovimientosCuenta {
                 if (tipo == 2) {
                     importe = -importe;
                 }
+                Integer idDeposito = null; //Como no proviene de un deposito es null
 
                 // Actualizar el movimiento
-                boolean actualizado = consultaMovimientos.modificarMovimiento(idMovimiento, fecha, tipo, categoria, gasto, notas, importe);
+                boolean actualizado = consultaMovimientos.modificarMovimiento(idCuenta, idMovimiento, fecha, tipo, categoria, gasto, notas, importe, idDeposito);
 
                 if (actualizado) {
                     JOptionPane.showMessageDialog(vista, "Movimiento modificado correctamente.");
@@ -445,7 +449,7 @@ public class ControladorMovimientosCuenta {
             return;
         }
 
-        int idMovimiento = (int) vista.tablaMovimientos.getValueAt(filaSeleccionada, 0); // ID del movimiento selecionado
+        int idMovimiento = (int) vista.tablaMovimientos.getValueAt(filaSeleccionada, 0); // ID del movimiento selecionado                
 
         // Pregunta si el usuario realmente quiere eliminar la cuenta
         int opcion = JOptionPane.showConfirmDialog(

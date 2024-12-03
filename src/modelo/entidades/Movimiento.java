@@ -25,6 +25,8 @@ public class Movimiento {
     private String notas;
     // Monto del movimiento (positivo o negativo dependiendo del tipo)
     private double importe;
+    //Id del deposito asociado si procede
+    private Integer idDeposito;
 
     /**
      * Constructor para crear un movimiento con todos sus datos.
@@ -37,8 +39,9 @@ public class Movimiento {
      * @param tipoGasto Tipo de gasto, si aplica (puede ser null).
      * @param notas Notas adicionales sobre el movimiento.
      * @param importe Importe del movimiento.
+     * @param idDeposito Id del deposito asociado si procede
      */
-    public Movimiento(int id_movimiento, int idCuenta, Date fecha, int tipo, int subtipo, Integer tipoGasto, String notas, double importe) {
+    public Movimiento(int id_movimiento, int idCuenta, Date fecha, int tipo, int subtipo, Integer tipoGasto, String notas, double importe, Integer idDeposito) {
         this.id_movimiento = id_movimiento;
         this.idCuenta = idCuenta;
         this.fecha = fecha;
@@ -47,6 +50,7 @@ public class Movimiento {
         this.tipoGasto = tipoGasto;
         this.notas = notas;
         this.importe = importe;
+        this.idDeposito = idDeposito;
     }
 
     /**
@@ -192,4 +196,24 @@ public class Movimiento {
     public void setImporte(double importe) {
         this.importe = importe;
     }
+
+    /**
+     * Obtiene el id del depósito asociado (si procede).
+     * 
+     * @return El id del depósito asociado (si procede).
+     */
+    public Integer getIdDeposito() {
+        return idDeposito;
+    }
+
+    /**
+     * Cambia el id del depósito asociado (si procede).
+     * 
+     * @param idDeposito Nuevo id del depósito asociado (si procede).
+     */
+    public void setIdDeposito(Integer idDeposito) {
+        this.idDeposito = idDeposito;
+    }
+    
+    
 }

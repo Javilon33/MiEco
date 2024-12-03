@@ -41,16 +41,17 @@ public class PanelDepositos extends javax.swing.JPanel {
         panelMenu = new javax.swing.JPanel();
         btnAdd = new javax.swing.JPanel();
         etiAdd = new javax.swing.JLabel();
-        btnModificar = new javax.swing.JPanel();
-        etiModificar = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JPanel();
         etiElminar = new javax.swing.JLabel();
+        btnModificar = new javax.swing.JPanel();
+        etiModificar = new javax.swing.JLabel();
+        btnPasar = new javax.swing.JPanel();
+        etiPasar = new javax.swing.JLabel();
         panelDepositos = new javax.swing.JScrollPane();
         tablaDepositos = new javax.swing.JTable();
         panelDeposito1 = new javax.swing.JPanel();
         panelVencido1 = new javax.swing.JPanel();
         etiVencido1 = new javax.swing.JLabel();
-        btnPasar1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         etiImporteInicial1 = new javax.swing.JLabel();
         etiImporteFinal1 = new javax.swing.JLabel();
@@ -197,18 +198,6 @@ public class PanelDepositos extends javax.swing.JPanel {
 
         panelMenu.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 20));
 
-        btnModificar.setBackground(new java.awt.Color(190, 56, 0));
-        btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnModificar.setLayout(new java.awt.GridBagLayout());
-
-        etiModificar.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
-        etiModificar.setForeground(new java.awt.Color(255, 255, 255));
-        etiModificar.setText("MODIFICAR");
-        etiModificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnModificar.add(etiModificar, new java.awt.GridBagConstraints());
-
-        panelMenu.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 110, 20));
-
         btnEliminar.setBackground(new java.awt.Color(190, 56, 0));
         btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnEliminar.setLayout(new java.awt.GridBagLayout());
@@ -221,7 +210,31 @@ public class PanelDepositos extends javax.swing.JPanel {
 
         panelMenu.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 110, 20));
 
-        jPanel1.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, 370, 40));
+        btnModificar.setBackground(new java.awt.Color(190, 56, 0));
+        btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnModificar.setLayout(new java.awt.GridBagLayout());
+
+        etiModificar.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        etiModificar.setForeground(new java.awt.Color(255, 255, 255));
+        etiModificar.setText("MODIFICAR");
+        etiModificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnModificar.add(etiModificar, new java.awt.GridBagConstraints());
+
+        panelMenu.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 110, 20));
+
+        btnPasar.setBackground(new java.awt.Color(0, 153, 102));
+        btnPasar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnPasar.setLayout(new java.awt.GridBagLayout());
+
+        etiPasar.setFont(new java.awt.Font("Roboto", 1, 12)); // NOI18N
+        etiPasar.setForeground(new java.awt.Color(255, 255, 255));
+        etiPasar.setText("PASAR A LA CUENTA");
+        etiPasar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPasar.add(etiPasar, new java.awt.GridBagConstraints());
+
+        panelMenu.add(btnPasar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 130, 20));
+
+        jPanel1.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, 510, 40));
 
         tablaDepositos.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         tablaDepositos.setModel(new javax.swing.table.DefaultTableModel(
@@ -264,9 +277,6 @@ public class PanelDepositos extends javax.swing.JPanel {
         etiVencido1.setForeground(new java.awt.Color(18, 90, 173));
         etiVencido1.setText("VENCIDO");
         panelVencido1.add(etiVencido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 40, 170, 100));
-
-        btnPasar1.setText("Pasar a la Cuenta");
-        panelVencido1.add(btnPasar1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 20, -1, -1));
 
         panelDeposito1.add(panelVencido1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 150));
         panelVencido1.setBackground(new Color(242,242,242,150));
@@ -769,7 +779,7 @@ public class PanelDepositos extends javax.swing.JPanel {
     public javax.swing.JPanel btnAdd;
     public javax.swing.JPanel btnEliminar;
     public javax.swing.JPanel btnModificar;
-    public javax.swing.JButton btnPasar1;
+    public javax.swing.JPanel btnPasar;
     public javax.swing.JLabel etiAdd;
     public javax.swing.JLabel etiBeneficio1;
     public javax.swing.JLabel etiBeneficio2;
@@ -814,6 +824,7 @@ public class PanelDepositos extends javax.swing.JPanel {
     public javax.swing.JLabel etiImporteInicial8;
     public javax.swing.JLabel etiModificar;
     public javax.swing.JLabel etiNombre;
+    public javax.swing.JLabel etiPasar;
     public javax.swing.JLabel etiTotal;
     private javax.swing.JLabel etiVencido1;
     private javax.swing.JLabel etiVencido2;

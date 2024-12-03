@@ -68,6 +68,14 @@ public class ControladorDepositos {
             }
         });
 
+        // Evento para el botón y etiqueta de "Modificar depósito"
+        vista.btnModificar.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent evt) {
+                mostrarPanelModificarDeposito(); // Abre el panel para modificar depósitos
+            }
+        });
+
         // Evento para el botón y etiqueta de "Eliminar depósito"
         vista.btnEliminar.addMouseListener(new MouseAdapter() {
             @Override
@@ -80,11 +88,11 @@ public class ControladorDepositos {
             }
         });
 
-        // Evento para el botón y etiqueta de "Modificar depósito"
-        vista.btnModificar.addMouseListener(new MouseAdapter() {
+        // Evento para el botón y etiqueta de "Pasar a la Cuenta"
+        vista.btnPasar.addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent evt) {
-                mostrarPanelModificarDeposito(); // Abre el panel para modificar depósito
+                depositoVencido(); // Genera los movimientos en la cuenta y elimina el depósito
             }
         });
 
@@ -228,12 +236,13 @@ public class ControladorDepositos {
                     double importe = formatoNumero.parse(campoImporte.getText()).doubleValue();
                     double interes = formatoNumero.parse(campoInteres.getText()).doubleValue();
 
-                    // Llama al modelo para añadir el depósito
-                    boolean depositoInsertado = consultaDepositos.addDeposito(usuario.getCodigo(), cuentaId, nombre, fecha, meses, importe, interes);
+                    // Llama al modelo para añadir el depósito y obtener el ID generado
+                    int idDeposito = consultaDepositos.addDeposito(usuario.getCodigo(), cuentaId, nombre, fecha, meses, importe, interes);
 
-                    if (depositoInsertado) {
-                        JOptionPane.showMessageDialog(vista, "Depósito añadido correctamente.");
-                        addMovimientoContratarDeposito(cuentaId, fecha, nombre, importe); //Añade el movimiento a la cuenta automaticamente
+                    if (idDeposito > 0) { // Verifica si se obtuvo un ID válido
+                        // Añade el movimiento asociado al depósito
+                        addMovimientoContratarDeposito(cuentaId, fecha, nombre, importe, idDeposito);
+                        JOptionPane.showMessageDialog(vista, "Depósito y movimiento creados correctamente.");
                         cargarDepositos(); // Refresca la tabla
                     } else {
                         JOptionPane.showMessageDialog(vista, "Error al añadir el depósito. Inténtalo de nuevo.");
@@ -247,6 +256,7 @@ public class ControladorDepositos {
         } else {
             JOptionPane.showMessageDialog(vista, "No has introducido Fecha");
         }
+
     }
 
     //Muestra un panel emergente para MODIFICAR el Deposito seleccionado
@@ -339,6 +349,19 @@ public class ControladorDepositos {
                 } else {
                     JOptionPane.showMessageDialog(vista, "Error al modificar el depósito.");
                 }
+
+                //Actualizar el movimiento asociado al deposito
+                if (idDeposito > 0) { // Verifica si se obtuvo un ID válido
+                    
+                    // Modifica el movimiento asociado al depósito 
+                    modificarMovimientoDeposito(cuentaId,consultaDepositos.obtenerIdMovimientoDeposito(idDeposito), fecha, nombre, importe, idDeposito);
+
+                    JOptionPane.showMessageDialog(vista, "Depósito y movimiento modificados correctamente.");
+                    cargarDepositos(); // Refresca la tabla
+                } else {
+                    JOptionPane.showMessageDialog(vista, "Error al modificar el depósito. Inténtalo de nuevo.");
+                }
+
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(vista, "Error en los datos. Verifica los campos.");
             } catch (IllegalArgumentException ex) {
@@ -358,6 +381,8 @@ public class ControladorDepositos {
 
         int idDeposito = (int) vista.tablaDepositos.getValueAt(filaSeleccionada, 0); // ID del depósito seleccionado
 
+        JOptionPane.showMessageDialog(vista, "¡¡Ojo, estás eliminando un depósito que tiene un movimiento asociado en la cuenta, se eliminará también el movimiento!!.");
+
         // Pregunta si el usuario realmente quiere eliminar el depósito
         int opcion = JOptionPane.showConfirmDialog(
                 null,
@@ -367,7 +392,7 @@ public class ControladorDepositos {
         );
 
         if (opcion == JOptionPane.YES_OPTION) {
-            // Llama al modelo para eliminar la cuenta
+            // Llama al modelo para eliminar el depósito
             if (consultaDepositos.eliminarDeposito(idDeposito)) {
                 JOptionPane.showMessageDialog(vista, "El depósito ha sido eliminado correctamente.");
 
@@ -375,7 +400,17 @@ public class ControladorDepositos {
                 cargarDepositos();
 
             } else {
-                JOptionPane.showMessageDialog(vista, "Error al eliminar la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(vista, "Error al eliminar el depósito.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            // Llama al modelo para eliminar los movimientos del depósito
+            if (consultaDepositos.eliminarMovimientoDeposito(idDeposito)) {
+                JOptionPane.showMessageDialog(vista, "El movimiento ha sido eliminado correctamente.");
+
+                // Recarga la tabla y actualiza los paneles
+                cargarDepositos();
+
+            } else {
+                JOptionPane.showMessageDialog(vista, "Error al eliminar el movimiento, no existe en la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -398,23 +433,113 @@ public class ControladorDepositos {
         columnModel.getColumn(7).setPreferredWidth(60);  // Columna 7: Vencimiento
     }
 
-    //Método para añadir automaticamente a la cuenta el MOVIMIENTO de CONTRATAR DEPOSITO
-    public void addMovimientoContratarDeposito(int idCuenta, String fecha, String notas, double importe) {
+    // Método para añadir automáticamente a la cuenta el MOVIMIENTO de CONTRATAR DEPOSITO
+    public void addMovimientoContratarDeposito(int idCuenta, String fecha, String notas, double importe, int idDeposito) {
         // Definir parámetros para el movimiento
         ConsultaMovimientos consulta = new ConsultaMovimientos();
-        int tipo = 2; // Tipo de movimiento: 1 (Pago)
-        Integer idGasto = null; // no hay gasto asociado, se deja como null
+        int tipo = 2; // Tipo de movimiento: 2 (Pago)
+        Integer idGasto = null; // No hay gasto asociado, se deja como null
         int idSubtipoMovimiento = 11; // Subtipo de movimiento: 11 (Contrato de depósito)
-        importe = -importe; //Convierte el importe en negativo ya que es un pago
+        importe = -Math.abs(importe); // Convierte el importe en negativo para reflejar un pago
 
         // Llamar al método addMovimiento para agregar el movimiento a la cuenta
-        boolean movimientoExitoso = consulta.addMovimiento(idCuenta, fecha, tipo, idSubtipoMovimiento, idGasto, notas, importe);
+        boolean movimientoCorrecto = consulta.addMovimiento(idCuenta, fecha, tipo, idSubtipoMovimiento, idGasto, notas, importe, idDeposito);
 
-        if (!movimientoExitoso) {
-            System.out.println("Error al añadir el movimiento al contratar el depósito.");
+        if (!movimientoCorrecto) {
+            System.err.println("Error al añadir el movimiento al contratar el depósito.");
+        } else {
+            System.out.println("Movimiento asociado al depósito creado correctamente.");
         }
-        
+    }
 
+    //Metodo para modificar automaticamente en la cuenta el MOVIMIENTO del DEPOSITO MODIFICADO
+    public void modificarMovimientoDeposito(int idCuenta, int idMovimiento, String fecha, String notas, double importe, int idDeposito) {
+        // Definir parámetros para el movimiento
+        ConsultaMovimientos consulta = new ConsultaMovimientos();
+        int tipo = 2; // Tipo de movimiento: 2 (Pago)
+        Integer idGasto = null; // No hay gasto asociado, se deja como null
+        int idSubtipoMovimiento = 11; // Subtipo de movimiento: 11 (Contrato de depósito)
+        importe = -Math.abs(importe); // Convierte el importe en negativo para reflejar un pago
+
+        // Llamar al método modificarMovimiento para agregar el movimiento a la cuenta
+        boolean movimientoCorrecto = consulta.modificarMovimiento(idCuenta, idMovimiento, fecha, tipo, idSubtipoMovimiento, idGasto, notas, importe, idDeposito);
+
+        if (!movimientoCorrecto) {
+            System.err.println("Error al modificar el movimiento asociado al depósito. (El movimiento no existe)");
+        } else {
+            System.out.println("Movimiento asociado al depósito modificado correctamente.");
+        }
+    }
+
+    // Método para añadir automáticamente a la cuenta los MOVIMIENTOS de pasar a la cuenta DEPOSITO VENCIDO
+    public void depositoVencido() {
+        int filaSeleccionada = vista.tablaDepositos.getSelectedRow(); // Obtiene la fila seleccionada
+        if (filaSeleccionada == -1) { // Verifica que haya una selección
+            JOptionPane.showMessageDialog(vista, "Por favor, selecciona un depósito en la lista para pasar a la cuenta.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        int idDeposito = (int) vista.tablaDepositos.getValueAt(filaSeleccionada, 0); // ID del depósito seleccionado
+        //Instancia el depósito
+        Deposito deposito = consultaDepositos.obtenerDepositoPorId(idDeposito);
+
+        // Instancia de ConsultaMovimientos
+        ConsultaMovimientos consulta = new ConsultaMovimientos();
+        Date hoy = new Date();
+        if (!deposito.getFechaVencimiento().before(hoy)) {
+            JOptionPane.showMessageDialog(vista, "No puedes pasar a la cuenta un depósito no vencido.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // Movimiento para el nominal del depósito
+        int idCuenta = deposito.getIdCuenta();
+        String fecha = new SimpleDateFormat("yyyy/MM/dd").format(deposito.getFechaVencimiento());
+        int tipoNominal = 1; // Tipo de movimiento: 1 (Ingreso)
+        Integer idGastoNominal = null; // No hay gasto asociado
+        int idSubtipoMovimientoNominal = 3; // Subtipo de movimiento: 3 (Nominal de depósito vencido)
+        String notas = deposito.getNombre();
+        double nominal = deposito.getImporteInicial();
+        double beneficio = deposito.getImporteFinal() - deposito.getImporteInicial();
+
+        // Pregunta si el usuario realmente quiere eliminar el depósito
+        int opcion = JOptionPane.showConfirmDialog(
+                null,
+                "¿Estás seguro que quieres pasar los importes a la cuenta? Ojo, El depósito será eliminado automaticamente después.",
+                "Confirmación",
+                JOptionPane.YES_NO_OPTION
+        );
+        if (opcion == JOptionPane.YES_OPTION) {
+
+            boolean movimientoNominalCorrecto = consulta.addMovimiento(idCuenta, fecha, tipoNominal, idSubtipoMovimientoNominal, idGastoNominal, notas, nominal, idDeposito);
+            if (!movimientoNominalCorrecto) {
+                System.err.println("Error al añadir el movimiento para el nominal del depósito vencido.");
+            } else {
+                System.out.println("Movimiento para el nominal del depósito vencido añadido correctamente.");
+            }
+
+            // Movimiento para el beneficio del depósito
+            int tipoBeneficio = 1; // Tipo de movimiento: 1 (Ingreso)
+            Integer idGastoBeneficio = null; // No hay gasto asociado
+            int idSubtipoMovimientoBeneficio = 4; // Subtipo de movimiento: 4 (Beneficio de depósito vencido)
+
+            boolean movimientoBeneficioCorrecto = consulta.addMovimiento(idCuenta, fecha, tipoBeneficio, idSubtipoMovimientoBeneficio, idGastoBeneficio, notas, beneficio, idDeposito);
+            if (!movimientoBeneficioCorrecto) {
+                System.err.println("Error al añadir el movimiento para el beneficio del depósito vencido.");
+            } else {
+                System.out.println("Movimiento para el beneficio del depósito vencido añadido correctamente.");
+            }
+
+            // Llama al modelo para eliminar el depósito
+            if (consultaDepositos.eliminarDeposito(idDeposito)) {
+                JOptionPane.showMessageDialog(vista, "El depósito ha sido eliminado correctamente.");
+
+                // Recarga la tabla y actualiza los paneles
+                cargarDepositos();
+
+            } else {
+                JOptionPane.showMessageDialog(vista, "Error al eliminar el depósito.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
 
 }

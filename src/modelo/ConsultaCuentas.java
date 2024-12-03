@@ -202,13 +202,16 @@ public class ConsultaCuentas {
     
 
     //Obtiene los INGRESOS totales de un usuario concreto en el año actual
+    //Se han excluido los id_subtipo_movimiento=3 que son los reingresos de los depósitos a su vencimiento
     public double obtenerSumaIngresos(int idUsuario) {
         double totalIngresos = 0.0;
         String sql = "SELECT SUM(m.importe) AS total_importe \n"
-                + "      FROM mieco.movimientos m \n"
-                + "      JOIN mieco.cuentas c ON m.id_cuenta = c.id_cuenta \n"
-                + "AND YEAR(m.fecha) = YEAR(CURDATE()) "
-                + "      WHERE c.id_usuario = ? AND m.id_tipo_movimiento = 1";
+           + "FROM mieco.movimientos m \n"
+           + "JOIN mieco.cuentas c ON m.id_cuenta = c.id_cuenta \n"
+           + "WHERE YEAR(m.fecha) = YEAR(CURDATE()) \n"
+           + "  AND c.id_usuario = ? \n"
+           + "  AND m.id_tipo_movimiento = 1 \n"
+           + "  AND m.id_subtipo_movimiento != 3";
 
         //Ejemplo de consulta de lo mismo pero de los últimos 30 días
         /*
