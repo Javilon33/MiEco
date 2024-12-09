@@ -1,6 +1,7 @@
+
 package vista.componentes;
 
-import controlador.ControladorCuentas;
+import controlador.ControladorFondos;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -16,14 +17,14 @@ import javax.swing.table.TableCellRenderer;
  *
  * @author Francisco Javier Gómez Gamero
  */
-public class IconRendererEditor extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
+public class IconRendererEditor2 extends AbstractCellEditor implements TableCellRenderer, TableCellEditor {
 
     private final JLabel labelIcon;
     private int selectedRow;
 
-    public IconRendererEditor(JTable table, ControladorCuentas controlador) {
+    public IconRendererEditor2(JTable table, ControladorFondos controlador) {
         // Crea el JLabel con el icono deseado
-        labelIcon = new JLabel(new ImageIcon(getClass().getResource("/img/detalles.png")));
+        labelIcon = new JLabel(new ImageIcon(getClass().getResource("/img/ficha.png")));
         labelIcon.setHorizontalAlignment(SwingConstants.CENTER); 
 
         // Agrega un listener para detectar clics en el icono
@@ -31,7 +32,7 @@ public class IconRendererEditor extends AbstractCellEditor implements TableCellR
             @Override
             public void mouseClicked(MouseEvent e) {
                 // Llama al método para mostrar el panel de movimientos de la cuenta
-                controlador.mostrarPanelMovimientos(selectedRow);
+                //controlador.mostrarPanelMovimientos(selectedRow);
                 fireEditingStopped();  // Finalizar la edición
             }
         });

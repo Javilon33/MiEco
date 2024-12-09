@@ -8,7 +8,7 @@ import controlador.ControladorPrincipal;
 
 /**
  *
- * @author PC-Casa
+ * @author Francisco Javier Gómez Gamero
  */
 public class VistaPrincipal extends javax.swing.JFrame {
 

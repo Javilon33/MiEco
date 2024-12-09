@@ -8,9 +8,7 @@ package modelo.entidades;
  * @author Francisco Javier Gómez Gamero
  */
 public class TipoMovimiento {
-    // Identificador único del tipo de movimiento
     private int idTipoMovimiento;
-    // Descripción del tipo de movimiento (por ejemplo, "Ingreso", "Gasto")
     private String descripcion;
 
     /**

@@ -9,23 +9,14 @@ import java.util.Date;
  * @author Francisco Javier Gomez Gamero
  */
 public class Movimiento {
-    // Identificador único del movimiento
     private int id_movimiento;
-    // ID de la cuenta a la que pertenece este movimiento
     private int idCuenta;
-    // Fecha en la que se realizó el movimiento
     private Date fecha;
-    // Tipo de movimiento (por ejemplo, ingreso o gasto)
     private int tipo;
-    // Subtipo del movimiento (categorías más específicas)
     private int subtipo;
-    // Tipo de gasto, si aplica (puede ser null para otros tipos de movimientos)
     private Integer tipoGasto;
-    // Notas o comentarios sobre el movimiento
     private String notas;
-    // Monto del movimiento (positivo o negativo dependiendo del tipo)
     private double importe;
-    //Id del deposito asociado si procede
     private Integer idDeposito;
 
     /**
@@ -34,8 +25,8 @@ public class Movimiento {
      * @param id_movimiento ID único del movimiento.
      * @param idCuenta ID de la cuenta asociada.
      * @param fecha Fecha del movimiento.
-     * @param tipo Tipo de movimiento (ingreso, gasto, etc.).
-     * @param subtipo Subtipo del movimiento.
+     * @param tipo Tipo de movimiento (ingreso, gasto).
+     * @param subtipo Subtipo del movimiento (categorías más específicas).
      * @param tipoGasto Tipo de gasto, si aplica (puede ser null).
      * @param notas Notas adicionales sobre el movimiento.
      * @param importe Importe del movimiento.

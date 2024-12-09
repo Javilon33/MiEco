@@ -9,17 +9,17 @@ import java.awt.Font;
 
 /**
  *
- * @author PC-Casa
+ * @author Francisco Javier Gómez Gamero
  */
 public class PanelDepositos extends javax.swing.JPanel {
 
     /**
-     * Creates new form PanelPrincipal
+     * Creates new form PanelDepositos
      */
     public PanelDepositos() {
         initComponents();
         
-        //Modificaciones al JTable para mostrar las cuentas
+        //Modificaciones al JTable 
         tablaDepositos.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 14));
         tablaDepositos.getTableHeader().setOpaque(false);
         tablaDepositos.getTableHeader().setBackground(new Color(0,134,190));
@@ -196,7 +196,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         etiAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAdd.add(etiAdd, new java.awt.GridBagConstraints());
 
-        panelMenu.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 110, 20));
+        panelMenu.add(btnAdd, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 10, 110, 20));
 
         btnEliminar.setBackground(new java.awt.Color(190, 56, 0));
         btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -208,7 +208,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         etiElminar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnEliminar.add(etiElminar, new java.awt.GridBagConstraints());
 
-        panelMenu.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 10, 110, 20));
+        panelMenu.add(btnEliminar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 110, 20));
 
         btnModificar.setBackground(new java.awt.Color(190, 56, 0));
         btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -220,7 +220,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         etiModificar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnModificar.add(etiModificar, new java.awt.GridBagConstraints());
 
-        panelMenu.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 110, 20));
+        panelMenu.add(btnModificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 10, 110, 20));
 
         btnPasar.setBackground(new java.awt.Color(0, 153, 102));
         btnPasar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -232,7 +232,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         etiPasar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnPasar.add(etiPasar, new java.awt.GridBagConstraints());
 
-        panelMenu.add(btnPasar, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 10, 130, 20));
+        panelMenu.add(btnPasar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 130, 20));
 
         jPanel1.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 40, 510, 40));
 
@@ -265,7 +265,7 @@ public class PanelDepositos extends javax.swing.JPanel {
         tablaDepositos.getTableHeader().setReorderingAllowed(false);
         panelDepositos.setViewportView(tablaDepositos);
 
-        jPanel1.add(panelDepositos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 910, 160));
+        jPanel1.add(panelDepositos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 90, 910, 170));
 
         panelDeposito1.setBackground(new java.awt.Color(255, 255, 255));
         panelDeposito1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));

@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 /**
  * Clase para manejar la conexión con la base de datos.
- * Básicamente, aquí configuramos y creamos la conexión con MySQL.
+ * Aquí configuramos y creamos la conexión con MySQL.
  * 
  * @author Francisco Javier Gómez Gamero
  */

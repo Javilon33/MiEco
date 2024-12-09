@@ -37,7 +37,7 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import vista.Paneles.PanelCuentas;
 import vista.Paneles.PanelMovimientosCuenta;
-import vista.componentes.IconRendererEditor;
+import vista.componentes.IconRendererEditor1;
 
 /**
  *
@@ -133,8 +133,8 @@ public class ControladorCuentas {
         }
 
         // Configura el icono en la columna de detalles para abrir el panel movimientos
-        vista.tablaCuentas.getColumnModel().getColumn(5).setCellRenderer(new IconRendererEditor(vista.tablaCuentas, this));
-        vista.tablaCuentas.getColumnModel().getColumn(5).setCellEditor(new IconRendererEditor(vista.tablaCuentas, this));
+        vista.tablaCuentas.getColumnModel().getColumn(5).setCellRenderer(new IconRendererEditor1(vista.tablaCuentas, this));
+        vista.tablaCuentas.getColumnModel().getColumn(5).setCellEditor(new IconRendererEditor1(vista.tablaCuentas, this));
 
         // Elimina cualquier MouseListener previo en la columna de detalles
         for (MouseListener listener : vista.tablaCuentas.getMouseListeners()) {

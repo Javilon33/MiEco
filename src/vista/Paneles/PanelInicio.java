@@ -6,12 +6,12 @@ package vista.Paneles;
 
 /**
  *
- * @author PC-Casa
+ * @author Francisco Javier Gómez Gamero
  */
 public class PanelInicio extends javax.swing.JPanel {
 
     /**
-     * Creates new form PanelPrincipal
+     * Creates new form PanelInicio
      */
     public PanelInicio() {
         initComponents();

@@ -94,10 +94,20 @@ public class Deposito {
         this.idUsuario = idUsuario;
     }
     
+    /**
+     * Obtiene el ID de la cuenta asociada al depósito.
+     * 
+     * @return El ID de la cuenta
+     */
     public int getIdCuenta() {
         return idCuenta;
     }
     
+    /**
+     * Cambia el ID de la cuenta asociada al depósito.
+     * 
+     * @param idCuenta Nuevo ID de la cuenta
+     */
     public void setCuenta(int idCuenta) {
         this.idCuenta = idCuenta;
     }

@@ -2,16 +2,15 @@ package modelo.entidades;
 
 /**
  * Clase que representa un subtipo de movimiento.
- * Los subtipos sirven para categorizar los movimientos de forma más detallada.
+ * Los subtipos o categorías sirven para categorizar los movimientos de forma más detallada.
+ * Indican categorías del movimiento como Salario, Gasto, Cobro de alquiler, Traspaso...
  * 
  * @author Francisco Javier Gómez Gamero
  */
 public class SubtipoMovimiento {
-    // Identificador único del subtipo
+    
     private int idSubtipo;
-    // ID del tipo de movimiento al que pertenece este subtipo
     private int tipoMovimiento;
-    // Descripción del subtipo (por ejemplo, "Comida", "Transporte")
     private String descripcion;
 
     /**

@@ -10,21 +10,13 @@ import java.util.Date;
  */
 public class Usuario {
 
-    // Código único del usuario
     private int codigo;
-    // Indica el rol del usuario (1 para ADMIN, 0 para USUARIO, 2 para FAMILIAR)
     private int rol;
-    // Email del usuario
     private String email;
-    // Nombre del usuario
     private String nombre;
-    // Apellidos del usuario
     private String apellidos;
-    // Teléfono de contacto del usuario
     private String telefono;
-    // Fecha de nacimiento del usuario
     private Date fecha;
-    // Contraseña encriptada del usuario
     private String password;
 
     /**

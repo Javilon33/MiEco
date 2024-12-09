@@ -7,15 +7,10 @@ package modelo.entidades;
  * @author Francisco Javier Gómez Gamero
  */
 public class Cuenta {
-    // Identificador único de la cuenta
     private int idCuenta;
-    // Nombre o apodo de la cuenta para reconocerla fácilmente
     private String alias;
-    // Número IBAN de la cuenta
     private String iban;
-    // Nombre del banco al que pertenece la cuenta
     private String banco;
-    // Saldo actual de la cuenta
     private double saldo;
 
     /**
@@ -25,7 +20,7 @@ public class Cuenta {
      * @param alias Apodo o nombre de la cuenta.
      * @param iban Número IBAN de la cuenta.
      * @param banco Nombre del banco.
-     * @param saldo Saldo inicial de la cuenta.
+     * @param saldo Saldo de la cuenta.
      */
     public Cuenta(int idCuenta, String alias, String iban, String banco, double saldo) {
         this.idCuenta = idCuenta;

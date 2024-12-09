@@ -16,7 +16,7 @@ public class PanelCuentas extends javax.swing.JPanel {
     public PanelCuentas() {
         initComponents();
         
-        //Modificaciones al JTable para mostrar las cuentas
+        //Modificaciones al JTable 
         tablaCuentas.getTableHeader().setFont(new Font("Roboto", Font.BOLD, 14));
         tablaCuentas.getTableHeader().setOpaque(false);
         tablaCuentas.getTableHeader().setBackground(new Color(0,134,190));

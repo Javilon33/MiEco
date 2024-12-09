@@ -130,7 +130,7 @@ public class ControladorMovimientosCuenta {
         vista.tablaMovimientos.getColumnModel().getColumn(0).setMinWidth(0);
         vista.tablaMovimientos.getColumnModel().getColumn(0).setMaxWidth(0);
         vista.tablaMovimientos.getColumnModel().getColumn(0).setPreferredWidth(0);
-        
+
         ajustarAnchoColumnas(); // Llamamos a este método para ajustar el ancho de las columnas
 
         /*// Actualizar el saldo en la base de datos
@@ -254,7 +254,7 @@ public class ControladorMovimientosCuenta {
                         importe = -importe;
                     }
                     Integer idDeposito = null; //Como no proviene de un deposito es null
-               
+
                     // Llama al modelo para añadir el movimiento
                     boolean movimientoInsertado = consultaMovimientos.addMovimiento(idCuenta, fecha, tipo, categoria, gasto, notas, importe, idDeposito);
 
@@ -293,7 +293,19 @@ public class ControladorMovimientosCuenta {
             JOptionPane.showMessageDialog(vista, "No se pudo recuperar la información del movimiento.");
             return;
         }
-        
+
+        // Verifica si el movimiento está asociado a un depósito y solicita confirmación
+        if (consultaMovimientos.obtenerMovimientoPorId(idMovimiento).getIdDeposito() != null) {
+            int opcion = JOptionPane.showConfirmDialog(
+                    null,
+                    "¡Atención! El movimiento seleccionado está asociado a un depósito. ¿Seguro que quieres modificarlo?",
+                    "Confirmación",
+                    JOptionPane.YES_NO_OPTION
+            );
+            if (opcion == JOptionPane.NO_OPTION) {
+                return;
+            }
+        }
 
         // Componentes del formulario
         RSDateChooser campoFecha = new RSDateChooser();
@@ -451,27 +463,30 @@ public class ControladorMovimientosCuenta {
 
         int idMovimiento = (int) vista.tablaMovimientos.getValueAt(filaSeleccionada, 0); // ID del movimiento selecionado                
 
-        // Pregunta si el usuario realmente quiere eliminar la cuenta
+        // Verifica si el movimiento está asociado a un depósito y solicita confirmación, dependiendo de si está o no personaliza el mensaje
+        boolean asociadoADeposito = consultaMovimientos.obtenerMovimientoPorId(idMovimiento).getIdDeposito() != null;
+        String mensaje = asociadoADeposito
+                ? "¡Atención! El movimiento seleccionado está asociado a un depósito. ¿Seguro que quieres eliminarlo?"
+                : "¿Estás seguro de que quieres eliminar el movimiento seleccionado?";
+
         int opcion = JOptionPane.showConfirmDialog(
                 null,
-                "¿Estás seguro de que quieres eliminar el movimiento seleccionado?",
+                mensaje,
                 "Confirmación",
                 JOptionPane.YES_NO_OPTION
         );
 
         if (opcion == JOptionPane.YES_OPTION) {
-            // Llama al modelo para eliminar la cuenta
+            // Intenta eliminar el movimiento
             if (consultaMovimientos.eliminarMovimiento(idMovimiento)) {
                 JOptionPane.showMessageDialog(vista, "El movimiento ha sido eliminado correctamente.");
-
-                // Recarga la tabla y actualiza el saldo total
-                cargarMovimientos(); // Refresca la tabla sin el movimiento elimnado
-                controladorCuentas.cargarCuentas(); // Refresca la tabla de cuentas sin el movimiento elimnado                
-
+                cargarMovimientos(); // Refresca la tabla de movimientos
+                controladorCuentas.cargarCuentas(); // Refresca la tabla de cuentas
             } else {
-                JOptionPane.showMessageDialog(vista, "Error al eliminar la cuenta.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(vista, "Error al eliminar el movimiento.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+
     }
 
     //Método para ajustar el ancho de las columnas de la tabla manualmente
@@ -490,7 +505,7 @@ public class ControladorMovimientosCuenta {
         columnModel.getColumn(5).setPreferredWidth(300); // Columna 4: Notas
         columnModel.getColumn(6).setPreferredWidth(80); // Columna 5: Importe 
         columnModel.getColumn(7).setPreferredWidth(80); // Columna 5: Saldo
-        
+
     }
 
 }

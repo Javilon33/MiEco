@@ -7,13 +7,9 @@ package modelo.entidades;
  * @author Francisco Javier Gómez Gamero
  */
 public class Gasto {
-    // Identificador único del gasto
     private int idGasto;
-    // Breve descripción del gasto
     private String descripcion;
-    // Tipo de gasto (por ejemplo, alimentación, transporte, etc.)
     private String tipoGasto;
-    // Importe total del gasto
     private double total;
 
     /**
@@ -21,7 +17,7 @@ public class Gasto {
      * 
      * @param idGasto ID único del gasto.
      * @param descripcion Breve descripción del gasto.
-     * @param tipoGasto Tipo del gasto (categoría).
+     * @param tipoGasto Tipo del gasto (por ejemplo, alimentación, transporte, etc.).
      * @param total Importe total del gasto.
      */
     public Gasto(int idGasto, String descripcion, String tipoGasto, double total) {

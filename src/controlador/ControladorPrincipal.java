@@ -14,6 +14,7 @@ import modelo.ConsultaFondos;
 import modelo.ConsultaInformes;
 import modelo.ConsultaInicio;
 import modelo.ConsultaMovimientos;
+import modelo.ConsultaMovimientosFondos;
 import modelo.entidades.Usuario;
 import vista.Paneles.PanelAdmin;
 import vista.Paneles.PanelBolsa;
@@ -280,7 +281,8 @@ public class ControladorPrincipal {
         // Panel FONDOS y sus controladores
         panelFondos = new PanelFondos();
         ConsultaFondos consultaFondos = new ConsultaFondos();
-        controladorFondos = new ControladorFondos(panelFondos, consultaFondos, usuario);
+        ConsultaMovimientosFondos consultaMovimientoFondos = new ConsultaMovimientosFondos();
+        controladorFondos = new ControladorFondos(panelFondos, consultaFondos, usuario, consultaMovimientoFondos);
 
         // Panel BOLSA y sus controladores
         panelBolsa = new PanelBolsa();
