@@ -1,5 +1,7 @@
 package modelo.entidades;
 
+import java.util.Date;
+
 /**
  * Clase que representa un movimiento relacionado con un fondo de inversión.
  * Aquí se guardan los datos de operaciones como compras, ventas o traspasos de
@@ -13,7 +15,7 @@ public class MovimientoFondo {
     private int idFondo;
     private int idCuenta;
     private String tipoMovimiento; // 'compra', 'venta' o 'traspaso'
-    private java.sql.Date fecha;
+    private Date fecha;
     private double importe;
     private double participaciones;
     private double valorLiquidativo;
@@ -34,7 +36,7 @@ public class MovimientoFondo {
      * movimiento.
      * @param notas Notas adicionales sobre el movimiento.
      */
-    public MovimientoFondo(int idMovimientoFondo, int idFondo, int idCuenta, String tipoMovimiento, java.sql.Date fecha, double importe, double participaciones, double valorLiquidativo, String notas) {
+    public MovimientoFondo(int idMovimientoFondo, int idFondo, int idCuenta, String tipoMovimiento, Date fecha, double importe, double participaciones, double valorLiquidativo, String notas) {
         this.idMovimientoFondo = idMovimientoFondo;
         this.idFondo = idFondo;
         this.idCuenta = idCuenta;
@@ -79,11 +81,11 @@ public class MovimientoFondo {
         this.tipoMovimiento = tipoMovimiento;
     }
 
-    public java.sql.Date getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(java.sql.Date fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

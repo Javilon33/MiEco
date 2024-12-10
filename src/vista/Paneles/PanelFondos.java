@@ -48,6 +48,7 @@ public class PanelFondos extends javax.swing.JPanel {
         etiModificar = new javax.swing.JLabel();
         btnEliminar = new javax.swing.JPanel();
         etiElminar = new javax.swing.JLabel();
+        etiTotal = new javax.swing.JLabel();
 
         setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -69,11 +70,11 @@ public class PanelFondos extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Nombre", "ISIN", "Tipo de Fondo", "Cotizacion Actual", "Ficha del fondo"
+                "ID", "Nombre", "ISIN", "Categoria", "Cotizacion", "Valoración", "Ficha del fondo"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -136,6 +137,10 @@ public class PanelFondos extends javax.swing.JPanel {
 
         jPanel1.add(panelMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 40, 370, 40));
 
+        etiTotal.setFont(new java.awt.Font("Roboto", 1, 18)); // NOI18N
+        etiTotal.setText("total");
+        jPanel1.add(etiTotal, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 60, -1, -1));
+
         add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 970, 600));
     }// </editor-fold>//GEN-END:initComponents
 
@@ -148,6 +153,7 @@ public class PanelFondos extends javax.swing.JPanel {
     public javax.swing.JLabel etiElminar;
     public javax.swing.JLabel etiModificar;
     public javax.swing.JLabel etiNombre;
+    public javax.swing.JLabel etiTotal;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane panelCuentas;

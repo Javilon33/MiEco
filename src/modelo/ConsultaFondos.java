@@ -21,10 +21,7 @@ public class ConsultaFondos {
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "SELECT FONDOS.id_fondo, FONDOS.nombre, FONDOS.tipo_fondo, FONDOS.isin, FONDOS.moneda, "
-                + "FONDOS.riesgo, FONDOS.saldo "
-                + "FROM FONDOS "
-                + "WHERE FONDOS.id_usuario = ?";
+        String sql = "SELECT id_fondo, nombre, tipo_fondo, isin, moneda, riesgo, saldo, cotizacion_actual FROM FONDOS WHERE id_usuario = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, usuarioId);
@@ -38,8 +35,9 @@ public class ConsultaFondos {
                 String moneda = rs.getString("moneda");
                 int riesgo = rs.getInt("riesgo");
                 double saldo = rs.getDouble("saldo");
+                double cotizacion = rs.getDouble("cotizacion_actual");
 
-                fondos.add(new Fondo(idFondo, nombre, tipoFondo, isin, moneda, riesgo, saldo));
+                fondos.add(new Fondo(idFondo, nombre, tipoFondo, isin, moneda, riesgo, saldo, cotizacion));
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener fondos: " + e.getMessage());
@@ -108,7 +106,7 @@ public class ConsultaFondos {
             // Ahora insertamos el fondo en la tabla FONDOS
             String sqlFondo = "INSERT INTO FONDOS (id_usuario, nombre, tipo_fondo, isin, moneda) VALUES (?, ?, ?, ?, ?)";
             try (PreparedStatement stmtFondo = conn.prepareStatement(sqlFondo)) {
-                stmtFondo.setInt(1, idUsuario); 
+                stmtFondo.setInt(1, idUsuario);
                 stmtFondo.setString(2, nombre);
                 stmtFondo.setInt(3, idTipoFondo);  // Usamos el id_tipo_fondo encontrado o insertado
                 stmtFondo.setString(4, isin);
@@ -130,7 +128,7 @@ public class ConsultaFondos {
             }
         }
     }
-    
+
     //Método para ELIMINAR FONDO
     public boolean eliminarFondo(int idFondo) {
         Conexion conexion = new Conexion();
@@ -155,7 +153,7 @@ public class ConsultaFondos {
             }
         }
     }
-    
+
     // Método para MODIFICAR NOMBRE DEL FONDO
     public boolean modificarNombreFondo(int idFondo, String nombre) {
         Conexion conexion = new Conexion();
@@ -181,31 +179,58 @@ public class ConsultaFondos {
             }
         }
     }
-    
-    //Método para obtener la cuenta por el idCuenta
+
+    // Método para ACTUALZIAR LA COTIZACION DEL FONDO EN LA BD
+    public boolean actualizarCotizacion(int idFondo, double cotizacion) {
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        String sql = "UPDATE FONDOS SET  cotizacion_actual = ? WHERE id_fondo = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setDouble(1, cotizacion);
+            stmt.setInt(2, idFondo);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            System.err.println("Error al modificar fondo: " + e.getMessage());
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+    }
+
+    //Método para obtener el fondo por el idFondo
     public Fondo obtenerFondoPorId(int idFondo) {
         Fondo fondo = null;
         Conexion conexion = new Conexion();
         Connection conn = conexion.getConexion();
 
-        String sql = "SELECT FONDOS.id_fondo, FONDOS.nombre, FONDOS.isin, FONDOS.tipo_fondo, FONDOS.moneda, FONDOS.riesgo, FONDOS.saldo "
+        String sql = "SELECT id_fondo, nombre, isin, tipo_fondo, moneda, riesgo, saldo, cotizacion_actual "
                 + "FROM FONDOS "
-                + "WHERE FONDOS.id_fondo = ?";
+                + "WHERE id_fondo = ?";
 
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idFondo);  // Asigna el ID del fondo al parámetro de la consulta
             ResultSet rs = stmt.executeQuery();
 
-            if (rs.next()) {                
+            if (rs.next()) {
                 String nombre = rs.getString("nombre");
                 int tipo = rs.getInt("tipo_fondo");
-                String isin = rs.getString("isin");                
+                String isin = rs.getString("isin");
                 String moneda = rs.getString("moneda");
                 int riesgo = rs.getInt("riesgo");
                 double saldo = rs.getDouble("saldo");
+                double cotizacion = rs.getDouble("cotizacion_actual");
 
                 // Crea una instancia de Fondo con los datos obtenidos
-                fondo = new Fondo(idFondo,nombre, tipo,isin,moneda, riesgo, saldo);
+                fondo = new Fondo(idFondo, nombre, tipo, isin, moneda, riesgo, saldo, cotizacion);
             }
         } catch (SQLException e) {
             System.err.println("Error al obtener el fondo: " + e.getMessage());
@@ -219,6 +244,36 @@ public class ConsultaFondos {
             }
         }
         return fondo; // Devuelve la cuenta obtenida o null si no existe
+    }
+
+    //Método para obtener el saldo actual de todos los fondos del usuario
+    public double obtenerSaldoTotal(int usuarioId) {
+        double saldoTotal = 0.0;
+        Conexion conexion = new Conexion();
+        Connection conn = conexion.getConexion();
+
+        // Consulta que calcula el saldo total multiplicando saldo por cotización_actual
+        String sql = "SELECT SUM(saldo * cotizacion_actual) AS saldo_total FROM FONDOS WHERE id_usuario = ?";
+
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, usuarioId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                saldoTotal = rs.getDouble("saldo_total");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error al obtener el saldo total: " + e.getMessage());
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.err.println("Error al cerrar la conexión: " + e.getMessage());
+            }
+        }
+        return saldoTotal;
     }
 
 }

@@ -6,15 +6,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -22,11 +20,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
-import modelo.Conexion;
 import modelo.ConsultaFondos;
 import modelo.ConsultaMovimientosFondos;
 import modelo.entidades.Fondo;
 import modelo.entidades.Usuario;
+import vista.Paneles.PanelFichaFondo;
 import vista.Paneles.PanelFondos;
 import vista.componentes.IconRendererEditor2;
 
@@ -94,14 +92,20 @@ public class ControladorFondos {
         // Configura el modelo de la tabla para limpiar datos previos
         DefaultTableModel modelo = (DefaultTableModel) vista.tablaFondos.getModel();
         modelo.setRowCount(0); // Limpiar las filas
+        
+        //Establece la suma total de los fondos
+        double total = consultaFondos.obtenerSaldoTotal(usuario.getCodigo());
+        vista.etiTotal.setText(formato.format(total)+ " €");
 
         // Rellena la tabla con los datos de las cuentas
         for (Fondo fondo : fondos) {
             Map<String, Object> datosFondo = WebScrapingQueFondos.obtenerDatosFondo(fondo.getIsin());
             String nombreFondo = (String) datosFondo.get("nombre");
             Object cotizacion = datosFondo.get("cotizacion");
+            consultaFondos.actualizarCotizacion(fondo.getIdFondo(), (double)cotizacion); //Aprovecho la consulta para actualizar la cotizacion actual en la BD
             String categoriaVDOS = (String) datosFondo.get("categoriaVDOS");
             String divisa = (String) datosFondo.get("divisa");
+            double valor = fondo.getParticipaciones() * fondo.getCotizacion();
 
             Object[] fila = {
                 fondo.getIdFondo(),
@@ -109,14 +113,15 @@ public class ControladorFondos {
                 fondo.getIsin(),
                 consultaFondos.obtenerNombreTipoFondo(fondo.getIdFondo()),
                 cotizacion,
+                formato.format(valor)+" "+fondo.getMoneda(),
                 "Ver ficha" // Esto se verá como el botón de ficha
             };
             modelo.addRow(fila);
         }
 
         // Configura el icono en la columna de detalles para abrir el panel movimientos
-        vista.tablaFondos.getColumnModel().getColumn(5).setCellRenderer(new IconRendererEditor2(vista.tablaFondos, this));
-        vista.tablaFondos.getColumnModel().getColumn(5).setCellEditor(new IconRendererEditor2(vista.tablaFondos, this));
+        vista.tablaFondos.getColumnModel().getColumn(6).setCellRenderer(new IconRendererEditor2(vista.tablaFondos, this));
+        vista.tablaFondos.getColumnModel().getColumn(6).setCellEditor(new IconRendererEditor2(vista.tablaFondos, this));
 
         // Elimina cualquier MouseListener previo en la columna de detalles
         for (MouseListener listener : vista.tablaFondos.getMouseListeners()) {
@@ -131,8 +136,8 @@ public class ControladorFondos {
                 int columna = vista.tablaFondos.columnAtPoint(e.getPoint());
 
                 // Actúa solo si el clic fue en la columna de detalles (columna 5)
-                if (columna == 5) {
-                    //mostrarPanelMovimientos(fila);
+                if (columna == 6) {
+                    mostrarPanelMovimientos(fila);
                 } else {
                     // Permite la selección de filas si el clic no es en la columna de detalles
                     vista.tablaFondos.setRowSelectionInterval(fila, fila);
@@ -321,8 +326,6 @@ public class ControladorFondos {
             }
         }
     }
-    
-    
 
     //Método para ajustar el ancho de las columnas de la tabla manualmente
     private void ajustarAnchoColumnas() {
@@ -332,11 +335,28 @@ public class ControladorFondos {
         TableColumnModel columnModel = tabla.getColumnModel();
 
         // Ajustar el ancho de cada columna (aquí puedes especificar el tamaño que desees para cada columna)
-        columnModel.getColumn(0).setPreferredWidth(10);  // Columna 0: ID de la cuenta
-        columnModel.getColumn(1).setPreferredWidth(150); // Columna 1: Alias de la cuenta
-        columnModel.getColumn(2).setPreferredWidth(120); // Columna 2: ISIN
-        columnModel.getColumn(3).setPreferredWidth(130); // Columna 3: Tipo
-        columnModel.getColumn(4).setPreferredWidth(80); // Columna 4: Cotizacion
-        columnModel.getColumn(5).setPreferredWidth(90); // Columna 5: Ficha (icono)
+        columnModel.getColumn(0).setPreferredWidth(7);  // Columna 0: ID del fondo
+        columnModel.getColumn(1).setPreferredWidth(180); // Columna 1: Nombre del fondo
+        columnModel.getColumn(2).setPreferredWidth(100); // Columna 2: ISIN
+        columnModel.getColumn(3).setPreferredWidth(120); // Columna 3: Tipo
+        columnModel.getColumn(4).setPreferredWidth(60); // Columna 4: Cotizacion
+        columnModel.getColumn(5).setPreferredWidth(60); // Columna 5: Valoración 
+        columnModel.getColumn(6).setPreferredWidth(80); // Columna 5: Ficha (icono)
+    }
+    
+    public void mostrarPanelMovimientos(int fila) {
+        int idFondo = (int) vista.tablaFondos.getValueAt(fila, 0);
+
+        // Crea el panel de movimientos y el controlador para manejarlo
+        PanelFichaFondo panelFicha = new PanelFichaFondo(idFondo);
+        new ControladorMovimientosFondo(panelFicha, consultaFondos, consultaMovimientos,idFondo, this);
+
+        JDialog dialogoMovimientos = new JDialog();
+        dialogoMovimientos.setTitle("Ficha de Fondo");
+        dialogoMovimientos.setModal(true);
+        dialogoMovimientos.getContentPane().add(panelFicha);
+        dialogoMovimientos.pack();
+        dialogoMovimientos.setLocationRelativeTo(vista);
+        dialogoMovimientos.setVisible(true);
     }
 }

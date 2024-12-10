@@ -14,7 +14,8 @@ public class Fondo {
     private String isin;
     private String moneda;
     private int riesgo;
-    private double saldo;
+    private double participaciones;
+    private double cotizacion;
 
     /**
      * Constructor para crear un fondo con todos sus datos.
@@ -25,16 +26,18 @@ public class Fondo {
      * @param isin Código ISIN único del fondo.
      * @param moneda Moneda en la que opera el fondo.
      * @param riesgo Nivel de riesgo del fondo (1-7).
-     * @param saldo Saldo actualizado del fondo.
+     * @param participaciones Total de participaciones actualizado del fondo.
+     * @param cotizacion Cotización actual del fondo.
      */
-    public Fondo(int idFondo, String nombre, int tipoFondo, String isin, String moneda, int riesgo, double saldo) {
+    public Fondo(int idFondo, String nombre, int tipoFondo, String isin, String moneda, int riesgo, double participaciones, double cotizacion) {
         this.idFondo = idFondo;
         this.nombre = nombre;
         this.tipoFondo = tipoFondo;
         this.isin = isin;
         this.moneda = moneda;
         this.riesgo = riesgo;
-        this.saldo = saldo;
+        this.participaciones = participaciones;
+        this.cotizacion = cotizacion;
     }
 
     // Métodos getters y setters
@@ -86,11 +89,20 @@ public class Fondo {
         this.riesgo = riesgo;
     }
 
-    public double getSaldo() {
-        return saldo;
+    public double getParticipaciones() {
+        return participaciones;
     }
 
-    public void setSaldo(double saldo) {
-        this.saldo = saldo;
+    public void setParticipaciones(double paricipaciones) {
+        this.participaciones = paricipaciones;
     }
+
+    public double getCotizacion() {
+        return cotizacion;
+    }
+
+    public void setCotizacion(double cotizacion) {
+        this.cotizacion = cotizacion;
+    }
+    
 }
